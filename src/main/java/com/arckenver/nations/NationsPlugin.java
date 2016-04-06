@@ -89,7 +89,7 @@ public class NationsPlugin
 
 	@Inject
 	@DefaultConfig(sharedRoot = true)
-	private File configFile;
+	private File defaultConfigFile;
 
 	private EconomyService economyService = null;
 
@@ -98,7 +98,7 @@ public class NationsPlugin
 	{
 		plugin = this;
 
-		rootDir = new File(configFile.getParentFile(), "nations");
+		rootDir = new File(defaultConfigFile.getParentFile(), "nations");
 
 		ConfigHandler.init(logger, rootDir);
 		LanguageHandler.init(logger, rootDir);
