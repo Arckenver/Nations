@@ -2,6 +2,7 @@ package com.arckenver.nations.cmdexecutor;
 
 import java.util.UUID;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -13,7 +14,6 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
-import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.object.Nation;
 
 public class NationMinisterExecutor implements CommandExecutor
@@ -62,7 +62,7 @@ public class NationMinisterExecutor implements CommandExecutor
 				nation.addMinister(uuid);
 				DataHandler.saveNation(nation.getUUID());
 				src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.FQ.replaceAll("\\{PLAYER\\}", playerName)));
-				NationsPlugin.getGame().getServer().getPlayer(uuid).ifPresent(
+				Sponge.getServer().getPlayer(uuid).ifPresent(
 						p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.FR.replaceAll("\\{PLAYER\\}", player.getName()))));
 			}
 			else if (addOrRemove.equalsIgnoreCase("remove"))
@@ -75,7 +75,7 @@ public class NationMinisterExecutor implements CommandExecutor
 				nation.removeMinister(uuid);
 				DataHandler.saveNation(nation.getUUID());
 				src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.FT.replaceAll("\\{PLAYER\\}", playerName)));
-				NationsPlugin.getGame().getServer().getPlayer(uuid).ifPresent(
+				Sponge.getServer().getPlayer(uuid).ifPresent(
 						p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.FU.replaceAll("\\{PLAYER\\}", player.getName()))));
 			}
 			else

@@ -2,6 +2,7 @@ package com.arckenver.nations.cmdexecutor;
 
 import java.util.UUID;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -13,7 +14,6 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
-import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.object.Zone;
 
@@ -70,7 +70,7 @@ public class ZoneCoownerExecutor implements CommandExecutor
 				zone.addCoowner(uuid);
 				DataHandler.saveNation(nation.getUUID());
 				src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GM.replaceAll("\\{PLAYER\\}", playerName)));
-				NationsPlugin.getGame().getServer().getPlayer(uuid).ifPresent(
+				Sponge.getServer().getPlayer(uuid).ifPresent(
 						p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GN.replaceAll("\\{PLAYER\\}", player.getName()).replaceAll("\\{ZONE\\}", zoneName))));
 			}
 			else if (addOrRemove.equalsIgnoreCase("remove"))
@@ -83,7 +83,7 @@ public class ZoneCoownerExecutor implements CommandExecutor
 				zone.removeCoowner(uuid);
 				DataHandler.saveNation(nation.getUUID());
 				src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GP.replaceAll("\\{PLAYER\\}", playerName)));
-				NationsPlugin.getGame().getServer().getPlayer(uuid).ifPresent(
+				Sponge.getServer().getPlayer(uuid).ifPresent(
 						p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GQ.replaceAll("\\{PLAYER\\}", player.getName()).replaceAll("\\{ZONE\\}", zoneName))));
 			}
 			else

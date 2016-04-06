@@ -2,6 +2,7 @@ package com.arckenver.nations.cmdexecutor;
 
 import java.math.BigDecimal;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -13,7 +14,6 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
-import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.Utils;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.object.Zone;
@@ -56,7 +56,7 @@ public class ZoneSellExecutor implements CommandExecutor
 			zone.setPrice(price);
 			DataHandler.saveNation(nation.getUUID());
 			nation.getCitizens().forEach(
-				uuid -> NationsPlugin.getGame().getServer().getPlayer(uuid).ifPresent(
+				uuid -> Sponge.getServer().getPlayer(uuid).ifPresent(
 						p -> {
 							String str = LanguageHandler.DM.replaceAll("\\{PLAYER\\}",  player.getName()).replaceAll("\\{ZONE\\}", zone.getName());
 							src.sendMessage(Text.builder()

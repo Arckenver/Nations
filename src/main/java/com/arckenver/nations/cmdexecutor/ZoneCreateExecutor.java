@@ -3,6 +3,7 @@ package com.arckenver.nations.cmdexecutor;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -14,7 +15,6 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
-import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.object.Rect;
 import com.arckenver.nations.object.Zone;
@@ -95,7 +95,7 @@ public class ZoneCreateExecutor implements CommandExecutor
 			nation.addZone(zone);
 			DataHandler.saveNation(nation.getUUID());
 			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.GT.replaceAll("\\{ZONE\\}", zoneName)));
-			NationsPlugin.getGame().getServer().getPlayer(owner).ifPresent(
+			Sponge.getServer().getPlayer(owner).ifPresent(
 					p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GU.replaceAll("\\{ZONE\\}", zoneName))));
 		}
 		else

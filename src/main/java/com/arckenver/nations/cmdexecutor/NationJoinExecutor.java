@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -18,7 +19,6 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
-import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.object.Request;
 
@@ -59,7 +59,7 @@ public class NationJoinExecutor implements CommandExecutor
 				DataHandler.removeInviteRequest(req);
 				for (UUID uuid : nation.getCitizens())
 				{
-					Optional<Player> optPlayer = NationsPlugin.getGame().getServer().getPlayer(uuid);
+					Optional<Player> optPlayer = Sponge.getServer().getPlayer(uuid);
 					if (optPlayer.isPresent())
 						optPlayer.get().sendMessage(Text.of(TextColors.GREEN, LanguageHandler.EY.replaceAll("\\{PLAYER\\}", guestPlayer.getName())));
 				}
@@ -71,8 +71,8 @@ public class NationJoinExecutor implements CommandExecutor
 			ArrayList<UUID> nationStaff = nation.getStaff();
 			List<Player> nationStaffPlayers = nationStaff
 					.stream()
-					.filter(uuid -> NationsPlugin.getGame().getServer().getPlayer(uuid).isPresent())
-					.map(uuid -> NationsPlugin.getGame().getServer().getPlayer(uuid).get())
+					.filter(uuid -> Sponge.getServer().getPlayer(uuid).isPresent())
+					.map(uuid -> Sponge.getServer().getPlayer(uuid).get())
 					.collect(Collectors.toList());
 			
 			if (nationStaffPlayers.isEmpty())

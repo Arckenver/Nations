@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -103,7 +104,7 @@ public class ZoneBuyExecutor implements CommandExecutor
 			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.GU.replaceAll("\\{ZONE\\}", zone.getName())));
 			if (oldOwner != null)
 			{
-				NationsPlugin.getGame().getServer().getPlayer(oldOwner).ifPresent(
+				Sponge.getServer().getPlayer(oldOwner).ifPresent(
 						p -> {
 							String str = LanguageHandler.DJ.replaceAll("\\{PLAYER\\}",  player.getName()).replaceAll("\\{ZONE\\}", zone.getName());
 							src.sendMessage(Text.builder()

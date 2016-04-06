@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -323,14 +324,14 @@ public class DataHandler
 	
 	public static String getPlayerName(UUID uuid)
 	{
-		Optional<Player> optPlayer = NationsPlugin.getGame().getServer().getPlayer(uuid);
+		Optional<Player> optPlayer = Sponge.getServer().getPlayer(uuid);
 		if (optPlayer.isPresent())
 		{
 			return optPlayer.get().getName();
 		}
 		try
 		{
-			return NationsPlugin.getGame().getServer().getGameProfileManager().get(uuid).get().getName().get();
+			return Sponge.getServer().getGameProfileManager().get(uuid).get().getName().get();
 		}
 		catch (Exception e)
 		{
@@ -340,19 +341,19 @@ public class DataHandler
 	
 	public static Collection<String> getPlayerNames()
 	{
-		return NationsPlugin.getGame().getServer().getGameProfileManager().getCache().getProfiles().stream().filter(gp -> gp.getName().isPresent()).map(gp -> gp.getName().get()).collect(Collectors.toList());
+		return Sponge.getServer().getGameProfileManager().getCache().getProfiles().stream().filter(gp -> gp.getName().isPresent()).map(gp -> gp.getName().get()).collect(Collectors.toList());
 	}
 	
 	public static UUID getPlayerUUID(String name)
 	{
-		Optional<Player> optPlayer = NationsPlugin.getGame().getServer().getPlayer(name);
+		Optional<Player> optPlayer = Sponge.getServer().getPlayer(name);
 		if (optPlayer.isPresent())
 		{
 			return optPlayer.get().getUniqueId();
 		}
 		try
 		{
-			return NationsPlugin.getGame().getServer().getGameProfileManager().get(name).get().getUniqueId();
+			return Sponge.getServer().getGameProfileManager().get(name).get().getUniqueId();
 		}
 		catch (Exception e)
 		{

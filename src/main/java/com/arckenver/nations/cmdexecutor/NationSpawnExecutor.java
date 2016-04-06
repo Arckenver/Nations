@@ -1,5 +1,6 @@
 package com.arckenver.nations.cmdexecutor;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -50,7 +51,7 @@ public class NationSpawnExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			PlayerTeleportEvent event = new PlayerTeleportEvent(player, spawn, NationsPlugin.getCause());
-			NationsPlugin.getGame().getEventManager().post(event);
+			Sponge.getEventManager().post(event);
 			if (!event.isCancelled())
 			{
 				player.setLocation(spawn);

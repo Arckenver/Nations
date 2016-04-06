@@ -3,6 +3,7 @@ package com.arckenver.nations.cmdexecutor;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -15,7 +16,6 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
-import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.object.Request;
 
@@ -62,7 +62,7 @@ public class NationInviteExecutor implements CommandExecutor
 				DataHandler.removeJoinRequest(req);
 				for (UUID uuid : nation.getCitizens())
 				{
-					Optional<Player> optPlayer = NationsPlugin.getGame().getServer().getPlayer(uuid);
+					Optional<Player> optPlayer = Sponge.getServer().getPlayer(uuid);
 					if (optPlayer.isPresent())
 						optPlayer.get().sendMessage(Text.of(TextColors.AQUA, LanguageHandler.EY.replaceAll("\\{PLAYER\\}", guestPlayer.getName())));
 				}

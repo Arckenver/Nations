@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.economy.account.Account;
 import org.spongepowered.api.service.economy.account.UniqueAccount;
@@ -45,7 +46,7 @@ public class Utils
 		}
 		try
 		{
-			World world = NationsPlugin.getGame().getServer().getWorld(splited[0]).get();
+			World world = Sponge.getServer().getWorld(splited[0]).get();
 			return world.getLocation(Double.parseDouble(splited[1]), Double.parseDouble(splited[2]), Double.parseDouble(splited[3]));
 		}
 		catch (NoSuchElementException e)
