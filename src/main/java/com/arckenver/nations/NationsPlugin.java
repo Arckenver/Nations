@@ -112,7 +112,11 @@ public class NationsPlugin
 	{
 		LanguageHandler.load();
 		DataHandler.load();
-
+		
+		Sponge.getServiceManager()
+				.getRegistration(EconomyService.class)
+				.ifPresent(prov -> economyService = prov.getProvider());
+		
 		CommandSpec nationAdminSetpresCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nationadmin.setpres")
