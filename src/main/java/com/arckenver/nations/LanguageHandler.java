@@ -3,8 +3,6 @@ package com.arckenver.nations;
 import java.io.File;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -188,17 +186,13 @@ public class LanguageHandler
 	public static String JA;
 	public static String JB;
 	
-	private static Logger logger;
-	
 	private static File languageFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> languageManager;
 	private static CommentedConfigurationNode language;
 	private static CommentedConfigurationNode defaultLanguage;
 
-	public static void init(Logger l, File rootDir)
+	public static void init(File rootDir)
 	{
-		logger = l;
-
 		languageFile = new File(rootDir, "language.conf");
 		languageManager = HoconConfigurationLoader.builder().setPath(languageFile.toPath()).build();
 		
@@ -215,7 +209,7 @@ public class LanguageHandler
 		}
 		catch (IOException e)
 		{
-			logger.error("Could not load or create language file !");
+			NationsPlugin.getLogger().error("Could not load or create language file !");
 			e.printStackTrace();
 		}
 		
@@ -607,7 +601,7 @@ public class LanguageHandler
 		}
 		catch (IOException e)
 		{
-			logger.error("Could not save config file !");
+			NationsPlugin.getLogger().error("Could not save config file !");
 		}
 	}
 }

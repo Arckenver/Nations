@@ -7,6 +7,7 @@ import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
 
@@ -15,6 +16,10 @@ public class BuildPermListener
 	@Listener
 	public void onPlayerPlacesBlock(ChangeBlockEvent.Place event, @First Player player)
 	{
+		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
+		{
+			return;
+		}
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
@@ -34,6 +39,10 @@ public class BuildPermListener
 	@Listener
 	public void onPlayerBreaksBlock(ChangeBlockEvent.Break event, @First Player player)
 	{
+		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
+		{
+			return;
+		}
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;

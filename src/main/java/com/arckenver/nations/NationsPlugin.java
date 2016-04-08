@@ -100,9 +100,9 @@ public class NationsPlugin
 
 		rootDir = new File(defaultConfigFile.getParentFile(), "nations");
 
-		ConfigHandler.init(logger, rootDir);
-		LanguageHandler.init(logger, rootDir);
-		DataHandler.init(logger, rootDir);
+		LanguageHandler.init(rootDir);
+		ConfigHandler.init(rootDir);
+		DataHandler.init(rootDir);
 
 		Sponge.getServiceManager().setProvider(this, NationsService.class, new NationsService());
 	}
@@ -111,6 +111,7 @@ public class NationsPlugin
 	public void onStart(GameStartedServerEvent event)
 	{
 		LanguageHandler.load();
+		ConfigHandler.load();
 		DataHandler.load();
 		
 		Sponge.getServiceManager()

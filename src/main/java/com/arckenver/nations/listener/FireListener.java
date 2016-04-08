@@ -8,6 +8,7 @@ import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 
 public class FireListener
@@ -15,6 +16,10 @@ public class FireListener
 	@Listener
 	public void onFire(ChangeBlockEvent event)
 	{
+		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
+		{
+			return;
+		}
 		event
 		.getTransactions()
 		.stream()

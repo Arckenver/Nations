@@ -14,7 +14,6 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.Location;
@@ -34,8 +33,6 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 
 public class DataHandler
 {
-	private static Logger logger;
-	
 	private static File dataFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> dataManager;
 	private static CommentedConfigurationNode data;
@@ -49,13 +46,14 @@ public class DataHandler
 	private static ArrayList<Request> inviteRequests;
 	private static ArrayList<Request> joinRequests;
 	
-	public static void init(Logger l, File rootDir)
+	public static void init(File rootDir)
 	{
-		logger = l;
-		
 		dataFile = new File(rootDir, "data.conf");
 		dataManager = HoconConfigurationLoader.builder().setPath(dataFile.toPath()).build();
-		
+	}
+	
+	public static void load()
+	{
 		try
 		{
 			if (!dataFile.exists())
@@ -68,13 +66,10 @@ public class DataHandler
 		}
 		catch(IOException e)
 		{
-			logger.error("Could not load or create data file !");
+			NationsPlugin.getLogger().error("Could not load or create data file !");
 			e.printStackTrace();
 		}
-	}
-	
-	public static void load()
-	{
+		
 		nations = new Hashtable<UUID, Nation>();
 		for (Entry<Object, ? extends CommentedConfigurationNode> e : data.getNode("nations").getChildrenMap().entrySet())
 		{
@@ -181,7 +176,7 @@ public class DataHandler
 		}
 		catch (IOException e)
 		{
-			logger.error("Could not save data file !");
+			NationsPlugin.getLogger().error("Could not save data file !");
 		}
 	}
 	
@@ -275,7 +270,7 @@ public class DataHandler
 		Nation nation = getNation(loc);
 		if (nation == null)
 		{
-			return ConfigHandler.getNode("flags").getNode("wilderness").getNode(flag).getBoolean();
+			return ConfigHandler.getNode("worlds").getNode(loc.getExtent().getName()).getNode("flags").getNode(flag).getBoolean();
 		}
 		Zone zone = nation.getZone(loc);
 		if (zone == null)
@@ -290,7 +285,7 @@ public class DataHandler
 		Nation nation = getNation(loc);
 		if (nation == null)
 		{
-			return true;
+			return ConfigHandler.getNode("worlds").getNode(loc.getExtent().getName()).getNode("perms").getNode(perm).getBoolean();
 		}
 		Zone zone = nation.getZone(loc);
 		if (zone == null)

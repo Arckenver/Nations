@@ -6,6 +6,7 @@ import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.SpawnEntityEvent;
 
+import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.google.common.collect.ImmutableList;
 
@@ -34,6 +35,10 @@ public class MobSpawningListener
 	@Listener
 	public void onPlayerRightClick(SpawnEntityEvent event)
 	{
+		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
+		{
+			return;
+		}
 		event.filterEntities(e -> !agressiveMobs.contains(e.getType()) || DataHandler.getFlag("mobs", e.getLocation()));
 	}
 }

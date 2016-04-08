@@ -7,6 +7,7 @@ import org.spongepowered.api.event.cause.entity.damage.source.EntityDamageSource
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.filter.cause.All;
 
+import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 
 public class PvpListener
@@ -14,6 +15,10 @@ public class PvpListener
 	@Listener
 	public void onEntityDamagedByPlayer(DamageEntityEvent event, @All(ignoreEmpty=false) EntityDamageSource[] sources)
 	{
+		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetEntity().getWorld().getName()).getNode("enabled").getBoolean())
+		{
+			return;
+		}
 		Entity attacker = null;
 		for (int i = 0; i < sources.length; i++)
 		{

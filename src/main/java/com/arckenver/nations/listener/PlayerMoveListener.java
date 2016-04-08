@@ -26,6 +26,10 @@ public class PlayerMoveListener
 	    {
 	        return;
 	    }
+		if (!ConfigHandler.getNode("worlds").getNode(event.getToTransform().getExtent().getName()).getNode("enabled").getBoolean())
+		{
+			return;
+		}
 		
 		Location<World> loc = event.getToTransform().getLocation();
 		Nation nation = DataHandler.getNation(loc);
