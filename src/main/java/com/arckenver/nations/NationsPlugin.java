@@ -313,11 +313,11 @@ public class NationsPlugin
 				.description(Text.of(""))
 				.permission("nations.command.nation.flag")
 				.arguments(
-						GenericArguments.choices(Text.of("flag"), ConfigHandler.getNode("flags.nations")
+						GenericArguments.choices(Text.of("flag"), ConfigHandler.getNode("nations.flags")
 								.getChildrenMap()
 								.keySet()
 								.stream()
-								.map(o -> o.toString())
+								.map(key -> key.toString())
 								.collect(Collectors.toMap(flag -> flag, flag -> flag))),
 						GenericArguments.optional(GenericArguments.bool(Text.of("bool"))))
 				.executor(new NationFlagExecutor())

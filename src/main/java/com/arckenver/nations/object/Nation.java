@@ -55,13 +55,13 @@ public class Nation
 		{{
 			put(TYPE_OUTSIDER, new Hashtable<String, Boolean>()
 			{{
-				put(PERM_BUILD, ConfigHandler.getNode("perms").getNode("nations").getNode(TYPE_OUTSIDER).getNode(PERM_BUILD).getBoolean());
-				put(PERM_INTERACT, ConfigHandler.getNode("perms").getNode("nations").getNode(TYPE_OUTSIDER).getNode(PERM_INTERACT).getBoolean());
+				put(PERM_BUILD, ConfigHandler.getNode("nation.perms").getNode(TYPE_OUTSIDER).getNode(PERM_BUILD).getBoolean());
+				put(PERM_INTERACT, ConfigHandler.getNode("nation.perms").getNode(TYPE_OUTSIDER).getNode(PERM_INTERACT).getBoolean());
 			}});
 			put(TYPE_CITIZEN, new Hashtable<String, Boolean>()
 			{{
-				put(PERM_BUILD, ConfigHandler.getNode("perms").getNode("nations").getNode(TYPE_CITIZEN).getNode(PERM_BUILD).getBoolean());
-				put(PERM_INTERACT, ConfigHandler.getNode("perms").getNode("nations").getNode(TYPE_CITIZEN).getNode(PERM_INTERACT).getBoolean());
+				put(PERM_BUILD, ConfigHandler.getNode("nation.perms").getNode(TYPE_CITIZEN).getNode(PERM_BUILD).getBoolean());
+				put(PERM_INTERACT, ConfigHandler.getNode("nation.perms").getNode(TYPE_CITIZEN).getNode(PERM_INTERACT).getBoolean());
 			}});
 		}};
 		this.zones = new Hashtable<UUID, Zone>();

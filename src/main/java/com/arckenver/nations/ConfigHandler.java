@@ -76,22 +76,22 @@ public class ConfigHandler
 		conf.getNode("others.minNationNameLength").setValue(3);
 		conf.getNode("others.maxNationNameLength").setValue(13);
 
-		conf.getNode("flags.nations.pvp").setValue(false);
-		conf.getNode("flags.nations.mobs").setValue(false);
-		conf.getNode("flags.nations.fire").setValue(false);
-		conf.getNode("flags.nations.explosions").setValue(false);
+		conf.getNode("nation.flags.pvp").setValue(false);
+		conf.getNode("nation.flags.mobs").setValue(false);
+		conf.getNode("nation.flags.fire").setValue(false);
+		conf.getNode("nation.flags.explosions").setValue(false);
 		
-		conf.getNode("perms.nations").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD).setValue(false);
-		conf.getNode("perms.nations").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT).setValue(false);
-		conf.getNode("perms.nations").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD).setValue(false);
-		conf.getNode("perms.nations").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT).setValue(true);
+		conf.getNode("nation.perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD).setValue(false);
+		conf.getNode("nation.perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT).setValue(false);
+		conf.getNode("nation.perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD).setValue(false);
+		conf.getNode("nation.perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT).setValue(true);
 		
-		conf.getNode("perms.zones").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD).setValue(false);
-		conf.getNode("perms.zones").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT).setValue(false);
-		conf.getNode("perms.zones").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD).setValue(false);
-		conf.getNode("perms.zones").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT).setValue(true);
-		conf.getNode("perms.zones").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_BUILD).setValue(true);
-		conf.getNode("perms.zones").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_INTERACT).setValue(true);
+		conf.getNode("zones.perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD).setValue(false);
+		conf.getNode("zones.perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT).setValue(false);
+		conf.getNode("zones.perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD).setValue(false);
+		conf.getNode("zones.perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT).setValue(true);
+		conf.getNode("zones.perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_BUILD).setValue(true);
+		conf.getNode("zones.perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_INTERACT).setValue(true);
 		
 		for (World world : Sponge.getServer().getWorlds())
 		{
