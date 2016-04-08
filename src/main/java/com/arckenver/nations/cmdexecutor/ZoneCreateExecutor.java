@@ -16,9 +16,9 @@ import org.spongepowered.api.text.format.TextColors;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.object.Nation;
+import com.arckenver.nations.object.Point;
 import com.arckenver.nations.object.Rect;
 import com.arckenver.nations.object.Zone;
-import com.flowpowered.math.vector.Vector2i;
 
 public class ZoneCreateExecutor implements CommandExecutor
 {
@@ -61,14 +61,14 @@ public class ZoneCreateExecutor implements CommandExecutor
 					return CommandResult.success();
 				}
 			}
-			Vector2i a = DataHandler.getFirstPoint(player.getUniqueId());
-			Vector2i b = DataHandler.getSecondPoint(player.getUniqueId());
+			Point a = DataHandler.getFirstPoint(player.getUniqueId());
+			Point b = DataHandler.getSecondPoint(player.getUniqueId());
 			if (a == null || b == null)
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EA));
 				return CommandResult.success();
 			}
-			Rect rect = new Rect(player.getWorld().getUniqueId(), a, b);
+			Rect rect = new Rect(a, b);
 			if (!nation.getRegion().isInside(rect))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HG));

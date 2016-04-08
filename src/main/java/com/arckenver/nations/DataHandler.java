@@ -20,6 +20,7 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.arckenver.nations.object.Nation;
+import com.arckenver.nations.object.Point;
 import com.arckenver.nations.object.Rect;
 import com.arckenver.nations.object.Region;
 import com.arckenver.nations.object.Request;
@@ -41,8 +42,8 @@ public class DataHandler
 	private static Hashtable<UUID, Hashtable<Vector2i, ArrayList<Nation>>> worldChunks;
 	private static HashMap<UUID, Nation> lastNationWalkedOn;
 	private static HashMap<UUID, Zone> lastZoneWalkedOn;
-	private static Hashtable<UUID, Vector2i> firstPoints;
-	private static Hashtable<UUID, Vector2i> secondPoints;
+	private static Hashtable<UUID, Point> firstPoints;
+	private static Hashtable<UUID, Point> secondPoints;
 	private static ArrayList<Request> inviteRequests;
 	private static ArrayList<Request> joinRequests;
 	
@@ -162,8 +163,8 @@ public class DataHandler
 		calculateWorldChunks();
 		lastNationWalkedOn = new HashMap<UUID, Nation>();
 		lastZoneWalkedOn = new HashMap<UUID, Zone>();
-		firstPoints = new Hashtable<UUID, Vector2i>();
-		secondPoints = new Hashtable<UUID, Vector2i>();
+		firstPoints = new Hashtable<UUID, Point>();
+		secondPoints = new Hashtable<UUID, Point>();
 		inviteRequests = new ArrayList<Request>();
 		joinRequests = new ArrayList<Request>();
 	}
@@ -433,12 +434,12 @@ public class DataHandler
 	
 	// points
 	
-	public static Vector2i getFirstPoint(UUID uuid)
+	public static Point getFirstPoint(UUID uuid)
 	{
 		return firstPoints.get(uuid);
 	}
 	
-	public static void setFirstPoint(UUID uuid, Vector2i point)
+	public static void setFirstPoint(UUID uuid, Point point)
 	{
 		firstPoints.put(uuid, point);
 	}
@@ -448,12 +449,12 @@ public class DataHandler
 		firstPoints.remove(uuid);
 	}
 	
-	public static Vector2i getSecondPoint(UUID uuid)
+	public static Point getSecondPoint(UUID uuid)
 	{
 		return secondPoints.get(uuid);
 	}
 	
-	public static void setSecondPoint(UUID uuid, Vector2i point)
+	public static void setSecondPoint(UUID uuid, Point point)
 	{
 		secondPoints.put(uuid, point);
 	}

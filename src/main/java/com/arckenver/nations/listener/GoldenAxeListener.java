@@ -14,8 +14,8 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.arckenver.nations.DataHandler;
+import com.arckenver.nations.object.Point;
 import com.arckenver.nations.object.Rect;
-import com.flowpowered.math.vector.Vector2i;
 
 public class GoldenAxeListener
 {
@@ -35,13 +35,18 @@ public class GoldenAxeListener
 			{
 				return;
 			}
-			Vector2i secondPoint = new Vector2i(optLoc.get().getBlockX(), optLoc.get().getBlockZ());
+			Point secondPoint = new Point(optLoc.get().getExtent(), optLoc.get().getBlockX(), optLoc.get().getBlockZ());
 			DataHandler.setSecondPoint(player.getUniqueId(), secondPoint);
-			Vector2i firstPoint = DataHandler.getFirstPoint(player.getUniqueId());
+			Point firstPoint = DataHandler.getFirstPoint(player.getUniqueId());
+			if (firstPoint != null && !firstPoint.getWorld().equals(secondPoint.getWorld()))
+			{
+				firstPoint = null;
+				DataHandler.setFirstPoint(player.getUniqueId(), firstPoint);
+			}
 			player.sendMessage(Text.of(
 					TextColors.AQUA,
 					"Second position set to (" + secondPoint.getX() + " " + secondPoint.getY() + ")" +
-					((firstPoint != null) ? " (" + new Rect(null, firstPoint, secondPoint).size() + ")" : "")));
+					((firstPoint != null) ? " (" + new Rect(firstPoint, secondPoint).size() + ")" : "")));
 		}
 	}
 	
@@ -61,13 +66,18 @@ public class GoldenAxeListener
 			{
 				return;
 			}
-			Vector2i firstPoint = new Vector2i(optLoc.get().getBlockX(), optLoc.get().getBlockZ());
+			Point firstPoint = new Point(optLoc.get().getExtent(), optLoc.get().getBlockX(), optLoc.get().getBlockZ());
 			DataHandler.setFirstPoint(player.getUniqueId(), firstPoint);
-			Vector2i secondPoint = DataHandler.getSecondPoint(player.getUniqueId());
+			Point secondPoint = DataHandler.getSecondPoint(player.getUniqueId());
+			if (secondPoint != null && !secondPoint.getWorld().equals(firstPoint.getWorld()))
+			{
+				secondPoint = null;
+				DataHandler.setFirstPoint(player.getUniqueId(), secondPoint);
+			}
 			player.sendMessage(Text.of(
 					TextColors.AQUA,
 					"First position set to (" + firstPoint.getX() + " " + firstPoint.getY() + ")" +
-					((secondPoint != null) ? " (" + new Rect(null, firstPoint, secondPoint).size() + ")" : "")));
+					((secondPoint != null) ? " (" + new Rect(firstPoint, secondPoint).size() + ")" : "")));
 		}
 	}
 }

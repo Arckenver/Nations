@@ -40,6 +40,11 @@ public class NationCreateExecutor implements CommandExecutor
 		if (src instanceof Player)
 		{
 			Player player = (Player) src;
+			if (!ConfigHandler.getNode("worlds").getNode(player.getWorld().getName()).getNode("enabled").getBoolean())
+			{
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CS));
+				return CommandResult.success();
+			}
 			if (DataHandler.getNationOfPlayer(player.getUniqueId()) != null)
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EK));

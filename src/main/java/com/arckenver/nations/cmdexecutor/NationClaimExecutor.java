@@ -21,9 +21,9 @@ import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.Utils;
 import com.arckenver.nations.object.Nation;
+import com.arckenver.nations.object.Point;
 import com.arckenver.nations.object.Rect;
 import com.arckenver.nations.object.Region;
-import com.flowpowered.math.vector.Vector2i;
 
 public class NationClaimExecutor implements CommandExecutor
 {
@@ -43,14 +43,19 @@ public class NationClaimExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
 				return CommandResult.success();
 			}
-			Vector2i a = DataHandler.getFirstPoint(player.getUniqueId());
-			Vector2i b = DataHandler.getSecondPoint(player.getUniqueId());
+			Point a = DataHandler.getFirstPoint(player.getUniqueId());
+			Point b = DataHandler.getSecondPoint(player.getUniqueId());
 			if (a == null || b == null)
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EA));
 				return CommandResult.success();
 			}
-			Rect rect = new Rect(player.getWorld().getUniqueId(), a, b);
+			if (!ConfigHandler.getNode("worlds").getNode(a.getWorld().getName()).getNode("enabled").getBoolean())
+			{
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CS));
+				return CommandResult.success();
+			}
+			Rect rect = new Rect(a, b);
 			if (!nation.getRegion().isAdjacent(rect))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EB));

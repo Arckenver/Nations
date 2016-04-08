@@ -9,6 +9,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.Utils;
@@ -21,6 +22,11 @@ public class NationHereExecutor implements CommandExecutor
 		if (src instanceof Player)
 		{
 			Player player = (Player) src;
+			if (!ConfigHandler.getNode("worlds").getNode(player.getWorld().getName()).getNode("enabled").getBoolean())
+			{
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CS));
+				return CommandResult.success();
+			}
 			Nation nation = DataHandler.getNation(player.getLocation());
 			if (nation == null)
 			{

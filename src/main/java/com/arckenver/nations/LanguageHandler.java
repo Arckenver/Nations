@@ -60,6 +60,7 @@ public class LanguageHandler
 	public static String CP;
 	public static String CQ;
 	public static String CR;
+	public static String CS;
 	public static String DA;
 	public static String DB;
 	public static String DC;
@@ -269,6 +270,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("CP").setValue("You don't have permission to list all zones of that nation");
 		defaultLanguage.getNode("CQ").setValue("That player is already president");
 		defaultLanguage.getNode("CR").setValue("That player is not part of the nation");
+		defaultLanguage.getNode("CS").setValue("Nations plugin is disabled for this world");
 
 		defaultLanguage.getNode("DA").setValue("Price must be a positive or null value");
 		defaultLanguage.getNode("DB").setValue("Your nation can't buy more than {NUM} extra blocks");
@@ -453,6 +455,7 @@ public class LanguageHandler
 		CP = getOrDefault("CP");
 		CQ = getOrDefault("CQ");
 		CR = getOrDefault("CR");
+		CS = getOrDefault("CS");
 		DA = getOrDefault("DA");
 		DB = getOrDefault("DB");
 		DC = getOrDefault("DC");

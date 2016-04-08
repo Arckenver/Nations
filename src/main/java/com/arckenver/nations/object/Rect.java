@@ -21,9 +21,9 @@ public class Rect
 		this(world, point.getX(), point.getX(), point.getY(), point.getY());
 	}
 
-	public Rect(UUID world, Vector2i a, Vector2i b)
+	public Rect(Point a, Point b)
 	{
-		this(world, Math.min(a.getX(), b.getX()), Math.max(a.getX(), b.getX()), Math.min(a.getY(), b.getY()), Math.max(a.getY(), b.getY()));
+		this(a.getWorld().getUniqueId(), Math.min(a.getX(), b.getX()), Math.max(a.getX(), b.getX()), Math.min(a.getY(), b.getY()), Math.max(a.getY(), b.getY()));
 	}
 
 	public Rect(UUID world, int minX, int maxX, int minY, int maxY)
