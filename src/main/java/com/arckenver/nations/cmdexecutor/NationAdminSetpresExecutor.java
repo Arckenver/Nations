@@ -15,7 +15,7 @@ import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.object.Nation;
 
-public class NationAdminSetpresExecutor implements CommandExecutor
+public class NationadminSetpresExecutor implements CommandExecutor
 {
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{

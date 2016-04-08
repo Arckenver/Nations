@@ -11,7 +11,7 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.LanguageHandler;
 
-public class NationAdminExecutor implements CommandExecutor
+public class NationadminExecutor implements CommandExecutor
 {
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
