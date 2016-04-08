@@ -42,6 +42,12 @@ public class LanguageHandler
 	public static String BJ;
 	public static String BN;
 	public static String BO;
+	public static String BS;
+	public static String BT;
+	public static String BU;
+	public static String BV;
+	public static String BW;
+	public static String BX;
 	public static String CA;
 	public static String CB;
 	public static String CC;
@@ -61,6 +67,10 @@ public class LanguageHandler
 	public static String CQ;
 	public static String CR;
 	public static String CS;
+	public static String CT;
+	public static String CU;
+	public static String CV;
+	public static String CW;
 	public static String DA;
 	public static String DB;
 	public static String DC;
@@ -186,6 +196,7 @@ public class LanguageHandler
 	public static String IU;
 	public static String JA;
 	public static String JB;
+	public static String JC;
 	
 	private static File languageFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> languageManager;
@@ -251,6 +262,13 @@ public class LanguageHandler
 		
 		defaultLanguage.getNode("BN").setValue("set nation's president");
 		defaultLanguage.getNode("BO").setValue("set nation's name");
+		
+		defaultLanguage.getNode("BS").setValue("get world details");
+		defaultLanguage.getNode("BT").setValue("get the list of all worlds");
+		defaultLanguage.getNode("BU").setValue("enable nations in specified world");
+		defaultLanguage.getNode("BV").setValue("disable nation in specified world");
+		defaultLanguage.getNode("BW").setValue("set world perm");
+		defaultLanguage.getNode("BX").setValue("set world flag");
 
 		defaultLanguage.getNode("CA").setValue("You must be an in-game player to perform that command");
 		defaultLanguage.getNode("CB").setValue("Invalid nation name");
@@ -271,6 +289,10 @@ public class LanguageHandler
 		defaultLanguage.getNode("CQ").setValue("That player is already president");
 		defaultLanguage.getNode("CR").setValue("That player is not part of the nation");
 		defaultLanguage.getNode("CS").setValue("Nations plugin is disabled for this world");
+		defaultLanguage.getNode("CT").setValue("Invalid world name");
+		defaultLanguage.getNode("CU").setValue("You must specify world name");
+		defaultLanguage.getNode("CV").setValue("Nations plugin is already enabled for this world");
+		defaultLanguage.getNode("CW").setValue("Nations plugin is already disabled for this world");
 
 		defaultLanguage.getNode("DA").setValue("Price must be a positive or null value");
 		defaultLanguage.getNode("DB").setValue("Your nation can't buy more than {NUM} extra blocks");
@@ -400,6 +422,7 @@ public class LanguageHandler
 		
 		defaultLanguage.getNode("JA").setValue("click here");
 		defaultLanguage.getNode("JB").setValue("Nation List");
+		defaultLanguage.getNode("JC").setValue("World List");
 	}
 	
 	public static void load()
@@ -437,6 +460,12 @@ public class LanguageHandler
 		BJ = getOrDefault("BJ");
 		BN = getOrDefault("BN");
 		BO = getOrDefault("BO");
+		BS = getOrDefault("BS");
+		BT = getOrDefault("BT");
+		BU = getOrDefault("BU");
+		BV = getOrDefault("BV");
+		BW = getOrDefault("BW");
+		BX = getOrDefault("BX");
 		CA = getOrDefault("CA");
 		CB = getOrDefault("CB");
 		CC = getOrDefault("CC");
@@ -456,6 +485,10 @@ public class LanguageHandler
 		CQ = getOrDefault("CQ");
 		CR = getOrDefault("CR");
 		CS = getOrDefault("CS");
+		CT = getOrDefault("CT");
+		CU = getOrDefault("CU");
+		CV = getOrDefault("CV");
+		CW = getOrDefault("CW");
 		DA = getOrDefault("DA");
 		DB = getOrDefault("DB");
 		DC = getOrDefault("DC");
@@ -581,6 +614,7 @@ public class LanguageHandler
 		IU = getOrDefault("IU");
 		JA = getOrDefault("JA");
 		JB = getOrDefault("JB");
+		JC = getOrDefault("JC");
 		
 		save();
 	}

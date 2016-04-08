@@ -55,7 +55,7 @@ public class ConfigHandler
 			{
 				e.getValue().getNode("enabled").setValue(false);
 				e.getValue().removeChild("perms");
-				e.getValue().removeChild("perms");
+				e.getValue().removeChild("flags");
 			}
 		}
 	}
@@ -76,15 +76,15 @@ public class ConfigHandler
 		conf.getNode("others.minNationNameLength").setValue(3);
 		conf.getNode("others.maxNationNameLength").setValue(13);
 
-		conf.getNode("nation.flags.pvp").setValue(false);
-		conf.getNode("nation.flags.mobs").setValue(false);
-		conf.getNode("nation.flags.fire").setValue(false);
-		conf.getNode("nation.flags.explosions").setValue(false);
+		conf.getNode("nations.flags.pvp").setValue(false);
+		conf.getNode("nations.flags.mobs").setValue(false);
+		conf.getNode("nations.flags.fire").setValue(false);
+		conf.getNode("nations.flags.explosions").setValue(false);
 		
-		conf.getNode("nation.perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD).setValue(false);
-		conf.getNode("nation.perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT).setValue(false);
-		conf.getNode("nation.perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD).setValue(false);
-		conf.getNode("nation.perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT).setValue(true);
+		conf.getNode("nations.perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD).setValue(false);
+		conf.getNode("nations.perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT).setValue(false);
+		conf.getNode("nations.perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD).setValue(false);
+		conf.getNode("nations.perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT).setValue(true);
 		
 		conf.getNode("zones.perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD).setValue(false);
 		conf.getNode("zones.perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT).setValue(false);

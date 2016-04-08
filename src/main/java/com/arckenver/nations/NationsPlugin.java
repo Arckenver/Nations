@@ -26,8 +26,7 @@ import org.spongepowered.api.text.Text;
 import com.arckenver.nations.cmdelement.CitizenNameElement;
 import com.arckenver.nations.cmdelement.NationNameElement;
 import com.arckenver.nations.cmdelement.PlayerNameElement;
-import com.arckenver.nations.cmdexecutor.NationAdminExecutor;
-import com.arckenver.nations.cmdexecutor.NationAdminSetpresExecutor;
+import com.arckenver.nations.cmdelement.WorldNameElement;
 import com.arckenver.nations.cmdexecutor.NationBuyextraExecutor;
 import com.arckenver.nations.cmdexecutor.NationCitizenExecutor;
 import com.arckenver.nations.cmdexecutor.NationClaimExecutor;
@@ -51,6 +50,15 @@ import com.arckenver.nations.cmdexecutor.NationSetspawnExecutor;
 import com.arckenver.nations.cmdexecutor.NationSpawnExecutor;
 import com.arckenver.nations.cmdexecutor.NationUnclaimExecutor;
 import com.arckenver.nations.cmdexecutor.NationWithdrawExecutor;
+import com.arckenver.nations.cmdexecutor.NationadminExecutor;
+import com.arckenver.nations.cmdexecutor.NationadminSetpresExecutor;
+import com.arckenver.nations.cmdexecutor.NationworldDisableExecutor;
+import com.arckenver.nations.cmdexecutor.NationworldEnableExecutor;
+import com.arckenver.nations.cmdexecutor.NationworldExecutor;
+import com.arckenver.nations.cmdexecutor.NationworldFlagExecutor;
+import com.arckenver.nations.cmdexecutor.NationworldInfoExecutor;
+import com.arckenver.nations.cmdexecutor.NationworldListExecutor;
+import com.arckenver.nations.cmdexecutor.NationworldPermExecutor;
 import com.arckenver.nations.cmdexecutor.ZoneBuyExecutor;
 import com.arckenver.nations.cmdexecutor.ZoneCoownerExecutor;
 import com.arckenver.nations.cmdexecutor.ZoneCreateExecutor;
@@ -124,7 +132,7 @@ public class NationsPlugin
 				.arguments(
 						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
 						GenericArguments.optional(new PlayerNameElement(Text.of("president"))))
-				.executor(new NationAdminSetpresExecutor())
+				.executor(new NationadminSetpresExecutor())
 				.build();
 
 		CommandSpec nationAdminSetnameCmd = CommandSpec.builder()
@@ -133,13 +141,13 @@ public class NationsPlugin
 				.arguments(
 						GenericArguments.optional(new NationNameElement(Text.of("oldname"))),
 						GenericArguments.optional(GenericArguments.string(Text.of("newname"))))
-				.executor(new NationAdminSetpresExecutor())
+				.executor(new NationadminSetpresExecutor())
 				.build();
 
 		CommandSpec nationAdminCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nationadmin")
-				.executor(new NationAdminExecutor())
+				.executor(new NationadminExecutor())
 				.child(nationAdminSetpresCmd, "setpres", "setpresident")
 				.child(nationAdminSetnameCmd, "setname")
 				.build();
@@ -282,7 +290,7 @@ public class NationsPlugin
 				.description(Text.of(""))
 				.permission("nations.command.nation.minister")
 				.arguments(
-						GenericArguments.optional(GenericArguments.choices(Text.of("add/remove"),
+						GenericArguments.optional(GenericArguments.choices(Text.of("add|remove"),
 								ImmutableMap.<String, String> builder()
 										.put("add", "add")
 										.put("remove", "remove")
@@ -377,7 +385,7 @@ public class NationsPlugin
 				.description(Text.of(""))
 				.permission("nations.command.zone.coowner")
 				.arguments(
-						GenericArguments.optional(GenericArguments.choices(Text.of("add/remove"),
+						GenericArguments.optional(GenericArguments.choices(Text.of("add|remove"),
 								ImmutableMap.<String, String> builder()
 										.put("add", "add")
 										.put("remove", "remove")
@@ -423,8 +431,7 @@ public class NationsPlugin
 				.description(Text.of(""))
 				.permission("nations.command.zone.flag")
 				.arguments(
-						GenericArguments.choices(Text.of("flag"), ConfigHandler.getNode("flags")
-								.getNode("nations")
+						GenericArguments.choices(Text.of("flag"), ConfigHandler.getNode("nations.flags")
 								.getChildrenMap()
 								.keySet()
 								.stream()
@@ -464,9 +471,77 @@ public class NationsPlugin
 				.child(zoneBuyCmd, "buy", "claim")
 				.build();
 
+		CommandSpec worldInfoCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationworld.info")
+				.arguments(GenericArguments.optional(new WorldNameElement(Text.of("world"))))
+				.executor(new NationworldInfoExecutor())
+				.build();
+
+		CommandSpec worldListCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationworld.list")
+				.arguments()
+				.executor(new NationworldListExecutor())
+				.build();
+		
+		CommandSpec worldEnableCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationworld.enable")
+				.arguments(GenericArguments.optional(new WorldNameElement(Text.of("world"))))
+				.executor(new NationworldEnableExecutor())
+				.build();
+		
+		CommandSpec worldDisableCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationworld.disable")
+				.arguments(GenericArguments.optional(new WorldNameElement(Text.of("world"))))
+				.executor(new NationworldDisableExecutor())
+				.build();
+
+		CommandSpec worldPermCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationworld.perm")
+				.arguments(
+						GenericArguments.choices(Text.of("perm"),
+								ImmutableMap.<String, String> builder()
+										.put(Nation.PERM_BUILD, Nation.PERM_BUILD)
+										.put(Nation.PERM_INTERACT, Nation.PERM_INTERACT)
+										.build()),
+						GenericArguments.optional(GenericArguments.bool(Text.of("bool"))))
+				.executor(new NationworldPermExecutor())
+				.build();
+
+		CommandSpec worldFlagCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationworld.flag")
+				.arguments(
+						GenericArguments.choices(Text.of("flag"), ConfigHandler.getNode("nations.flags")
+								.getChildrenMap()
+								.keySet()
+								.stream()
+								.map(o -> o.toString())
+								.collect(Collectors.toMap(flag -> flag, flag -> flag))),
+						GenericArguments.optional(GenericArguments.bool(Text.of("bool"))))
+				.executor(new NationworldFlagExecutor())
+				.build();
+		
+		CommandSpec nationworldCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationworld")
+				.executor(new NationworldExecutor())
+				.child(worldInfoCmd, "info")
+				.child(worldListCmd, "list")
+				.child(worldEnableCmd, "enable")
+				.child(worldDisableCmd, "disable")
+				.child(worldPermCmd, "perm")
+				.child(worldFlagCmd, "flag")
+				.build();
+
 		Sponge.getCommandManager().register(this, nationAdminCmd, "nationadmin", "na", "nationsadmin");
 		Sponge.getCommandManager().register(this, nationCmd, "nation", "n", "nations");
 		Sponge.getCommandManager().register(this, zoneCmd, "zone", "z");
+		Sponge.getCommandManager().register(this, nationworldCmd, "nationworld", "nw");
 
 		Sponge.getEventManager().registerListeners(this, new PlayerConnectionListener());
 		Sponge.getEventManager().registerListeners(this, new PlayerMoveListener());

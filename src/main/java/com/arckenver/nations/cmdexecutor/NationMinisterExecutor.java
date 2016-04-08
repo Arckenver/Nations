@@ -34,7 +34,7 @@ public class NationMinisterExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CJ));
 				return CommandResult.success();
 			}
-			if (!ctx.<String>getOne("add/remove").isPresent() || !ctx.<String>getOne("citizen").isPresent())
+			if (!ctx.<String>getOne("add|remove").isPresent() || !ctx.<String>getOne("citizen").isPresent())
 			{
 				src.sendMessage(Text.of(TextColors.YELLOW, "/n minister add <citizen>\n/n minister remove <citizen>"));
 				return CommandResult.success();

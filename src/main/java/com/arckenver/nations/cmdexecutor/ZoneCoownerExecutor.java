@@ -42,7 +42,7 @@ public class ZoneCoownerExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GJ));
 				return CommandResult.success();
 			}
-			if (!ctx.<String>getOne("add/remove").isPresent() || !ctx.<String>getOne("citizen").isPresent())
+			if (!ctx.<String>getOne("add|remove").isPresent() || !ctx.<String>getOne("citizen").isPresent())
 			{
 				src.sendMessage(Text.of(TextColors.YELLOW, "/z coowner add <citizen>\n/z coowner remove <citizen>"));
 				return CommandResult.success();
