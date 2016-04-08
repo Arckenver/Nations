@@ -274,7 +274,7 @@ public class NationsPlugin
 		CommandSpec nationBuyextraCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nation.buyextra")
-				.arguments(GenericArguments.optional(GenericArguments.integer(Text.of("number of blocks"))))
+				.arguments(GenericArguments.optional(GenericArguments.integer(Text.of("amount"))))
 				.executor(new NationBuyextraExecutor())
 				.build();
 

@@ -40,12 +40,12 @@ public class NationBuyextraExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CJ));
 				return CommandResult.success();
 			}
-			if (!ctx.<String>getOne("number of blocks").isPresent())
+			if (!ctx.<String>getOne("amount").isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.YELLOW, "/n buyextra <number of blocks>"));
+				src.sendMessage(Text.of(TextColors.YELLOW, "/n buyextra <amount>"));
 				return CommandResult.success();
 			}
-			int n = ctx.<Integer>getOne("number of blocks").get();
+			int n = ctx.<Integer>getOne("amount").get();
 			int maxToBuy = ConfigHandler.getNode("others").getNode("maxExtra").getInt() - nation.getExtras();
 			if (n > maxToBuy)
 			{
