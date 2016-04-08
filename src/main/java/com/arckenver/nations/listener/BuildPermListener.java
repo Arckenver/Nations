@@ -24,7 +24,10 @@ public class BuildPermListener
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
 				trans.setValid(DataHandler.getPerm("build", player.getUniqueId(), loc));
-				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
+				{
+					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+				}
 		}));
 	}
 	
@@ -40,7 +43,10 @@ public class BuildPermListener
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
 				trans.setValid(DataHandler.getPerm("build", player.getUniqueId(), loc));
-				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
+				{
+					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+				}
 		}));
 	}
 }
