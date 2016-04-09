@@ -321,7 +321,7 @@ public class NationsPlugin
 				.description(Text.of(""))
 				.permission("nations.command.nation.flag")
 				.arguments(
-						GenericArguments.choices(Text.of("flag"), ConfigHandler.getNode("nations.flags")
+						GenericArguments.choices(Text.of("flag"), ConfigHandler.getNode("nations").getNode("flags")
 								.getChildrenMap()
 								.keySet()
 								.stream()
@@ -431,7 +431,7 @@ public class NationsPlugin
 				.description(Text.of(""))
 				.permission("nations.command.zone.flag")
 				.arguments(
-						GenericArguments.choices(Text.of("flag"), ConfigHandler.getNode("nations.flags")
+						GenericArguments.choices(Text.of("flag"), ConfigHandler.getNode("nations").getNode("flags")
 								.getChildrenMap()
 								.keySet()
 								.stream()
@@ -516,7 +516,7 @@ public class NationsPlugin
 				.description(Text.of(""))
 				.permission("nations.command.nationworld.flag")
 				.arguments(
-						GenericArguments.choices(Text.of("flag"), ConfigHandler.getNode("nations.flags")
+						GenericArguments.choices(Text.of("flag"), ConfigHandler.getNode("nations").getNode("flags")
 								.getChildrenMap()
 								.keySet()
 								.stream()

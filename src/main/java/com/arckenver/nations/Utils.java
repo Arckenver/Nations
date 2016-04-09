@@ -293,10 +293,10 @@ public class Utils
 		);
 		
 		boolean enabled = ConfigHandler.getNode("worlds").getNode(name).getNode("enabled").getBoolean();
-		builder.append(Text.of(TextColors.YELLOW, "\nEnabled: "));
+		builder.append(Text.of(TextColors.GOLD, "\nEnabled: "));
 		builder.append((canClick)
 				? Text.builder(LanguageHandler.IT).color((enabled) ? TextColors.YELLOW : TextColors.DARK_GRAY)
-						.onClick(TextActions.runCommand("/nw enable name")).build()
+						.onClick(TextActions.runCommand("/nw enable " + name)).build()
 				: Text.of((enabled) ? TextColors.YELLOW : TextColors.DARK_GRAY, LanguageHandler.IT));
 		builder.append(Text.of(TextColors.GOLD, "/"));
 		builder.append((canClick)
@@ -309,12 +309,12 @@ public class Utils
 		}
 		
 		builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IK + ": "));
-		boolean canBuild = ConfigHandler.getNode("worlds").getNode(name).getNode("perms.build").getBoolean();
+		boolean canBuild = ConfigHandler.getNode("worlds").getNode(name).getNode("perms").getNode("build").getBoolean();
 		builder.append((canClick)
 				? canClickUtil(Nation.PERM_BUILD, name, canBuild)
 				: Text.of((canBuild) ? TextColors.GREEN : TextColors.RED, Nation.PERM_BUILD.toUpperCase()));
 		builder.append(Text.of(TextColors.GOLD, "/"));
-		boolean canInteract = ConfigHandler.getNode("worlds").getNode(name).getNode("perms.build").getBoolean();
+		boolean canInteract = ConfigHandler.getNode("worlds").getNode(name).getNode("perms").getNode("interact").getBoolean();
 		builder.append((canClick)
 				? canClickUtil(Nation.PERM_INTERACT, name, canInteract)
 				: Text.of((canInteract) ? TextColors.GREEN : TextColors.RED, Nation.PERM_INTERACT.toUpperCase()));
@@ -327,11 +327,11 @@ public class Utils
 			boolean b = e.getValue().getBoolean();
 			builder.append(Text.of(TextColors.GOLD, "\n    " + StringUtils.capitalize(flag.toLowerCase()) + ": "));
 			builder.append((canClick)
-					? Text.builder(LanguageHandler.IT).color((b) ? TextColors.YELLOW : TextColors.DARK_GRAY).onClick(TextActions.runCommand("/n flag " + flag + " true")).build()
+					? Text.builder(LanguageHandler.IT).color((b) ? TextColors.YELLOW : TextColors.DARK_GRAY).onClick(TextActions.runCommand("/nw flag " + flag + " true")).build()
 					: Text.of((b) ? TextColors.YELLOW : TextColors.DARK_GRAY, LanguageHandler.IT));
 			builder.append(Text.of(TextColors.GOLD, "/"));
 			builder.append((canClick)
-					? Text.builder(LanguageHandler.IU).color((b) ? TextColors.DARK_GRAY : TextColors.YELLOW).onClick(TextActions.runCommand("/n flag " + flag + " false")).build()
+					? Text.builder(LanguageHandler.IU).color((b) ? TextColors.DARK_GRAY : TextColors.YELLOW).onClick(TextActions.runCommand("/nw flag " + flag + " false")).build()
 					: Text.of((b) ? TextColors.DARK_GRAY : TextColors.YELLOW, LanguageHandler.IU));
 			builder.append(Text.of(TextColors.DARK_GRAY, (canClick) ? " <- click" : ""));
 		}
