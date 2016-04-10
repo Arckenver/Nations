@@ -68,16 +68,8 @@ public class PlayerMoveListener
 			}
 			builder.append(Text.of(TextColors.GRAY, " - "));
 		}
-		boolean isPvp = ConfigHandler.getNode("flags").getNode("wilderness").getNode("pvp").getBoolean();
-		if (nation != null)
-		{
-			isPvp = nation.getFlag("pvp");
-			if (zone != null)
-			{
-				isPvp = zone.getFlag("pvp");
-			}
-		}
-		builder.append((isPvp) ? Text.of(TextColors.DARK_RED, "(PvP)") : Text.of(TextColors.DARK_GREEN, "(No PvP)"));
+		
+		builder.append((DataHandler.getFlag("pvp", loc)) ? Text.of(TextColors.DARK_RED, "(PvP)") : Text.of(TextColors.DARK_GREEN, "(No PvP)"));
 		builder.append(Text.of(TextColors.GRAY, " ~"));
 		
 		player.sendMessage(builder.build());
