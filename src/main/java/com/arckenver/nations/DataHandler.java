@@ -82,11 +82,6 @@ public class DataHandler
 				nation.addSpawn(en.getKey().toString(), Utils.locFromString(en.getValue().getString()));
 			}
 			
-			for (CommentedConfigurationNode node : e.getValue().getNode("ministers").getChildrenList())
-			{
-				nation.addMinister(UUID.fromString(node.getString()));
-			}
-			
 			Region region = new Region();
 			for (Entry<Object, ? extends CommentedConfigurationNode> en : e.getValue().getNode("region").getChildrenMap().entrySet())
 			{
@@ -141,11 +136,15 @@ public class DataHandler
 				{
 					zone.setOwner(null);
 				}
+				for (CommentedConfigurationNode node : en.getValue().getNode("coowers").getChildrenList())
+				{
+					zone.addCoowner(UUID.fromString(node.getString()));
+				}
 				for (Entry<Object, ? extends CommentedConfigurationNode> ent : en.getValue().getNode("flags").getChildrenMap().entrySet())
 				{
 					zone.setFlag(ent.getKey().toString(), ent.getValue().getBoolean());
 				}
-				for (Entry<Object, ? extends CommentedConfigurationNode> ent : en.getValue().getNode("flags").getChildrenMap().entrySet())
+				for (Entry<Object, ? extends CommentedConfigurationNode> ent : en.getValue().getNode("perms").getChildrenMap().entrySet())
 				{
 					for (Entry<Object, ? extends CommentedConfigurationNode> entr : ent.getValue().getChildrenMap().entrySet())
 					{
@@ -578,9 +577,10 @@ public class DataHandler
 			node.getNode("rect").getNode("world").setValue(zone.getRect().getWorld().toString());
 			node.getNode("rect").getNode("points").setValue(Utils.rectToString(zone.getRect()));
 			node.getNode("owner").setValue((zone.getOwner() == null) ? "null" : zone.getOwner().toString());
+			node.removeChild("coowners");
 			for (UUID coowner : zone.getCoowners())
 			{
-				node.getNode("owners").getAppendedNode().setValue(coowner.toString());
+				node.getNode("coowners").getAppendedNode().setValue(coowner.toString());
 			}
 			for (Entry<String, Boolean> e : zone.getFlags().entrySet())
 			{
