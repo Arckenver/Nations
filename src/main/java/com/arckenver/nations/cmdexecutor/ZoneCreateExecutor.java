@@ -44,7 +44,7 @@ public class ZoneCreateExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			String zoneName = ctx.<String>getOne("name").get();
-			if (!zoneName.matches("[a-zA-Z0-9]{1,30\\}"))
+			if (!zoneName.matches("[a-zA-Z0-9]{1,30}"))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.FY
 						.replaceAll("\\{MIN\\}", "1")
