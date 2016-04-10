@@ -39,7 +39,7 @@ public class NationMinisterExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.YELLOW, "/n minister add <citizen>\n/n minister remove <citizen>"));
 				return CommandResult.success();
 			}
-			String addOrRemove = ctx.<String>getOne("add/remove").get();
+			String addOrRemove = ctx.<String>getOne("add|remove").get();
 			String playerName = ctx.<String>getOne("citizen").get();
 			UUID uuid = DataHandler.getPlayerUUID(playerName);
 			if (uuid == null)
