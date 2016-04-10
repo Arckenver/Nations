@@ -118,7 +118,7 @@ public class ConfigHandler
 	
 	public static class Utils
 	{
-		public static void ensurePositiveNumber(CommentedConfigurationNode node, String def)
+		public static void ensureString(CommentedConfigurationNode node, String def)
 		{
 			if (node.getString() == null)
 			{
