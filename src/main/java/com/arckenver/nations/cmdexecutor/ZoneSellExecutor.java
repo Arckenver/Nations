@@ -59,10 +59,11 @@ public class ZoneSellExecutor implements CommandExecutor
 				uuid -> Sponge.getServer().getPlayer(uuid).ifPresent(
 						p -> {
 							String str = LanguageHandler.DM.replaceAll("\\{PLAYER\\}",  player.getName()).replaceAll("\\{ZONE\\}", zone.getName());
+							String[] splited = str.split("\\{AMOUNT\\}");
 							src.sendMessage(Text.builder()
-									.append(Text.of(TextColors.AQUA, str.split("\\{AMOUNT\\}")[0]))
+									.append(Text.of(TextColors.AQUA, (splited.length > 0) ? splited[0] : ""))
 									.append(Utils.formatPrice(TextColors.AQUA, price))
-									.append(Text.of(TextColors.AQUA, str.split("\\{AMOUNT\\}")[1])).build());
+									.append(Text.of(TextColors.AQUA, (splited.length > 1) ? splited[1] : "")).build());
 						}));
 		}
 		else

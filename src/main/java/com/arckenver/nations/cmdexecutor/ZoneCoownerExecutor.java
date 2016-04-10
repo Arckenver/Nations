@@ -47,7 +47,7 @@ public class ZoneCoownerExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.YELLOW, "/z coowner add <citizen>\n/z coowner remove <citizen>"));
 				return CommandResult.success();
 			}
-			String addOrRemove = ctx.<String>getOne("add/remove").get();
+			String addOrRemove = ctx.<String>getOne("add|remove").get();
 			String playerName = ctx.<String>getOne("citizen").get();
 			UUID uuid = DataHandler.getPlayerUUID(playerName);
 			if (uuid == null)

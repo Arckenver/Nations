@@ -106,11 +106,12 @@ public class ZoneBuyExecutor implements CommandExecutor
 			{
 				Sponge.getServer().getPlayer(oldOwner).ifPresent(
 						p -> {
-							String str = LanguageHandler.DJ.replaceAll("\\{PLAYER\\}",  player.getName()).replaceAll("\\{ZONE\\}", zone.getName());
+							String str = LanguageHandler.GH.replaceAll("\\{PLAYER\\}",  player.getName()).replaceAll("\\{ZONE\\}", zone.getName());
+							String[] splited = str.split("\\{AMOUNT\\}");
 							src.sendMessage(Text.builder()
-									.append(Text.of(TextColors.AQUA, str.split("\\{AMOUNT\\}")[0]))
+									.append(Text.of(TextColors.AQUA, (splited.length > 0) ? splited[0] : ""))
 									.append(Utils.formatPrice(TextColors.AQUA, price))
-									.append(Text.of(TextColors.AQUA, str.split("\\{AMOUNT\\}")[1])).build());
+									.append(Text.of(TextColors.AQUA, (splited.length > 1) ? splited[1] : "")).build());
 						});
 			}
 		}
