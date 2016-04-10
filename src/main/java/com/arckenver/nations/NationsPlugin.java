@@ -126,7 +126,7 @@ public class NationsPlugin
 				.getRegistration(EconomyService.class)
 				.ifPresent(prov -> economyService = prov.getProvider());
 		
-		CommandSpec nationAdminSetpresCmd = CommandSpec.builder()
+		CommandSpec nationadminSetpresCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nationadmin.setpres")
 				.arguments(
@@ -135,7 +135,7 @@ public class NationsPlugin
 				.executor(new NationadminSetpresExecutor())
 				.build();
 
-		CommandSpec nationAdminSetnameCmd = CommandSpec.builder()
+		CommandSpec nationadminSetnameCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nationadmin.setname")
 				.arguments(
@@ -144,12 +144,12 @@ public class NationsPlugin
 				.executor(new NationadminSetpresExecutor())
 				.build();
 
-		CommandSpec nationAdminCmd = CommandSpec.builder()
+		CommandSpec nationadminCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nationadmin")
 				.executor(new NationadminExecutor())
-				.child(nationAdminSetpresCmd, "setpres", "setpresident")
-				.child(nationAdminSetnameCmd, "setname")
+				.child(nationadminSetpresCmd, "setpres", "setpresident")
+				.child(nationadminSetnameCmd, "setname")
 				.build();
 
 		CommandSpec nationInfoCmd = CommandSpec.builder()
@@ -538,7 +538,7 @@ public class NationsPlugin
 				.child(worldFlagCmd, "flag")
 				.build();
 
-		Sponge.getCommandManager().register(this, nationAdminCmd, "nationadmin", "na", "nationsadmin");
+		Sponge.getCommandManager().register(this, nationadminCmd, "nationadmin", "na", "nationsadmin");
 		Sponge.getCommandManager().register(this, nationCmd, "nation", "n", "nations");
 		Sponge.getCommandManager().register(this, zoneCmd, "zone", "z");
 		Sponge.getCommandManager().register(this, nationworldCmd, "nationworld", "nw");
