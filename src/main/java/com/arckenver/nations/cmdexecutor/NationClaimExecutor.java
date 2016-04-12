@@ -63,7 +63,12 @@ public class NationClaimExecutor implements CommandExecutor
 			}
 			Region claimed = nation.getRegion().copy();
 			claimed.addRect(rect);
-			int toClaim = claimed.size() - nation.getRegion().size();
+			
+			if (claimed.size() > nation.maxBlockSize())
+			{
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EG));
+				return CommandResult.success();
+			}
 			
 			if (NationsPlugin.getEcoService() == null)
 			{
@@ -76,7 +81,7 @@ public class NationClaimExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DD));
 				return CommandResult.success();
 			}
-			BigDecimal price = BigDecimal.valueOf(toClaim * ConfigHandler.getNode("prices").getNode("blockClaimPrice").getDouble());
+			BigDecimal price = BigDecimal.valueOf((claimed.size() - nation.getRegion().size()) * ConfigHandler.getNode("prices").getNode("blockClaimPrice").getDouble());
 			TransactionResult result = optAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), price, NationsPlugin.getCause());
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{
@@ -89,12 +94,6 @@ public class NationClaimExecutor implements CommandExecutor
 			else if (result.getResult() != ResultType.SUCCESS)
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DN));
-				return CommandResult.success();
-			}
-			
-			if (toClaim + nation.getRegion().size() > nation.maxBlockSize())
-			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EG));
 				return CommandResult.success();
 			}
 			
