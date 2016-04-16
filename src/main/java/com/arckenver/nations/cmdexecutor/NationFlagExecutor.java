@@ -1,5 +1,7 @@
 package com.arckenver.nations.cmdexecutor;
 
+import static org.spongepowered.api.util.SpongeApiTranslationHelper.t;
+
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -33,6 +35,11 @@ public class NationFlagExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			String flag = ctx.<String>getOne("flag").get();
+			if (!player.hasPermission("nations.command.flag." + flag))
+			{
+				player.sendMessage(t("You do not have permission to use this command!"));
+				return CommandResult.success();
+			}
 			boolean bool = (ctx.<Boolean>getOne("bool").isPresent()) ? ctx.<Boolean>getOne("bool").get() : !nation.getFlag(flag);
 			nation.setFlag(flag, bool);
 			DataHandler.saveNation(nation.getUUID());

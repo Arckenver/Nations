@@ -1,5 +1,7 @@
 package com.arckenver.nations.cmdexecutor;
 
+import static org.spongepowered.api.util.SpongeApiTranslationHelper.t;
+
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -34,6 +36,11 @@ public class NationPermExecutor implements CommandExecutor
 			}
 			String type = ctx.<String>getOne("type").get();
 			String perm = ctx.<String>getOne("perm").get();
+			if (!player.hasPermission("nations.command.perm." + type + "." + perm))
+			{
+				player.sendMessage(t("You do not have permission to use this command!"));
+				return CommandResult.success();
+			}
 			boolean bool = (ctx.<Boolean>getOne("bool").isPresent()) ? ctx.<Boolean>getOne("bool").get() : !nation.getPerm(type, perm);
 			nation.setPerm(type, perm, bool);
 			DataHandler.saveNation(nation.getUUID());
