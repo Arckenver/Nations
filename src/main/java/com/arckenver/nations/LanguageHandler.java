@@ -71,6 +71,7 @@ public class LanguageHandler
 	public static String CU;
 	public static String CV;
 	public static String CW;
+	public static String CX;
 	public static String DA;
 	public static String DB;
 	public static String DC;
@@ -173,6 +174,9 @@ public class LanguageHandler
 	public static String HG;
 	public static String HH;
 	public static String HI;
+	public static String HJ;
+	public static String HK;
+	public static String HL;
 	public static String IA;
 	public static String IB;
 	public static String IC;
@@ -293,6 +297,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("CU").setValue("You must specify world name");
 		defaultLanguage.getNode("CV").setValue("Nations plugin is already enabled for this world");
 		defaultLanguage.getNode("CW").setValue("Nations plugin is already disabled for this world");
+		defaultLanguage.getNode("CX").setValue("Invalid operation, use \"give\", \"take\" or \"set\"");
 
 		defaultLanguage.getNode("DA").setValue("Price must be a positive or null value");
 		defaultLanguage.getNode("DB").setValue("Your nation can't buy more than {NUM} extra blocks");
@@ -348,7 +353,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("FJ").setValue("{PLAYER} was kicked out of your nation");
 		defaultLanguage.getNode("FK").setValue("You were kicked out of your nation by {PLAYER}");
 		defaultLanguage.getNode("FL").setValue("You must first resign as president before you leave the nation, use /n resign");
-		defaultLanguage.getNode("FM").setValue("You successfully left your nation");
+		defaultLanguage.getNode("FM").setValue("You left your nation");
 		defaultLanguage.getNode("FN").setValue("{PLAYER} left the nation");
 		defaultLanguage.getNode("FO").setValue("You can't add/remove yourself from the ministers of your nation");
 		defaultLanguage.getNode("FP").setValue("{PLAYER} is already minister of your nation");
@@ -397,6 +402,9 @@ public class LanguageHandler
 		defaultLanguage.getNode("HG").setValue("Selected zone is not inside your nation's region");
 		defaultLanguage.getNode("HH").setValue("You don't have permission to build here");
 		defaultLanguage.getNode("HI").setValue("You don't have permission to interact here");
+		defaultLanguage.getNode("HJ").setValue("Player is not part of a nation");
+		defaultLanguage.getNode("HK").setValue("Player is president of his nation, use /na setpres");
+		defaultLanguage.getNode("HL").setValue("Success !");
 
 		defaultLanguage.getNode("IA").setValue("Wilderness");
 		defaultLanguage.getNode("IB").setValue("Nation");
@@ -489,6 +497,7 @@ public class LanguageHandler
 		CU = getOrDefault("CU");
 		CV = getOrDefault("CV");
 		CW = getOrDefault("CW");
+		CX = getOrDefault("CX");
 		DA = getOrDefault("DA");
 		DB = getOrDefault("DB");
 		DC = getOrDefault("DC");
@@ -591,6 +600,9 @@ public class LanguageHandler
 		HG = getOrDefault("HG");
 		HH = getOrDefault("HH");
 		HI = getOrDefault("HI");
+		HJ = getOrDefault("HJ");
+		HK = getOrDefault("HK");
+		HL = getOrDefault("HL");
 		IA = getOrDefault("IA");
 		IB = getOrDefault("IB");
 		IC = getOrDefault("IC");

@@ -1,0 +1,67 @@
+package com.arckenver.nations.cmdexecutor;
+
+import java.util.UUID;
+
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
+
+import com.arckenver.nations.DataHandler;
+import com.arckenver.nations.LanguageHandler;
+import com.arckenver.nations.object.Nation;
+
+public class NationadminForcejoinExecutor implements CommandExecutor
+{
+	@Override
+	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
+	{
+		if (!ctx.<String>getOne("nation").isPresent() || !ctx.<String>getOne("player").isPresent())
+		{
+			src.sendMessage(Text.of(TextColors.YELLOW, "/na forcejoin <nation> <player>"));
+			return CommandResult.success();
+		}
+		String nationName = ctx.<String>getOne("nation").get();
+		String playerName = ctx.<String>getOne("player").get();
+		
+		Nation nation = DataHandler.getNation(nationName);
+		if (nation == null)
+		{
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CB));
+			return CommandResult.success();
+		}
+		UUID playerUUID = DataHandler.getPlayerUUID(playerName);
+		if (playerUUID == null)
+		{
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CC));
+			return CommandResult.success();
+		}
+		
+		Nation playerNation = DataHandler.getNationOfPlayer(playerUUID);
+		if (playerNation != null)
+		{
+			playerNation.removeCitizen(playerUUID);
+			for (UUID uuid : playerNation.getCitizens())
+			{
+				Sponge.getServer().getPlayer(uuid).ifPresent(p -> 
+					p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.FN.replaceAll("\\{PLAYER\\}", playerName))));
+			}
+		}
+		
+		for (UUID uuid : nation.getCitizens())
+		{
+			Sponge.getServer().getPlayer(uuid).ifPresent(p -> 
+				p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.EY.replaceAll("\\{PLAYER\\}", playerName))));
+		}
+		nation.addCitizen(playerUUID);
+		DataHandler.saveNation(nation.getUUID());
+		Sponge.getServer().getPlayer(playerUUID).ifPresent(p -> 
+			p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.EZ.replaceAll("\\{NATION\\}", nationName))));
+		src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HL));
+		return CommandResult.success();
+	}
+}

@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
-import org.spongepowered.api.config.DefaultConfig;
+import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -50,7 +50,13 @@ import com.arckenver.nations.cmdexecutor.NationSetspawnExecutor;
 import com.arckenver.nations.cmdexecutor.NationSpawnExecutor;
 import com.arckenver.nations.cmdexecutor.NationUnclaimExecutor;
 import com.arckenver.nations.cmdexecutor.NationWithdrawExecutor;
+import com.arckenver.nations.cmdexecutor.NationadminDeleteExecutor;
+import com.arckenver.nations.cmdexecutor.NationadminEcoExecutor;
 import com.arckenver.nations.cmdexecutor.NationadminExecutor;
+import com.arckenver.nations.cmdexecutor.NationadminFlagExecutor;
+import com.arckenver.nations.cmdexecutor.NationadminForcejoinExecutor;
+import com.arckenver.nations.cmdexecutor.NationadminForceleaveExecutor;
+import com.arckenver.nations.cmdexecutor.NationadminPermExecutor;
 import com.arckenver.nations.cmdexecutor.NationadminSetpresExecutor;
 import com.arckenver.nations.cmdexecutor.NationworldDisableExecutor;
 import com.arckenver.nations.cmdexecutor.NationworldEnableExecutor;
@@ -96,8 +102,8 @@ public class NationsPlugin
 	private Logger logger;
 
 	@Inject
-	@DefaultConfig(sharedRoot = true)
-	private File defaultConfigFile;
+	@ConfigDir(sharedRoot = true)
+	private File defaultConfigDir;
 
 	private EconomyService economyService = null;
 
@@ -106,7 +112,7 @@ public class NationsPlugin
 	{
 		plugin = this;
 
-		rootDir = new File(defaultConfigFile.getParentFile(), "nations");
+		rootDir = new File(defaultConfigDir, "nations");
 
 		LanguageHandler.init(rootDir);
 		ConfigHandler.init(rootDir);
@@ -144,12 +150,91 @@ public class NationsPlugin
 				.executor(new NationadminSetpresExecutor())
 				.build();
 
+		CommandSpec nationadminForcejoinCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.forcejoin")
+				.arguments(
+						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
+						GenericArguments.optional(new PlayerNameElement(Text.of("player"))))
+				.executor(new NationadminForcejoinExecutor())
+				.build();
+		
+		CommandSpec nationadminForceleaveCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.forceleave")
+				.arguments(GenericArguments.optional(new PlayerNameElement(Text.of("player"))))
+				.executor(new NationadminForceleaveExecutor())
+				.build();
+		
+		CommandSpec nationadminEcoCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.eco")
+				.arguments(
+						GenericArguments.optional(GenericArguments.choices(Text.of("give|take|set"),
+								ImmutableMap.<String, String> builder()
+										.put("give", "give")
+										.put("take", "take")
+										.put("set", "set")
+										.build())),
+						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
+						GenericArguments.optional(GenericArguments.doubleNum(Text.of("amount"))))
+				.executor(new NationadminEcoExecutor())
+				.build();
+		
+		CommandSpec nationadminDeleteCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.delete")
+				.arguments(GenericArguments.optional(new NationNameElement(Text.of("nation"))))
+				.executor(new NationadminDeleteExecutor())
+				.build();
+		
+		CommandSpec nationadminFlagCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.flag")
+				.arguments(
+						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
+						GenericArguments.optional(GenericArguments.choices(Text.of("flag"), ConfigHandler.getNode("nations").getNode("flags")
+								.getChildrenMap()
+								.keySet()
+								.stream()
+								.map(key -> key.toString())
+								.collect(Collectors.toMap(flag -> flag, flag -> flag)))),
+						GenericArguments.optional(GenericArguments.bool(Text.of("bool"))))
+				.executor(new NationadminFlagExecutor())
+				.build();
+		
+		CommandSpec nationadminPermCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.perm")
+				.arguments(
+						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
+						GenericArguments.optional(GenericArguments.choices(Text.of("type"),
+								ImmutableMap.<String, String> builder()
+										.put(Nation.TYPE_OUTSIDER, Nation.TYPE_OUTSIDER)
+										.put(Nation.TYPE_CITIZEN, Nation.TYPE_CITIZEN)
+										.put(Nation.TYPE_COOWNER, Nation.TYPE_COOWNER)
+										.build())),
+						GenericArguments.optional(GenericArguments.choices(Text.of("perm"),
+								ImmutableMap.<String, String> builder()
+										.put(Nation.PERM_BUILD, Nation.PERM_BUILD)
+										.put(Nation.PERM_INTERACT, Nation.PERM_INTERACT)
+										.build())),
+						GenericArguments.optional(GenericArguments.bool(Text.of("bool"))))
+				.executor(new NationadminPermExecutor())
+				.build();
+		
 		CommandSpec nationadminCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nationadmin")
 				.executor(new NationadminExecutor())
 				.child(nationadminSetpresCmd, "setpres", "setpresident")
 				.child(nationadminSetnameCmd, "setname")
+				.child(nationadminForcejoinCmd, "forcejoin")
+				.child(nationadminForceleaveCmd, "forceleave")
+				.child(nationadminEcoCmd, "eco")
+				.child(nationadminDeleteCmd, "delete")
+				.child(nationadminFlagCmd, "flag")
+				.child(nationadminPermCmd, "perm")
 				.build();
 
 		CommandSpec nationInfoCmd = CommandSpec.builder()
