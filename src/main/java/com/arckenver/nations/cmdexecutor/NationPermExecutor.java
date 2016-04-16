@@ -36,7 +36,7 @@ public class NationPermExecutor implements CommandExecutor
 			}
 			String type = ctx.<String>getOne("type").get();
 			String perm = ctx.<String>getOne("perm").get();
-			if (!player.hasPermission("nations.command.perm." + type + "." + perm))
+			if (!player.hasPermission("nations.command.nation.perm." + type + "." + perm))
 			{
 				player.sendMessage(t("You do not have permission to use this command!"));
 				return CommandResult.success();

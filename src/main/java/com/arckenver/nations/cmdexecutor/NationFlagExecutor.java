@@ -35,7 +35,7 @@ public class NationFlagExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			String flag = ctx.<String>getOne("flag").get();
-			if (!player.hasPermission("nations.command.flag." + flag))
+			if (!player.hasPermission("nations.command.nation.flag." + flag))
 			{
 				player.sendMessage(t("You do not have permission to use this command!"));
 				return CommandResult.success();
