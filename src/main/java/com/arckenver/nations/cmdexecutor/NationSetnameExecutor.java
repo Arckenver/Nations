@@ -59,7 +59,7 @@ public class NationSetnameExecutor implements CommandExecutor
 			String oldName = nation.getName();
 			nation.setName(newName);
 			DataHandler.saveNation(nation.getUUID());
-			MessageChannel.TO_ALL.send(Text.of(TextColors.RED, LanguageHandler.FW
+			MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.FW
 					.replaceAll("\\{OLDNAME\\}", oldName)
 					.replaceAll("\\{NEWNAME\\}", newName)));
 		}

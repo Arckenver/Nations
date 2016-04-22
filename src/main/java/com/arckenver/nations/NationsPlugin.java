@@ -58,6 +58,7 @@ import com.arckenver.nations.cmdexecutor.NationadminFlagExecutor;
 import com.arckenver.nations.cmdexecutor.NationadminForcejoinExecutor;
 import com.arckenver.nations.cmdexecutor.NationadminForceleaveExecutor;
 import com.arckenver.nations.cmdexecutor.NationadminPermExecutor;
+import com.arckenver.nations.cmdexecutor.NationadminSetnameExecutor;
 import com.arckenver.nations.cmdexecutor.NationadminSetpresExecutor;
 import com.arckenver.nations.cmdexecutor.NationworldDisableExecutor;
 import com.arckenver.nations.cmdexecutor.NationworldEnableExecutor;
@@ -155,7 +156,7 @@ public class NationsPlugin
 				.arguments(
 						GenericArguments.optional(new NationNameElement(Text.of("oldname"))),
 						GenericArguments.optional(GenericArguments.string(Text.of("newname"))))
-				.executor(new NationadminSetpresExecutor())
+				.executor(new NationadminSetnameExecutor())
 				.build();
 
 		CommandSpec nationadminForcejoinCmd = CommandSpec.builder()
