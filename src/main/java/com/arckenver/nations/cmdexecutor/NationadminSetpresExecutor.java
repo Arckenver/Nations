@@ -32,25 +32,21 @@ public class NationadminSetpresExecutor implements CommandExecutor
 			return CommandResult.success();
 		}
 		String presidentName = ctx.<String>getOne("president").get();
-		UUID presidentUUID = null;
-		if (!presidentName.equalsIgnoreCase("null"))
+		UUID presidentUUID = DataHandler.getPlayerUUID(presidentName);
+		if (presidentUUID == null)
 		{
-			presidentUUID = DataHandler.getPlayerUUID(presidentName);
-			if (presidentUUID == null)
-			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CC));
-				return CommandResult.success();
-			}
-			if (nation.isPresident(presidentUUID))
-			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CQ));
-				return CommandResult.success();
-			}
-			if (!nation.isCitizen(presidentUUID))
-			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CR));
-				return CommandResult.success();
-			}
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CC));
+			return CommandResult.success();
+		}
+		if (nation.isPresident(presidentUUID))
+		{
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CQ));
+			return CommandResult.success();
+		}
+		if (!nation.isCitizen(presidentUUID))
+		{
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CR));
+			return CommandResult.success();
 		}
 		UUID oldPresidentUUID = nation.getPresident();
 		final String oldPresidentName = DataHandler.getPlayerName(oldPresidentUUID);

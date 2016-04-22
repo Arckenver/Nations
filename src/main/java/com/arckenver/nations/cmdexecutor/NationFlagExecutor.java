@@ -43,7 +43,7 @@ public class NationFlagExecutor implements CommandExecutor
 			boolean bool = (ctx.<Boolean>getOne("bool").isPresent()) ? ctx.<Boolean>getOne("bool").get() : !nation.getFlag(flag);
 			nation.setFlag(flag, bool);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Utils.formatNationDescription(nation, true));
+			src.sendMessage(Utils.formatNationDescription(nation, Utils.CLICKER_DEFAULT));
 		}
 		else
 		{

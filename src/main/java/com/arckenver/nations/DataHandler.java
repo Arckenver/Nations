@@ -373,6 +373,20 @@ public class DataHandler
 		return true;
 	}
 	
+	public static boolean canClaim(Rect rect, UUID toExclude)
+	{
+		Optional<World> optWorld = Sponge.getServer().getWorld(rect.getWorld());
+		if (!optWorld.isPresent())
+		{
+			return false;
+		}
+		World world = optWorld.get();
+		return canClaim(world.getLocation(rect.getMaxX(), rect.getMaxY(), 0), toExclude) &&
+				canClaim(world.getLocation(rect.getMaxX(), rect.getMinY(), 0), toExclude) &&
+				canClaim(world.getLocation(rect.getMinX(), rect.getMaxY(), 0), toExclude) &&
+				canClaim(world.getLocation(rect.getMinX(), rect.getMinY(), 0), toExclude);
+	}
+	
 	public static void calculateWorldChunks()
 	{
 		worldChunks = new Hashtable<UUID, Hashtable<Vector2i, ArrayList<Nation>>>();

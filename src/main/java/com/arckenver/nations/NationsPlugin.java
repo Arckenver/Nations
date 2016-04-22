@@ -50,6 +50,7 @@ import com.arckenver.nations.cmdexecutor.NationSetspawnExecutor;
 import com.arckenver.nations.cmdexecutor.NationSpawnExecutor;
 import com.arckenver.nations.cmdexecutor.NationUnclaimExecutor;
 import com.arckenver.nations.cmdexecutor.NationWithdrawExecutor;
+import com.arckenver.nations.cmdexecutor.NationadminCreateExecutor;
 import com.arckenver.nations.cmdexecutor.NationadminDeleteExecutor;
 import com.arckenver.nations.cmdexecutor.NationadminEcoExecutor;
 import com.arckenver.nations.cmdexecutor.NationadminExecutor;
@@ -131,6 +132,13 @@ public class NationsPlugin
 		Sponge.getServiceManager()
 				.getRegistration(EconomyService.class)
 				.ifPresent(prov -> economyService = prov.getProvider());
+
+		CommandSpec nationadminCreateCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.create")
+				.arguments(GenericArguments.optional(GenericArguments.string(Text.of("name"))))
+				.executor(new NationadminCreateExecutor())
+				.build();
 		
 		CommandSpec nationadminSetpresCmd = CommandSpec.builder()
 				.description(Text.of(""))
@@ -227,6 +235,7 @@ public class NationsPlugin
 				.description(Text.of(""))
 				.permission("nations.command.nationadmin")
 				.executor(new NationadminExecutor())
+				.child(nationadminCreateCmd, "create")
 				.child(nationadminSetpresCmd, "setpres", "setpresident")
 				.child(nationadminSetnameCmd, "setname")
 				.child(nationadminForcejoinCmd, "forcejoin")

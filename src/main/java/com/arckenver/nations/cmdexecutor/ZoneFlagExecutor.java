@@ -43,7 +43,7 @@ public class ZoneFlagExecutor implements CommandExecutor
 			boolean bool = (ctx.<Boolean>getOne("bool").isPresent()) ? ctx.<Boolean>getOne("bool").get() : !zone.getFlag(flag);
 			zone.setFlag(flag, bool);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Utils.formatZoneDescription(zone, nation, true));
+			src.sendMessage(Utils.formatZoneDescription(zone, nation, Utils.CLICKER_DEFAULT));
 		}
 		else
 		{

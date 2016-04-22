@@ -54,7 +54,12 @@ public class ZoneInfoExecutor implements CommandExecutor
 					return CommandResult.success();
 				}
 			}
-			src.sendMessage(Utils.formatZoneDescription(zone, nation, true));
+			int clicker = Utils.CLICKER_DEFAULT;
+			if (zone.isOwner(player.getUniqueId()) || zone.isCoowner(player.getUniqueId()) || nation.isStaff(player.getUniqueId()))
+			{
+				clicker = Utils.CLICKER_DEFAULT;
+			}
+			src.sendMessage(Utils.formatZoneDescription(zone, nation, clicker));
 		}
 		else
 		{

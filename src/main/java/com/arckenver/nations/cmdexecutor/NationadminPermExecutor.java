@@ -35,7 +35,7 @@ public class NationadminPermExecutor implements CommandExecutor
 		boolean bool = (ctx.<Boolean>getOne("bool").isPresent()) ? ctx.<Boolean>getOne("bool").get() : !nation.getPerm(type, perm);
 		nation.setPerm(type, perm, bool);
 		DataHandler.saveNation(nation.getUUID());
-		src.sendMessage(Utils.formatNationDescription(nation, false));
+		src.sendMessage(Utils.formatNationDescription(nation, Utils.CLICKER_NONE));
 		return CommandResult.success();
 	}
 }

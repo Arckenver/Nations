@@ -18,7 +18,7 @@ public class NationInfoExecutor implements CommandExecutor
 {
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
-		boolean canClick = false;
+		int clicker = Utils.CLICKER_NONE;
 		Nation nation;
 		if (ctx.<String>getOne("nation").isPresent())
 		{
@@ -31,7 +31,10 @@ public class NationInfoExecutor implements CommandExecutor
 			if (src instanceof Player)
 			{
 				Player player = (Player) src;
-				canClick = nation.isStaff(player.getUniqueId());
+				if (nation.isStaff(player.getUniqueId()))
+				{
+					clicker = Utils.CLICKER_DEFAULT;
+				}
 			}
 		}
 		else
@@ -45,7 +48,10 @@ public class NationInfoExecutor implements CommandExecutor
 					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CG));
 					return CommandResult.success();
 				}
-				canClick = nation.isStaff(player.getUniqueId());
+				if (nation.isStaff(player.getUniqueId()))
+				{
+					clicker = Utils.CLICKER_DEFAULT;
+				}
 			}
 			else
 			{
@@ -53,7 +59,7 @@ public class NationInfoExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 		}
-		src.sendMessage(Utils.formatNationDescription(nation, canClick));
+		src.sendMessage(Utils.formatNationDescription(nation, clicker));
 		return CommandResult.success();
 	}
 }

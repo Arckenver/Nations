@@ -41,7 +41,7 @@ public class NationworldInfoExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 		}
-		src.sendMessage(Utils.formatWorldDescription(worldName, src.hasPermission("nations.command.nationworld.perm")));
+		src.sendMessage(Utils.formatWorldDescription(worldName));
 		return CommandResult.success();
 	}
 }

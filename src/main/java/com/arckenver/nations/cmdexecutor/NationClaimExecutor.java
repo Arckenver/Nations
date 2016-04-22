@@ -61,6 +61,11 @@ public class NationClaimExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EB));
 				return CommandResult.success();
 			}
+			if (!DataHandler.canClaim(rect, nation.getUUID()))
+			{
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EI));
+				return CommandResult.success();
+			}
 			Region claimed = nation.getRegion().copy();
 			claimed.addRect(rect);
 			

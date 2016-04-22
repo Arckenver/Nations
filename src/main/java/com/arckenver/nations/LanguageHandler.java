@@ -323,7 +323,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("EF").setValue("Your selection contains a spawn of your nation");
 		defaultLanguage.getNode("EG").setValue("Your nation don't have enough blocks, you can buy extra ones with /n buyextra");
 		defaultLanguage.getNode("EH").setValue("You successfully claimed this area");
-		defaultLanguage.getNode("EI").setValue("You are too close to another nation here");
+		defaultLanguage.getNode("EI").setValue("Too close to another nation");
 		defaultLanguage.getNode("EJ").setValue("You successfully created an outpost here");
 		defaultLanguage.getNode("EK").setValue("You must leave your nation to perform that command");
 		defaultLanguage.getNode("EL").setValue("That name is already taken");

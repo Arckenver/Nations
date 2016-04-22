@@ -63,7 +63,7 @@ public class NationworldEnableExecutor implements CommandExecutor
 		node.getNode("flags").getNode("explosions").setValue(true);
 		
 		ConfigHandler.save();
-		src.sendMessage(Utils.formatWorldDescription(worldName, true));
+		src.sendMessage(Utils.formatWorldDescription(worldName));
 		return CommandResult.success();
 	}
 }

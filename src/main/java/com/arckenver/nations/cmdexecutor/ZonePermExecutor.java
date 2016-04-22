@@ -44,7 +44,7 @@ public class ZonePermExecutor implements CommandExecutor
 			boolean bool = (ctx.<Boolean>getOne("bool").isPresent()) ? ctx.<Boolean>getOne("bool").get() : !zone.getPerm(type, perm);
 			zone.setPerm(type, perm, bool);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Utils.formatZoneDescription(zone, nation, true));
+			src.sendMessage(Utils.formatZoneDescription(zone, nation, Utils.CLICKER_DEFAULT));
 		}
 		else
 		{

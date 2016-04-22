@@ -55,7 +55,7 @@ public class NationworldDisableExecutor implements CommandExecutor
 		node.removeChild("perms");
 		node.removeChild("flags");
 		ConfigHandler.save();
-		src.sendMessage(Utils.formatWorldDescription(worldName, true));
+		src.sendMessage(Utils.formatWorldDescription(worldName));
 		return CommandResult.success();
 	}
 }

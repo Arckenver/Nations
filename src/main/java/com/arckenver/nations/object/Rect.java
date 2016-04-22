@@ -85,9 +85,19 @@ public class Rect
 		this.maxY = maxY;
 	}
 
+	public int width()
+	{
+		return maxX - minX + 1;
+	}
+	
+	public int height()
+	{
+		return maxY - minY + 1;
+	}
+	
 	public int size()
 	{
-		return (maxX - minX + 1)*(maxY - minY + 1);
+		return width()*height();
 	}
 	
 	public boolean isInside(Vector2i point)

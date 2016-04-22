@@ -26,6 +26,7 @@ public class Nation
 	
 	private UUID uuid;
 	private String name;
+	private boolean isAdmin;
 	private Hashtable<String, Location<World>> spawns;
 	private Region region;
 	private UUID president;
@@ -36,11 +37,17 @@ public class Nation
 	private Hashtable<UUID, Zone> zones;
 	private int extras;
 
-	@SuppressWarnings("serial")
 	public Nation(UUID uuid, String name)
+	{
+		this(uuid, name, false);
+	}
+	
+	@SuppressWarnings("serial")
+	public Nation(UUID uuid, String name, boolean isAdmin)
 	{
 		this.uuid = uuid;
 		this.name = name;
+		this.isAdmin = isAdmin;
 		this.spawns = new Hashtable<String, Location<World>>();
 		this.region = new Region();
 		this.president = null;
@@ -86,6 +93,11 @@ public class Nation
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public boolean isAdmin()
+	{
+		return isAdmin;
 	}
 
 	public Location<World> getSpawn(String name)

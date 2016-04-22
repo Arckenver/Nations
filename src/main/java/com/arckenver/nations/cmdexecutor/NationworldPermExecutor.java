@@ -47,7 +47,7 @@ public class NationworldPermExecutor implements CommandExecutor
 		boolean bool = (ctx.<Boolean>getOne("bool").isPresent()) ? ctx.<Boolean>getOne("bool").get() : !currentVal;
 		ConfigHandler.getNode("worlds").getNode(worldName).getNode("perms").getNode(perm).setValue(bool);
 		ConfigHandler.save();
-		src.sendMessage(Utils.formatWorldDescription(worldName, true));
+		src.sendMessage(Utils.formatWorldDescription(worldName));
 		return CommandResult.success();
 	}
 }
