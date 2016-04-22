@@ -40,14 +40,21 @@ public class LanguageHandler
 	public static String BH;
 	public static String BI;
 	public static String BJ;
+	public static String BL;
+	public static String BM;
 	public static String BN;
 	public static String BO;
+	public static String BP;
+	public static String BQ;
+	public static String BR;
 	public static String BS;
 	public static String BT;
 	public static String BU;
 	public static String BV;
 	public static String BW;
 	public static String BX;
+	public static String BY;
+	public static String BZ;
 	public static String CA;
 	public static String CB;
 	public static String CC;
@@ -263,16 +270,23 @@ public class LanguageHandler
 		defaultLanguage.getNode("BH").setValue("set zone flag");
 		defaultLanguage.getNode("BI").setValue("put zone up for sale");
 		defaultLanguage.getNode("BJ").setValue("buy the zone your standing on");
+
+		defaultLanguage.getNode("BL").setValue("create admin nation");
+		defaultLanguage.getNode("BM").setValue("delete given nation");
+		defaultLanguage.getNode("BN").setValue("set nation's name");
+		defaultLanguage.getNode("BO").setValue("set nation's president");
+		defaultLanguage.getNode("BP").setValue("make player join nation");
+		defaultLanguage.getNode("BQ").setValue("make player leave nation");
+		defaultLanguage.getNode("BR").setValue("manage money");
+		defaultLanguage.getNode("BS").setValue("set nation perm");
+		defaultLanguage.getNode("BT").setValue("set nation flag");
 		
-		defaultLanguage.getNode("BN").setValue("set nation's president");
-		defaultLanguage.getNode("BO").setValue("set nation's name");
-		
-		defaultLanguage.getNode("BS").setValue("get world details");
-		defaultLanguage.getNode("BT").setValue("get the list of all worlds");
-		defaultLanguage.getNode("BU").setValue("enable nations in specified world");
-		defaultLanguage.getNode("BV").setValue("disable nation in specified world");
-		defaultLanguage.getNode("BW").setValue("set world perm");
-		defaultLanguage.getNode("BX").setValue("set world flag");
+		defaultLanguage.getNode("BU").setValue("get world details");
+		defaultLanguage.getNode("BV").setValue("get the list of all worlds");
+		defaultLanguage.getNode("BW").setValue("enable nations in specified world");
+		defaultLanguage.getNode("BX").setValue("disable nation in specified world");
+		defaultLanguage.getNode("BY").setValue("set world perm");
+		defaultLanguage.getNode("BZ").setValue("set world flag");
 
 		defaultLanguage.getNode("CA").setValue("You must be an in-game player to perform that command");
 		defaultLanguage.getNode("CB").setValue("Invalid nation name");
@@ -466,14 +480,21 @@ public class LanguageHandler
 		BH = getOrDefault("BH");
 		BI = getOrDefault("BI");
 		BJ = getOrDefault("BJ");
+		BL = getOrDefault("BL");
+		BM = getOrDefault("BM");
 		BN = getOrDefault("BN");
 		BO = getOrDefault("BO");
+		BP = getOrDefault("BP");
+		BQ = getOrDefault("BQ");
+		BR = getOrDefault("BR");
 		BS = getOrDefault("BS");
 		BT = getOrDefault("BT");
 		BU = getOrDefault("BU");
 		BV = getOrDefault("BV");
 		BW = getOrDefault("BW");
 		BX = getOrDefault("BX");
+		BY = getOrDefault("BY");
+		BZ = getOrDefault("BZ");
 		CA = getOrDefault("CA");
 		CB = getOrDefault("CB");
 		CC = getOrDefault("CC");

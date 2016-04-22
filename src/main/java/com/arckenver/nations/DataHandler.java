@@ -76,11 +76,8 @@ public class DataHandler
 		{
 			UUID uuid = UUID.fromString(e.getKey().toString());
 			String name = e.getValue().getNode("name").getString();
-			Nation nation = new Nation(uuid, name);
-			for (Entry<Object, ? extends CommentedConfigurationNode> en : e.getValue().getNode("spawns").getChildrenMap().entrySet())
-			{
-				nation.addSpawn(en.getKey().toString(), Utils.locFromString(en.getValue().getString()));
-			}
+			boolean isAdmin = e.getValue().getNode("admin").getBoolean();
+			Nation nation = new Nation(uuid, name, isAdmin);
 			
 			Region region = new Region();
 			for (Entry<Object, ? extends CommentedConfigurationNode> en : e.getValue().getNode("region").getChildrenMap().entrySet())
@@ -96,18 +93,6 @@ public class DataHandler
 			}
 			nation.setRegion(region);
 			
-			if (!e.getValue().getNode("president").isVirtual())
-			{
-				nation.setPresident(UUID.fromString(e.getValue().getNode("president").getString()));
-			}
-			for (CommentedConfigurationNode node : e.getValue().getNode("ministers").getChildrenList())
-			{
-				nation.addMinister(UUID.fromString(node.getString()));
-			}
-			for (CommentedConfigurationNode node : e.getValue().getNode("citizens").getChildrenList())
-			{
-				nation.addCitizen(UUID.fromString(node.getString()));
-			}
 			for (Entry<Object, ? extends CommentedConfigurationNode> en : e.getValue().getNode("flags").getChildrenMap().entrySet())
 			{
 				nation.setFlag(en.getKey().toString(), en.getValue().getBoolean());
@@ -119,43 +104,62 @@ public class DataHandler
 					nation.setPerm(en.getKey().toString(), ent.getKey().toString(), ent.getValue().getBoolean());
 				}
 			}
-			nation.setExtras(e.getValue().getNode("extras").getInt());
-			for (Entry<Object, ? extends CommentedConfigurationNode> en : e.getValue().getNode("zones").getChildrenMap().entrySet())
+			if (!isAdmin)
 			{
-				UUID zoneUUID = UUID.fromString(en.getKey().toString());
-				String zoneName = en.getValue().getNode("name").getString();
-				Rect rect = Utils.rectFromString(en.getValue().getNode("rect").getNode("points").getString());
-				rect.setWorld(UUID.fromString(en.getValue().getNode("rect").getNode("world").getString()));
-				Zone zone = new Zone(zoneUUID, zoneName, rect);
-				try
+				for (Entry<Object, ? extends CommentedConfigurationNode> en : e.getValue().getNode("spawns").getChildrenMap().entrySet())
 				{
-					UUID ownerUUID = UUID.fromString(en.getValue().getNode("owner").getString());
-					zone.setOwner(ownerUUID);
+					nation.addSpawn(en.getKey().toString(), Utils.locFromString(en.getValue().getString()));
 				}
-				catch (IllegalArgumentException ex)
+				if (!e.getValue().getNode("president").isVirtual())
 				{
-					zone.setOwner(null);
+					nation.setPresident(UUID.fromString(e.getValue().getNode("president").getString()));
 				}
-				for (CommentedConfigurationNode node : en.getValue().getNode("coowers").getChildrenList())
+				for (CommentedConfigurationNode node : e.getValue().getNode("ministers").getChildrenList())
 				{
-					zone.addCoowner(UUID.fromString(node.getString()));
+					nation.addMinister(UUID.fromString(node.getString()));
 				}
-				for (Entry<Object, ? extends CommentedConfigurationNode> ent : en.getValue().getNode("flags").getChildrenMap().entrySet())
+				for (CommentedConfigurationNode node : e.getValue().getNode("citizens").getChildrenList())
 				{
-					zone.setFlag(ent.getKey().toString(), ent.getValue().getBoolean());
+					nation.addCitizen(UUID.fromString(node.getString()));
 				}
-				for (Entry<Object, ? extends CommentedConfigurationNode> ent : en.getValue().getNode("perms").getChildrenMap().entrySet())
+				nation.setExtras(e.getValue().getNode("extras").getInt());
+				for (Entry<Object, ? extends CommentedConfigurationNode> en : e.getValue().getNode("zones").getChildrenMap().entrySet())
 				{
-					for (Entry<Object, ? extends CommentedConfigurationNode> entr : ent.getValue().getChildrenMap().entrySet())
+					UUID zoneUUID = UUID.fromString(en.getKey().toString());
+					String zoneName = en.getValue().getNode("name").getString();
+					Rect rect = Utils.rectFromString(en.getValue().getNode("rect").getNode("points").getString());
+					rect.setWorld(UUID.fromString(en.getValue().getNode("rect").getNode("world").getString()));
+					Zone zone = new Zone(zoneUUID, zoneName, rect);
+					try
 					{
-						zone.setPerm(ent.getKey().toString(), entr.getKey().toString(), entr.getValue().getBoolean());
+						UUID ownerUUID = UUID.fromString(en.getValue().getNode("owner").getString());
+						zone.setOwner(ownerUUID);
 					}
+					catch (IllegalArgumentException ex)
+					{
+						zone.setOwner(null);
+					}
+					for (CommentedConfigurationNode node : en.getValue().getNode("coowers").getChildrenList())
+					{
+						zone.addCoowner(UUID.fromString(node.getString()));
+					}
+					for (Entry<Object, ? extends CommentedConfigurationNode> ent : en.getValue().getNode("flags").getChildrenMap().entrySet())
+					{
+						zone.setFlag(ent.getKey().toString(), ent.getValue().getBoolean());
+					}
+					for (Entry<Object, ? extends CommentedConfigurationNode> ent : en.getValue().getNode("perms").getChildrenMap().entrySet())
+					{
+						for (Entry<Object, ? extends CommentedConfigurationNode> entr : ent.getValue().getChildrenMap().entrySet())
+						{
+							zone.setPerm(ent.getKey().toString(), entr.getKey().toString(), entr.getValue().getBoolean());
+						}
+					}
+					if (en.getValue().getNode("price").getValue() instanceof Double)
+					{
+						zone.setPrice(BigDecimal.valueOf(en.getValue().getNode("price").getDouble()));
+					}
+					nation.addZone(zone);
 				}
-				if (en.getValue().getNode("price").getValue() instanceof Double)
-				{
-					zone.setPrice(BigDecimal.valueOf(en.getValue().getNode("price").getDouble()));
-				}
-				nation.addZone(zone);
 			}
 			nations.put(nation.getUUID(), nation);
 		}
@@ -534,35 +538,18 @@ public class DataHandler
 			NationsPlugin.getLogger().warn("Trying to save null nation !");
 			return;
 		}
-		
-
-		data.getNode("nations").getNode(key).getNode("name").setValue(nation.getName());
-		for (Entry<String, Location<World>> e : nation.getSpawns().entrySet())
-		{
-			data.getNode("nations").getNode(key).getNode("spawns").getNode(e.getKey()).setValue(Utils.locToString(e.getValue()));
-		}
-		data.getNode("nations").getNode(key).getNode("president").setValue(nation.getPresident().toString());
-		data.getNode("nations").getNode(key).removeChild("ministers");
-		for (UUID minister : nation.getMinisters())
-		{
-			data.getNode("nations").getNode(key).getNode("ministers").getAppendedNode().setValue(minister.toString());
-		}
-		data.getNode("nations").getNode(key).removeChild("citizens");
-		for (UUID citizen : nation.getCitizens())
-		{
-			data.getNode("nations").getNode(key).getNode("citizens").getAppendedNode().setValue(citizen.toString());
-		}
-		data.getNode("nations").getNode(key).removeChild("flags");
+		data.getNode("nations").removeChild(key);
+		CommentedConfigurationNode node = data.getNode("nations").getNode(key);
+		node.getNode("name").setValue(nation.getName());
 		for (Entry<String, Boolean> e : nation.getFlags().entrySet())
 		{
-			data.getNode("nations").getNode(key).getNode("flags").getNode(e.getKey()).setValue(e.getValue());
+			node.getNode("flags").getNode(e.getKey()).setValue(e.getValue());
 		}
-		data.getNode("nations").getNode(key).removeChild("perms");
 		for (Entry<String, Hashtable<String, Boolean>> e : nation.getPerms().entrySet())
 		{
 			for (Entry<String, Boolean> en : e.getValue().entrySet())
 			{
-				data.getNode("nations").getNode(key).getNode("perms").getNode(e.getKey()).getNode(en.getKey()).setValue(en.getValue());
+				node.getNode("perms").getNode(e.getKey()).getNode(en.getKey()).setValue(en.getValue());
 			}
 		}
 		Hashtable<UUID, String> rects = new Hashtable<UUID, String>();
@@ -580,38 +567,54 @@ public class DataHandler
 		}
 		for (UUID world : rects.keySet())
 		{
-			data.getNode("nations").getNode(key).getNode("region").getNode(world.toString()).setValue(rects.get(world));
+			node.getNode("region").getNode(world.toString()).setValue(rects.get(world));
 		}
-		data.getNode("nations").getNode(key).getNode("extras").setValue(nation.getExtras());
-		data.getNode("nations").getNode(key).removeChild("zones");
-		for (Zone zone : nation.getZones().values())
+		node.getNode("admin").setValue(nation.isAdmin());
+		if (!nation.isAdmin())
 		{
-			CommentedConfigurationNode node = data.getNode("nations").getNode(key).getNode("zones").getNode(zone.getUUID().toString());
-			node.getNode("name").setValue(zone.getName());
-			node.getNode("rect").getNode("world").setValue(zone.getRect().getWorld().toString());
-			node.getNode("rect").getNode("points").setValue(Utils.rectToString(zone.getRect()));
-			node.getNode("owner").setValue((zone.getOwner() == null) ? "null" : zone.getOwner().toString());
-			node.removeChild("coowners");
-			for (UUID coowner : zone.getCoowners())
+			for (Entry<String, Location<World>> e : nation.getSpawns().entrySet())
 			{
-				node.getNode("coowners").getAppendedNode().setValue(coowner.toString());
+				node.getNode("spawns").getNode(e.getKey()).setValue(Utils.locToString(e.getValue()));
 			}
-			for (Entry<String, Boolean> e : zone.getFlags().entrySet())
+			node.getNode("president").setValue(nation.getPresident().toString());
+			for (UUID minister : nation.getMinisters())
 			{
-				node.getNode("flags").getNode(e.getKey()).setValue(e.getValue());
+				node.getNode("ministers").getAppendedNode().setValue(minister.toString());
 			}
-			for (Entry<String, Hashtable<String, Boolean>> e : zone.getPerms().entrySet())
+			for (UUID citizen : nation.getCitizens())
 			{
-				for (Entry<String, Boolean> en : e.getValue().entrySet())
+				node.getNode("citizens").getAppendedNode().setValue(citizen.toString());
+			}
+			node.getNode("extras").setValue(nation.getExtras());
+			for (Zone zone : nation.getZones().values())
+			{
+				CommentedConfigurationNode zoneNode = node.getNode("zones").getNode(zone.getUUID().toString());
+				zoneNode.getNode("name").setValue(zone.getName());
+				zoneNode.getNode("rect").getNode("world").setValue(zone.getRect().getWorld().toString());
+				zoneNode.getNode("rect").getNode("points").setValue(Utils.rectToString(zone.getRect()));
+				zoneNode.getNode("owner").setValue((zone.getOwner() == null) ? "null" : zone.getOwner().toString());
+				for (UUID coowner : zone.getCoowners())
 				{
-					node.getNode("perms").getNode(e.getKey()).getNode(en.getKey()).setValue(en.getValue());
+					zoneNode.getNode("coowners").getAppendedNode().setValue(coowner.toString());
+				}
+				for (Entry<String, Boolean> e : zone.getFlags().entrySet())
+				{
+					zoneNode.getNode("flags").getNode(e.getKey()).setValue(e.getValue());
+				}
+				for (Entry<String, Hashtable<String, Boolean>> e : zone.getPerms().entrySet())
+				{
+					for (Entry<String, Boolean> en : e.getValue().entrySet())
+					{
+						zoneNode.getNode("perms").getNode(e.getKey()).getNode(en.getKey()).setValue(en.getValue());
+					}
+				}
+				if (zone.isForSale())
+				{
+					zoneNode.getNode("price").setValue(zone.getPrice());
 				}
 			}
-			if (zone.isForSale())
-			{
-				node.getNode("price").setValue(zone.getPrice());
-			}
 		}
+		
 		save();
 	}
 }

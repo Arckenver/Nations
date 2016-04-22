@@ -32,12 +32,15 @@ public class NationListExecutor implements CommandExecutor
 			while (iter.hasNext())
 			{
 				Nation nation = iter.next();
-				builder
-				.append(Utils.nationClickable(TextColors.YELLOW, nation.getName()))
-				.append(Text.of(TextColors.GOLD, " [" + nation.getNumCitizens() + "]"));
-				if (iter.hasNext())
+				if (!nation.isAdmin())
 				{
-					builder.append(Text.of(TextColors.YELLOW, ", "));
+					builder
+					.append(Utils.nationClickable(TextColors.YELLOW, nation.getName()))
+					.append(Text.of(TextColors.GOLD, " [" + nation.getNumCitizens() + "]"));
+					if (iter.hasNext())
+					{
+						builder.append(Text.of(TextColors.YELLOW, ", "));
+					}
 				}
 			}
 		}

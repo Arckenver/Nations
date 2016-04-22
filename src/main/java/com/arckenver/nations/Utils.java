@@ -81,51 +81,55 @@ public class Utils
 	
 	public static Text formatNationDescription(Nation nation, int clicker)
 	{
-		
-		
-		
-		BigDecimal balance = null;
-		if (NationsPlugin.getEcoService() != null)
-		{
-			Optional<Account> optAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
-			if (optAccount.isPresent())
-			{
-				balance = optAccount.get().getBalance(NationsPlugin.getEcoService().getDefaultCurrency());
-			}
-		}
-		
-		Builder builder = Text.builder("")
-		.append(
+		Builder builder = Text.builder("");
+		builder.append(
 			Text.of(TextColors.GOLD, "----------{ "),
 			Text.of(TextColors.YELLOW, LanguageHandler.IB + " - " + nation.getName()),
-			Text.of(TextColors.GOLD, " }----------\n"),
-			Text.of(TextColors.GOLD, LanguageHandler.ID + ": "),
-			Text.of(TextColors.YELLOW, nation.getRegion().size() + "/" + nation.maxBlockSize()),
-			Text.of(TextColors.GOLD, "\n" + LanguageHandler.IE + ": "),
-			((balance == null) ? Text.of(TextColors.GRAY, LanguageHandler.IQ) : formatPrice(TextColors.YELLOW, balance)),
-			Text.of(TextColors.GOLD, "\n" + LanguageHandler.IG + ": ", TextColors.YELLOW, formatNationSpawns(nation, TextColors.YELLOW)),
-			Text.of(TextColors.GOLD, "\n" + LanguageHandler.IH + ": "),
-			citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident())),
-			Text.of(TextColors.DARK_GRAY, " <- click")
-		);
+			Text.of(TextColors.GOLD, " }----------\n"));
 		
-		builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.II + ": "));
-		structureX(
-				nation.getMinisters().iterator(),
-				builder,
-				(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
-				(b, uuid) -> b.append(citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(uuid))),
-				(b) -> b.append(Text.of(TextColors.YELLOW, ", ")));
-		builder.append(Text.of(TextColors.DARK_GRAY, " <- click"));
+		if (!nation.isAdmin())
+		{
+			BigDecimal balance = null;
+			if (NationsPlugin.getEcoService() != null)
+			{
+				Optional<Account> optAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
+				if (optAccount.isPresent())
+				{
+					balance = optAccount.get().getBalance(NationsPlugin.getEcoService().getDefaultCurrency());
+				}
+			}
+			builder.append(
+					Text.of(TextColors.GOLD, LanguageHandler.ID + ": "),
+					Text.of(TextColors.YELLOW, nation.getRegion().size() + "/" + nation.maxBlockSize()),
+					Text.of(TextColors.GOLD, "\n" + LanguageHandler.IE + ": "),
+					((balance == null) ? Text.of(TextColors.GRAY, LanguageHandler.IQ) : formatPrice(TextColors.YELLOW, balance)),
+					Text.of(TextColors.GOLD, "\n" + LanguageHandler.IG + ": ", TextColors.YELLOW, formatNationSpawns(nation, TextColors.YELLOW)),
+					Text.of(TextColors.GOLD, "\n" + LanguageHandler.IH + ": "),
+					citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident())),
+					Text.of(TextColors.DARK_GRAY, " <- click"));
+			
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.II + ": "));
+			structureX(
+					nation.getMinisters().iterator(),
+					builder,
+					(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
+					(b, uuid) -> b.append(citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(uuid))),
+					(b) -> b.append(Text.of(TextColors.YELLOW, ", ")));
+			builder.append(Text.of(TextColors.DARK_GRAY, " <- click"));
 
-		builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IJ + ": "));
-		structureX(
-				nation.getCitizens().iterator(),
-				builder,
-				(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
-				(b, uuid) -> b.append(citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(uuid))),
-				(b) -> b.append(Text.of(TextColors.YELLOW, ", ")));
-		builder.append(Text.of(TextColors.DARK_GRAY, " <- click"));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IJ + ": "));
+			structureX(
+					nation.getCitizens().iterator(),
+					builder,
+					(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
+					(b, uuid) -> b.append(citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(uuid))),
+					(b) -> b.append(Text.of(TextColors.YELLOW, ", ")));
+			builder.append(Text.of(TextColors.DARK_GRAY, " <- click"));
+		}
+		else
+		{
+			builder.append(Text.of(TextColors.GOLD, "\nAdmin: ", TextColors.GREEN, "true"));
+		}
 		
 		if (clicker == CLICKER_NONE)
 		{
