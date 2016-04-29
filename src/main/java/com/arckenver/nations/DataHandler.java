@@ -2,8 +2,8 @@ package com.arckenver.nations;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,7 +11,6 @@ import java.util.Hashtable;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.spongepowered.api.Sponge;
@@ -22,21 +21,19 @@ import org.spongepowered.api.world.World;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.object.Point;
 import com.arckenver.nations.object.Rect;
-import com.arckenver.nations.object.Region;
 import com.arckenver.nations.object.Request;
 import com.arckenver.nations.object.Zone;
+import com.arckenver.nations.serializer.NationDeserializer;
+import com.arckenver.nations.serializer.NationSerializer;
 import com.flowpowered.math.vector.Vector2i;
 import com.google.common.math.IntMath;
-
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class DataHandler
 {
-	private static File dataFile;
-	private static ConfigurationLoader<CommentedConfigurationNode> dataManager;
-	private static CommentedConfigurationNode data;
+	private static File nationsDir;
+	private static Gson gson;
 	
 	private static Hashtable<UUID, Nation> nations;
 	private static Hashtable<UUID, Hashtable<Vector2i, ArrayList<Nation>>> worldChunks;
@@ -49,119 +46,34 @@ public class DataHandler
 	
 	public static void init(File rootDir)
 	{
-		dataFile = new File(rootDir, "data.conf");
-		dataManager = HoconConfigurationLoader.builder().setPath(dataFile.toPath()).build();
+		nationsDir = new File(rootDir, "nations");
+		gson = (new GsonBuilder())
+				.registerTypeAdapter(Nation.class, new NationSerializer())
+				.registerTypeAdapter(Nation.class, new NationDeserializer())
+				.setPrettyPrinting()
+				.create();
 	}
 	
 	public static void load()
 	{
-		try
-		{
-			if (!dataFile.exists())
-			{
-				dataFile.getParentFile().mkdirs();
-				dataFile.createNewFile();
-			}
-			data = dataManager.load();
-			dataManager.save(data);
-		}
-		catch(IOException e)
-		{
-			NationsPlugin.getLogger().error("Could not load or create data file !");
-			e.printStackTrace();
-		}
-		
+		nationsDir.mkdirs();
 		nations = new Hashtable<UUID, Nation>();
-		for (Entry<Object, ? extends CommentedConfigurationNode> e : data.getNode("nations").getChildrenMap().entrySet())
+		for (File f : nationsDir.listFiles())
 		{
-			UUID uuid = UUID.fromString(e.getKey().toString());
-			String name = e.getValue().getNode("name").getString();
-			boolean isAdmin = e.getValue().getNode("admin").getBoolean();
-			Nation nation = new Nation(uuid, name, isAdmin);
-			
-			Region region = new Region();
-			for (Entry<Object, ? extends CommentedConfigurationNode> en : e.getValue().getNode("region").getChildrenMap().entrySet())
+			if (f.isFile() && f.getName().matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.json"))
 			{
-				UUID world = UUID.fromString(en.getKey().toString());
-				String[] rects = en.getValue().getString().split(Pattern.quote("&"));
-				for (int i = 0; i < rects.length; i++)
+				try
 				{
-					Rect r = Utils.rectFromString(rects[i]);
-					r.setWorld(world);
-					region.addRect(r);
+					String json = new String(Files.readAllBytes(f.toPath()));
+					Nation nation = gson.fromJson(json, Nation.class);
+					nations.put(nation.getUUID(), nation);
+				}
+				catch (IOException e)
+				{
+					NationsPlugin.getLogger().error("Error while loading file " + f.getName());
+					e.printStackTrace();
 				}
 			}
-			nation.setRegion(region);
-			
-			for (Entry<Object, ? extends CommentedConfigurationNode> en : e.getValue().getNode("flags").getChildrenMap().entrySet())
-			{
-				nation.setFlag(en.getKey().toString(), en.getValue().getBoolean());
-			}
-			for (Entry<Object, ? extends CommentedConfigurationNode> en : e.getValue().getNode("perms").getChildrenMap().entrySet())
-			{
-				for (Entry<Object, ? extends CommentedConfigurationNode> ent : en.getValue().getChildrenMap().entrySet())
-				{
-					nation.setPerm(en.getKey().toString(), ent.getKey().toString(), ent.getValue().getBoolean());
-				}
-			}
-			if (!isAdmin)
-			{
-				for (Entry<Object, ? extends CommentedConfigurationNode> en : e.getValue().getNode("spawns").getChildrenMap().entrySet())
-				{
-					nation.addSpawn(en.getKey().toString(), Utils.locFromString(en.getValue().getString()));
-				}
-				if (!e.getValue().getNode("president").isVirtual())
-				{
-					nation.setPresident(UUID.fromString(e.getValue().getNode("president").getString()));
-				}
-				for (CommentedConfigurationNode node : e.getValue().getNode("ministers").getChildrenList())
-				{
-					nation.addMinister(UUID.fromString(node.getString()));
-				}
-				for (CommentedConfigurationNode node : e.getValue().getNode("citizens").getChildrenList())
-				{
-					nation.addCitizen(UUID.fromString(node.getString()));
-				}
-				nation.setExtras(e.getValue().getNode("extras").getInt());
-				for (Entry<Object, ? extends CommentedConfigurationNode> en : e.getValue().getNode("zones").getChildrenMap().entrySet())
-				{
-					UUID zoneUUID = UUID.fromString(en.getKey().toString());
-					String zoneName = en.getValue().getNode("name").getString();
-					Rect rect = Utils.rectFromString(en.getValue().getNode("rect").getNode("points").getString());
-					rect.setWorld(UUID.fromString(en.getValue().getNode("rect").getNode("world").getString()));
-					Zone zone = new Zone(zoneUUID, zoneName, rect);
-					try
-					{
-						UUID ownerUUID = UUID.fromString(en.getValue().getNode("owner").getString());
-						zone.setOwner(ownerUUID);
-					}
-					catch (IllegalArgumentException ex)
-					{
-						zone.setOwner(null);
-					}
-					for (CommentedConfigurationNode node : en.getValue().getNode("coowers").getChildrenList())
-					{
-						zone.addCoowner(UUID.fromString(node.getString()));
-					}
-					for (Entry<Object, ? extends CommentedConfigurationNode> ent : en.getValue().getNode("flags").getChildrenMap().entrySet())
-					{
-						zone.setFlag(ent.getKey().toString(), ent.getValue().getBoolean());
-					}
-					for (Entry<Object, ? extends CommentedConfigurationNode> ent : en.getValue().getNode("perms").getChildrenMap().entrySet())
-					{
-						for (Entry<Object, ? extends CommentedConfigurationNode> entr : ent.getValue().getChildrenMap().entrySet())
-						{
-							zone.setPerm(ent.getKey().toString(), entr.getKey().toString(), entr.getValue().getBoolean());
-						}
-					}
-					if (en.getValue().getNode("price").getValue() instanceof Double)
-					{
-						zone.setPrice(BigDecimal.valueOf(en.getValue().getNode("price").getDouble()));
-					}
-					nation.addZone(zone);
-				}
-			}
-			nations.put(nation.getUUID(), nation);
 		}
 		calculateWorldChunks();
 		lastNationWalkedOn = new HashMap<UUID, Nation>();
@@ -174,14 +86,11 @@ public class DataHandler
 
 	public static void save()
 	{
-		try
+		for (UUID uuid : nations.keySet())
 		{
-			dataManager.save(data);
+			saveNation(uuid);
 		}
-		catch (IOException e)
-		{
-			NationsPlugin.getLogger().error("Could not save data file !");
-		}
+		
 	}
 	
 	// nations
@@ -260,8 +169,8 @@ public class DataHandler
 		calculateWorldChunks();
 		inviteRequests.removeIf(req -> req.getNationUUID().equals(uuid));
 		joinRequests.removeIf(req -> req.getNationUUID().equals(uuid));
-		data.getNode("nations").removeChild(uuid.toString());
-		save();
+		File file = new File(nationsDir, uuid.toString() + ".json");
+		file.delete();
 	}
 	
 	public static Hashtable<UUID, Nation> getNations()
@@ -531,90 +440,25 @@ public class DataHandler
 	
 	public static void saveNation(UUID uuid)
 	{
-		String key = uuid.toString();
 		Nation nation = nations.get(uuid);
 		if (nation == null)
 		{
 			NationsPlugin.getLogger().warn("Trying to save null nation !");
 			return;
 		}
-		data.getNode("nations").removeChild(key);
-		CommentedConfigurationNode node = data.getNode("nations").getNode(key);
-		node.getNode("name").setValue(nation.getName());
-		for (Entry<String, Boolean> e : nation.getFlags().entrySet())
+		File file = new File(nationsDir, uuid.toString() + ".json");
+		try
 		{
-			node.getNode("flags").getNode(e.getKey()).setValue(e.getValue());
+			if (!file.exists())
+			{
+				file.createNewFile();
+			}
+			String json = gson.toJson(nation, Nation.class);
+			Files.write(file.toPath(), json.getBytes());
 		}
-		for (Entry<String, Hashtable<String, Boolean>> e : nation.getPerms().entrySet())
+		catch (IOException e)
 		{
-			for (Entry<String, Boolean> en : e.getValue().entrySet())
-			{
-				node.getNode("perms").getNode(e.getKey()).getNode(en.getKey()).setValue(en.getValue());
-			}
+			NationsPlugin.getLogger().error("Error while saving file " + file.getName() + " for nation " + nation.getName());
 		}
-		Hashtable<UUID, String> rects = new Hashtable<UUID, String>();
-		for (Rect r : nation.getRegion().getRects())
-		{
-			if (rects.containsKey(r.getWorld()))
-			{
-				String str = rects.get(r.getWorld()).concat("&").concat(Utils.rectToString(r));
-				rects.put(r.getWorld(), str);
-			}
-			else
-			{
-				rects.put(r.getWorld(), Utils.rectToString(r));
-			}
-		}
-		for (UUID world : rects.keySet())
-		{
-			node.getNode("region").getNode(world.toString()).setValue(rects.get(world));
-		}
-		node.getNode("admin").setValue(nation.isAdmin());
-		if (!nation.isAdmin())
-		{
-			for (Entry<String, Location<World>> e : nation.getSpawns().entrySet())
-			{
-				node.getNode("spawns").getNode(e.getKey()).setValue(Utils.locToString(e.getValue()));
-			}
-			node.getNode("president").setValue(nation.getPresident().toString());
-			for (UUID minister : nation.getMinisters())
-			{
-				node.getNode("ministers").getAppendedNode().setValue(minister.toString());
-			}
-			for (UUID citizen : nation.getCitizens())
-			{
-				node.getNode("citizens").getAppendedNode().setValue(citizen.toString());
-			}
-			node.getNode("extras").setValue(nation.getExtras());
-			for (Zone zone : nation.getZones().values())
-			{
-				CommentedConfigurationNode zoneNode = node.getNode("zones").getNode(zone.getUUID().toString());
-				zoneNode.getNode("name").setValue(zone.getName());
-				zoneNode.getNode("rect").getNode("world").setValue(zone.getRect().getWorld().toString());
-				zoneNode.getNode("rect").getNode("points").setValue(Utils.rectToString(zone.getRect()));
-				zoneNode.getNode("owner").setValue((zone.getOwner() == null) ? "null" : zone.getOwner().toString());
-				for (UUID coowner : zone.getCoowners())
-				{
-					zoneNode.getNode("coowners").getAppendedNode().setValue(coowner.toString());
-				}
-				for (Entry<String, Boolean> e : zone.getFlags().entrySet())
-				{
-					zoneNode.getNode("flags").getNode(e.getKey()).setValue(e.getValue());
-				}
-				for (Entry<String, Hashtable<String, Boolean>> e : zone.getPerms().entrySet())
-				{
-					for (Entry<String, Boolean> en : e.getValue().entrySet())
-					{
-						zoneNode.getNode("perms").getNode(e.getKey()).getNode(en.getKey()).setValue(en.getValue());
-					}
-				}
-				if (zone.isForSale())
-				{
-					zoneNode.getNode("price").setValue(zone.getPrice());
-				}
-			}
-		}
-		
-		save();
 	}
 }
