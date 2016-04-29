@@ -83,6 +83,7 @@ public class NationClaimOutpostExecutor implements CommandExecutor
 			}
 			
 			nation.getRegion().addRect(new Rect(loc.getExtent().getUniqueId(), loc.getBlockX(), loc.getBlockX(), loc.getBlockZ(), loc.getBlockZ()));
+			DataHandler.saveNation(nation.getUUID());
 			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.EJ));
 		}
 		else
