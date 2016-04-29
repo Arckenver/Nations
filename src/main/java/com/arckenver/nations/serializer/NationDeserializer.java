@@ -46,8 +46,8 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 					rectObj.get("world").getAsString()),
 					rectObj.get("minX").getAsInt(),
 					rectObj.get("maxX").getAsInt(),
-					rectObj.get("minZ").getAsInt(),
-					rectObj.get("maxZ").getAsInt());
+					rectObj.get("minY").getAsInt(),
+					rectObj.get("maxY").getAsInt());
 			region.addRect(rect);
 		}
 		nation.setRegion(region);
@@ -69,7 +69,7 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 				World world = Sponge.getServer().getWorld(UUID.fromString(spawnObj.get("world").getAsString())).get();
 				nation.addSpawn(e.getKey(), world.getLocation(spawnObj.get("x").getAsDouble(), spawnObj.get("y").getAsDouble(), spawnObj.get("z").getAsDouble()));
 			}
-			for (JsonElement e : obj.get("rects").getAsJsonArray())
+			for (JsonElement e : obj.get("zones").getAsJsonArray())
 			{
 				JsonObject zoneObj = e.getAsJsonObject();
 				UUID zoneUUID = UUID.fromString(zoneObj.get("uuid").getAsString());
