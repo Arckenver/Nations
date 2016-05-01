@@ -20,9 +20,9 @@ public class NationadminClaimExecutor implements CommandExecutor
 {
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
-		if (!ctx.<String>getOne("nation").isPresent() || !ctx.<String>getOne("flag").isPresent() || !ctx.<String>getOne("bool").isPresent())
+		if (!ctx.<String>getOne("nation").isPresent())
 		{
-			src.sendMessage(Text.of(TextColors.YELLOW, "/na flag <nation> <flag> <true|false>"));
+			src.sendMessage(Text.of(TextColors.YELLOW, "/na claim <nation>"));
 			return CommandResult.success();
 		}
 		if (src instanceof Player)

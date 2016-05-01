@@ -37,9 +37,9 @@ public class NationInviteExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
 				return CommandResult.success();
 			}
-			if (!nation.isPresident(hostPlayer.getUniqueId()))
+			if (!nation.isStaff(hostPlayer.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CJ));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
 				return CommandResult.success();
 			}
 			Player guestPlayer = ctx.<Player>getOne("player").get();
