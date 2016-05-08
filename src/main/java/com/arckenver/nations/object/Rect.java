@@ -215,11 +215,14 @@ public class Rect
 				result.add(new Rect(world, rect.getMinX(), maxX, rect.getMaxY() + 1, maxY));
 				result.add(new Rect(world, minX, rect.getMinX() - 1, minY, maxY));
 			}
-				
 		}
 		else if (points.size() == 0)
 		{
-			if (rect.getMinX() > minX && rect.getMaxX() < maxX)
+			if (!intersects(rect))
+			{
+				result.add(new Rect(world, minX, maxX, minY, maxY));
+			}
+			else if (rect.getMinX() > minX && rect.getMaxX() < maxX && (!(rect.getMaxY() >= minY || maxY >= rect.getMinY())))
 			{
 				result.add(new Rect(world, minX, rect.getMinX() - 1, minY, maxY));
 				result.add(new Rect(world, rect.getMaxX() + 1, maxX, minY, maxY));
@@ -232,10 +235,10 @@ public class Rect
 				}
 				else
 				{
-					result.add(new Rect(world, minX, maxX, minY, rect.getMinY() - 1));
+					result.add(new Rect(world, rect.getMinX(), rect.getMaxX(), minY, rect.getMinY() - 1));
 					if (rect.getMaxY() < maxY)
 					{
-						result.add(new Rect(world, minX, maxX, rect.getMaxY() + 1, maxY));
+						result.add(new Rect(world, rect.getMinX(), rect.getMaxX(), rect.getMaxY() + 1, maxY));
 					}
 				}
 			}
@@ -252,16 +255,12 @@ public class Rect
 				}
 				else
 				{
-					result.add(new Rect(world, minX, rect.getMinX() - 1, minY, maxY));
+					result.add(new Rect(world, minX, rect.getMinX() - 1, rect.getMinY(), rect.getMaxY()));
 					if (rect.getMaxY() < maxY)
 					{
-						result.add(new Rect(world, rect.getMaxX() + 1, maxX, minY, maxY));
+						result.add(new Rect(world, rect.getMaxX() + 1, maxX, rect.getMinY(), rect.getMaxY()));
 					}
 				}
-			}
-			else
-			{
-				result.add(new Rect(world, minX, maxX, minY, maxY));
 			}
 		}
 		return result;
