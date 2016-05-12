@@ -98,7 +98,7 @@ public class NationSerializer implements JsonSerializer<Nation>
 			for (Zone zone : nation.getZones().values())
 			{
 				JsonObject zoneObj = new JsonObject();
-
+				
 				zoneObj.add("uuid", new JsonPrimitive(zone.getUUID().toString()));
 				zoneObj.add("name", new JsonPrimitive(zone.getName()));
 				
@@ -139,11 +139,11 @@ public class NationSerializer implements JsonSerializer<Nation>
 					}
 					zonePerms.add(e.getKey(), obj);
 				}
-				json.add("perms", zonePerms);
+				zoneObj.add("perms", zonePerms);
 				
 				if (zone.isForSale())
 				{
-					json.add("price", new JsonPrimitive(zone.getPrice()));
+					zoneObj.add("price", new JsonPrimitive(zone.getPrice()));
 				}
 				
 				zonesArray.add(zoneObj);

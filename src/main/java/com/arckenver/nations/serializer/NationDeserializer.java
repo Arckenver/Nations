@@ -39,11 +39,11 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 			}
 		}
 		Region region = new Region();
-		for (Entry<String, JsonElement> e : obj.get("rects").getAsJsonObject().entrySet())
+		for (JsonElement e : obj.get("rects").getAsJsonArray())
 		{
-			JsonObject rectObj = e.getValue().getAsJsonObject();
-			Rect rect = new Rect(UUID.fromString(
-					rectObj.get("world").getAsString()),
+			JsonObject rectObj = e.getAsJsonObject();
+			Rect rect = new Rect(
+					UUID.fromString(rectObj.get("world").getAsString()),
 					rectObj.get("minX").getAsInt(),
 					rectObj.get("maxX").getAsInt(),
 					rectObj.get("minY").getAsInt(),

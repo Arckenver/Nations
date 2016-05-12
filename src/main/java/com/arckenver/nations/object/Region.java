@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import com.arckenver.nations.NationsPlugin;
 import com.flowpowered.math.vector.Vector2i;
 
 public class Region
@@ -120,6 +121,10 @@ public class Region
 				newCut.addAll(re.cutBy(r));
 			}
 			cut = newCut;
+		}
+		for (Rect r : cut)
+		{
+			NationsPlugin.getLogger().info(r.getMinX() + ";" + r.getMaxX() + ";" + r.getMinY() + ";" + r.getMaxY());
 		}
 		return cut.isEmpty();
 	}

@@ -75,7 +75,7 @@ public class NationDepositExecutor implements CommandExecutor
 			
 			String[] s1 = LanguageHandler.EU.split("\\{AMOUNT\\}");
 			Builder builder = Text.builder();
-			if (s1[0].indexOf("\\{BALANCE\\}") >= 0)
+			if (s1[0].indexOf("{BALANCE}") >= 0)
 			{
 				builder
 				.append(Text.of(TextColors.GREEN, s1[0].split("\\{BALANCE\\}")[0]))
@@ -83,7 +83,7 @@ public class NationDepositExecutor implements CommandExecutor
 				.append(Text.of(TextColors.GREEN, s1[0].split("\\{BALANCE\\}")[1]));
 			}
 			builder.append(Utils.formatPrice(TextColors.GREEN, amount));
-			if (s1[1].indexOf("\\{BALANCE\\}") >= 0)
+			if (s1[1].indexOf("{BALANCE}") >= 0)
 			{
 				builder
 				.append(Text.of(TextColors.GREEN, s1[1].split("\\{BALANCE\\}")[0]))
