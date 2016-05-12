@@ -19,6 +19,7 @@ public class MobSpawningListener
 			.add(EntityTypes.CREEPER)
 			.add(EntityTypes.ENDER_DRAGON)
 			.add(EntityTypes.ENDERMAN)
+			.add(EntityTypes.ENDERMITE)
 			.add(EntityTypes.GHAST)
 			.add(EntityTypes.GIANT)
 			.add(EntityTypes.GUARDIAN)
@@ -28,8 +29,10 @@ public class MobSpawningListener
 			.add(EntityTypes.SILVERFISH)
 			.add(EntityTypes.SLIME)
 			.add(EntityTypes.SPIDER)
-			.add(EntityTypes.ZOMBIE)
+			.add(EntityTypes.WITCH)
 			.add(EntityTypes.WITHER)
+			.add(EntityTypes.WITHER_SKULL)
+			.add(EntityTypes.ZOMBIE)
 			.build();
 	
 	@Listener

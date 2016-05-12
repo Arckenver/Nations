@@ -15,7 +15,7 @@ public class WorldNameElement extends PatternMatchingCommandElement
 	}
 	
 	@Override
-	protected Iterable<String> getChoices(CommandSource source)
+	protected Iterable<String> getChoices(CommandSource src)
 	{
 		return Sponge.getServer()
 				.getWorlds()

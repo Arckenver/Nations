@@ -27,6 +27,7 @@ import com.arckenver.nations.cmdelement.CitizenNameElement;
 import com.arckenver.nations.cmdelement.NationNameElement;
 import com.arckenver.nations.cmdelement.PlayerNameElement;
 import com.arckenver.nations.cmdelement.WorldNameElement;
+import com.arckenver.nations.cmdelement.ZoneNameElement;
 import com.arckenver.nations.cmdexecutor.nation.NationBuyextraExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationCitizenExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationClaimExecutor;
@@ -70,6 +71,7 @@ import com.arckenver.nations.cmdexecutor.nationworld.NationworldPermExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneBuyExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneCoownerExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneCreateExecutor;
+import com.arckenver.nations.cmdexecutor.zone.ZoneDeleteExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneDelownerExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneFlagExecutor;
@@ -476,6 +478,13 @@ public class NationsPlugin
 				.executor(new ZoneCreateExecutor())
 				.build();
 
+		CommandSpec zoneDeleteCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.zone.delete")
+				.arguments(GenericArguments.optional(new ZoneNameElement(Text.of("zone"))))
+				.executor(new ZoneDeleteExecutor())
+				.build();
+
 		CommandSpec zoneCoownerCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.zone.coowner")
@@ -557,6 +566,7 @@ public class NationsPlugin
 				.child(zoneInfoCmd, "info")
 				.child(zoneListCmd, "list")
 				.child(zoneCreateCmd, "create", "add")
+				.child(zoneDeleteCmd, "delete", "remove")
 				.child(zoneCoownerCmd, "coowner")
 				.child(zoneSetownerCmd, "setowner")
 				.child(zoneDelownerCmd, "delowner")

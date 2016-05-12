@@ -184,6 +184,7 @@ public class LanguageHandler
 	public static String HJ;
 	public static String HK;
 	public static String HL;
+	public static String HM;
 	public static String IA;
 	public static String IB;
 	public static String IC;
@@ -419,6 +420,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("HJ").setValue("Player is not part of a nation");
 		defaultLanguage.getNode("HK").setValue("Player is president of his nation, use /na setpres");
 		defaultLanguage.getNode("HL").setValue("Success !");
+		defaultLanguage.getNode("HM").setValue("You've successfully deleted zone {ZONE} in your nation");
 
 		defaultLanguage.getNode("IA").setValue("Wilderness");
 		defaultLanguage.getNode("IB").setValue("Nation");
@@ -624,6 +626,7 @@ public class LanguageHandler
 		HJ = getOrDefault("HJ");
 		HK = getOrDefault("HK");
 		HL = getOrDefault("HL");
+		HM = getOrDefault("HM");
 		IA = getOrDefault("IA");
 		IB = getOrDefault("IB");
 		IC = getOrDefault("IC");

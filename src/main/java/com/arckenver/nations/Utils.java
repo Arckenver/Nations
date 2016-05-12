@@ -32,8 +32,8 @@ import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 public class Utils
 {
 	public static final int CLICKER_NONE = 0;
-	public static final int CLICKER_DEFAULT = 0;
-	public static final int CLICKER_ADMIN = 0;
+	public static final int CLICKER_DEFAULT = 1;
+	public static final int CLICKER_ADMIN = 2;
 	
 	// serialization
 	

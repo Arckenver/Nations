@@ -50,6 +50,7 @@ public class ConfigHandler
 		Utils.ensurePositiveNumber(config.getNode("prices").getNode("unclaimRefundPercentage"), 0);
 		Utils.ensurePositiveNumber(config.getNode("prices").getNode("extraPrice"), 0.5);
 		Utils.ensurePositiveNumber(config.getNode("prices").getNode("blockClaimPrice"), 0.3);
+		Utils.ensurePositiveNumber(config.getNode("prices").getNode("outpostCreationPrice"), 1000);
 		
 		Utils.ensurePositiveNumber(config.getNode("others").getNode("blocksPerCitizen"), 1000);
 		Utils.ensurePositiveNumber(config.getNode("others").getNode("blocksPerSpawn"), 3500);

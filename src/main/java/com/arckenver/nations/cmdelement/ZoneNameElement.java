@@ -11,9 +11,9 @@ import org.spongepowered.api.text.Text;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.object.Nation;
 
-public class CitizenNameElement extends PatternMatchingCommandElement
+public class ZoneNameElement extends PatternMatchingCommandElement
 {
-	public CitizenNameElement(Text key)
+	public ZoneNameElement(Text key)
 	{
 		super(key);
 	}
@@ -31,11 +31,7 @@ public class CitizenNameElement extends PatternMatchingCommandElement
 		{
 			return Collections.emptyList();
 		}
-		return nation
-				.getCitizens()
-				.stream()
-				.map(uuid -> DataHandler.getPlayerName(uuid))
-				.collect(Collectors.toList());
+		return nation.getZones().values().stream().map(z -> z.getName()).collect(Collectors.toList());
 	}
 
 	@Override
