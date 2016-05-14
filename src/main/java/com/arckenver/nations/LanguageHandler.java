@@ -40,6 +40,7 @@ public class LanguageHandler
 	public static String BH;
 	public static String BI;
 	public static String BJ;
+	public static String BK;
 	public static String BL;
 	public static String BM;
 	public static String BN;
@@ -185,6 +186,9 @@ public class LanguageHandler
 	public static String HK;
 	public static String HL;
 	public static String HM;
+	public static String HN;
+	public static String HO;
+	public static String HP;
 	public static String IA;
 	public static String IB;
 	public static String IC;
@@ -271,6 +275,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("BH").setValue("set zone flag");
 		defaultLanguage.getNode("BI").setValue("put zone up for sale");
 		defaultLanguage.getNode("BJ").setValue("buy the zone your standing on");
+		defaultLanguage.getNode("BK").setValue("delete specified zone (or standing on)");
 
 		defaultLanguage.getNode("BL").setValue("create admin nation");
 		defaultLanguage.getNode("BM").setValue("delete given nation");
@@ -350,7 +355,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("ER").setValue("Click to delete spawn {SPAWNLIST} ");
 		defaultLanguage.getNode("ES").setValue("Your nation doen't have any spawn with that name");
 		defaultLanguage.getNode("ET").setValue("Successfully removed nation spawn");
-		defaultLanguage.getNode("EU").setValue("You successfully gave {AMOUNT} to your nation that has now {BALANCE}");
+		defaultLanguage.getNode("EU").setValue("You've successfully given {AMOUNT} to your nation that has now {BALANCE}");
 		defaultLanguage.getNode("EV").setValue("You are not standing on any nation's region");
 		defaultLanguage.getNode("EW").setValue("That player is already in your nation");
 		defaultLanguage.getNode("EX").setValue("Your nation already invited this citizen");
@@ -421,6 +426,9 @@ public class LanguageHandler
 		defaultLanguage.getNode("HK").setValue("Player is president of his nation, use /na setpres");
 		defaultLanguage.getNode("HL").setValue("Success !");
 		defaultLanguage.getNode("HM").setValue("You've successfully deleted zone {ZONE} in your nation");
+		defaultLanguage.getNode("HN").setValue("Taxes editing is disabled");
+		defaultLanguage.getNode("HO").setValue("Taxes can't be higher than {AMOUNT}");
+		defaultLanguage.getNode("HP").setValue("You successfully changed your nation's taxes");
 
 		defaultLanguage.getNode("IA").setValue("Wilderness");
 		defaultLanguage.getNode("IB").setValue("Nation");
@@ -482,6 +490,7 @@ public class LanguageHandler
 		BH = getOrDefault("BH");
 		BI = getOrDefault("BI");
 		BJ = getOrDefault("BJ");
+		BK = getOrDefault("BK");
 		BL = getOrDefault("BL");
 		BM = getOrDefault("BM");
 		BN = getOrDefault("BN");
@@ -627,6 +636,9 @@ public class LanguageHandler
 		HK = getOrDefault("HK");
 		HL = getOrDefault("HL");
 		HM = getOrDefault("HM");
+		HN = getOrDefault("HN");
+		HO = getOrDefault("HO");
+		HP = getOrDefault("HP");
 		IA = getOrDefault("IA");
 		IB = getOrDefault("IB");
 		IC = getOrDefault("IC");

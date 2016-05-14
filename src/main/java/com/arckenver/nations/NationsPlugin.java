@@ -49,6 +49,7 @@ import com.arckenver.nations.cmdexecutor.nation.NationPermExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationResignExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationSetspawnExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationSpawnExecutor;
+import com.arckenver.nations.cmdexecutor.nation.NationTaxesExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationUnclaimExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationWithdrawExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminCreateExecutor;
@@ -383,6 +384,13 @@ public class NationsPlugin
 				.executor(new NationBuyextraExecutor())
 				.build();
 
+		CommandSpec nationTaxesCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.taxes")
+				.arguments(GenericArguments.optional(GenericArguments.integer(Text.of("amount"))))
+				.executor(new NationTaxesExecutor())
+				.build();
+
 		CommandSpec nationMinisterCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nation.minister")
@@ -450,6 +458,7 @@ public class NationsPlugin
 				.child(nationSetspawnCmd, "setspawn")
 				.child(nationDelspawnCmd, "delspawn")
 				.child(nationBuyextraCmd, "buyextra")
+				.child(nationTaxesCmd, "taxes")
 				.child(nationMinisterCmd, "minister")
 				.child(nationPermCmd, "perm")
 				.child(nationFlagCmd, "flag")

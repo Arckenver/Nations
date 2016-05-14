@@ -36,6 +36,7 @@ public class Nation
 	private Hashtable<String, Boolean> flags;
 	private Hashtable<UUID, Zone> zones;
 	private int extras;
+	private double taxes;
 
 	public Nation(UUID uuid, String name)
 	{
@@ -73,6 +74,7 @@ public class Nation
 		}};
 		this.zones = new Hashtable<UUID, Zone>();
 		this.extras = 0;
+		this.taxes = 0;
 	}
 
 	public UUID getUUID()
@@ -98,6 +100,16 @@ public class Nation
 	public boolean isAdmin()
 	{
 		return isAdmin;
+	}
+
+	public double getTaxes()
+	{
+		return taxes;
+	}
+
+	public void setTaxes(double taxes)
+	{
+		this.taxes = taxes;
 	}
 
 	public Location<World> getSpawn(String name)

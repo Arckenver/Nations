@@ -78,7 +78,8 @@ public class NationSerializer implements JsonSerializer<Nation>
 				citizensArray.add(new JsonPrimitive(citizen.toString()));
 			}
 			json.add("citizens", citizensArray);
-			
+
+			json.add("taxes", new JsonPrimitive(nation.getTaxes()));
 			json.add("extras", new JsonPrimitive(nation.getExtras()));
 			
 			JsonObject spawns = new JsonObject();

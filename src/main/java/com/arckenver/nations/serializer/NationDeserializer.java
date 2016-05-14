@@ -62,6 +62,7 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 			{
 				nation.addCitizen(UUID.fromString(element.getAsString()));
 			}
+			nation.setTaxes(obj.get("taxes").getAsDouble());
 			nation.addExtras(obj.get("extras").getAsInt());
 			for (Entry<String, JsonElement> e : obj.get("spawns").getAsJsonObject().entrySet())
 			{

@@ -169,27 +169,25 @@ public class Rect
 		else if (points.size() == 2)
 		{
 			Rect r = new Rect(world, minX, maxX, minY, maxY);
-			if (points.get(0).getX() == points.get(1).getX())
+			int x0 = points.get(0).getX();
+			int y0 = points.get(0).getY();
+			int x1 = points.get(1).getX();
+			int y1 = points.get(1).getY();
+			if (x0 == minX && x1 == minX && ((y0 == minY && y1 == maxY) || (y0 == maxY && y1 == minY)))
 			{
-				if (points.get(0).getX() <= rect.getMaxX())
-				{
-					r.setMinX(rect.getMaxX() + 1);
-				}
-				else
-				{
-					r.setMaxX(rect.getMinX() - 1);
-				}
+				r.setMinX(rect.getMaxX() + 1);
 			}
-			else
+			else if (x0 == maxX && x1 == maxX && ((y0 == minY && y1 == maxY) || (y0 == maxY && y1 == minY)))
 			{
-				if (points.get(0).getY() <= rect.getMaxY())
-				{
-					r.setMinY(rect.getMaxY() + 1);
-				}
-				else
-				{
-					r.setMaxY(rect.getMinY() - 1);
-				}
+				r.setMaxX(rect.getMinX() - 1);
+			}
+			else if (y0 == minY && y1 == minY && ((x0 == minX && x1 == maxX) || (x0 == maxX && x1 == minX)))
+			{
+				r.setMinY(rect.getMaxY() + 1);
+			}
+			else if (y0 == maxY && y1 == maxY && ((x0 == minX && x1 == maxX) || (x0 == maxX && x1 == minX)))
+			{
+				r.setMaxY(rect.getMinY() - 1);
 			}
 			result.add(r);
 		}

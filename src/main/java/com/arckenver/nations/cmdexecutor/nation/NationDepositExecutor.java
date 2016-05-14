@@ -77,18 +77,28 @@ public class NationDepositExecutor implements CommandExecutor
 			Builder builder = Text.builder();
 			if (s1[0].indexOf("{BALANCE}") >= 0)
 			{
+				String[] splited0 = s1[0].split("\\{BALANCE\\}");
 				builder
-				.append(Text.of(TextColors.GREEN, s1[0].split("\\{BALANCE\\}")[0]))
+				.append(Text.of(TextColors.GREEN, (splited0.length > 0) ? splited0[0] : ""))
 				.append(Utils.formatPrice(TextColors.GREEN, optNationAccount.get().getBalance(NationsPlugin.getEcoService().getDefaultCurrency())))
-				.append(Text.of(TextColors.GREEN, s1[0].split("\\{BALANCE\\}")[1]));
+				.append(Text.of(TextColors.GREEN, (splited0.length > 1) ? splited0[1] : ""));
+			}
+			else
+			{
+				builder.append(Text.of(TextColors.GREEN, s1[0]));
 			}
 			builder.append(Utils.formatPrice(TextColors.GREEN, amount));
 			if (s1[1].indexOf("{BALANCE}") >= 0)
 			{
+				String[] splited1 = s1[1].split("\\{BALANCE\\}");
 				builder
-				.append(Text.of(TextColors.GREEN, s1[1].split("\\{BALANCE\\}")[0]))
+				.append(Text.of(TextColors.GREEN, (splited1.length > 0) ? splited1[0] : ""))
 				.append(Utils.formatPrice(TextColors.GREEN, optNationAccount.get().getBalance(NationsPlugin.getEcoService().getDefaultCurrency())))
-				.append(Text.of(TextColors.GREEN, s1[1].split("\\{BALANCE\\}")[1]));
+				.append(Text.of(TextColors.GREEN, (splited1.length > 1) ? splited1[1] : ""));
+			}
+			else
+			{
+				builder.append(Text.of(TextColors.GREEN, s1[1]));
 			}
 			src.sendMessage(builder.build());
 		}

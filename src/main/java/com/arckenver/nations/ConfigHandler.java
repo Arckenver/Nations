@@ -58,6 +58,12 @@ public class ConfigHandler
 		Utils.ensurePositiveNumber(config.getNode("others").getNode("maxExtra"), 5000);
 		Utils.ensurePositiveNumber(config.getNode("others").getNode("minNationNameLength"), 3);
 		Utils.ensurePositiveNumber(config.getNode("others").getNode("maxNationNameLength"), 13);
+		Utils.ensurePositiveNumber(config.getNode("others").getNode("minZoneNameLength"), 3);
+		Utils.ensurePositiveNumber(config.getNode("others").getNode("maxZoneNameLength"), 13);
+
+		Utils.ensureBoolean(config.getNode("nations").getNode("canEditTaxes"), true);
+		Utils.ensurePositiveNumber(config.getNode("nations").getNode("defaultTaxes"), 50);
+		Utils.ensurePositiveNumber(config.getNode("nations").getNode("maxTaxes"), 100);
 		
 		Utils.ensureBoolean(config.getNode("nations").getNode("flags").getNode("pvp"), false);
 		Utils.ensureBoolean(config.getNode("nations").getNode("flags").getNode("mobs"), false);
