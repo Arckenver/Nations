@@ -74,7 +74,7 @@ public class Nation
 		}};
 		this.zones = new Hashtable<UUID, Zone>();
 		this.extras = 0;
-		this.taxes = 0;
+		this.taxes = ConfigHandler.getNode("nations").getNode("defaultTaxes").getDouble();
 	}
 
 	public UUID getUUID()
@@ -110,6 +110,11 @@ public class Nation
 	public void setTaxes(double taxes)
 	{
 		this.taxes = taxes;
+	}
+
+	public double getUpkeep()
+	{
+		return ConfigHandler.getNode("prices").getNode("upkeepPerCitizen").getDouble() * citizens.size();
 	}
 
 	public Location<World> getSpawn(String name)

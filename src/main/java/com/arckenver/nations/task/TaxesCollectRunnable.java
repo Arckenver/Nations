@@ -11,7 +11,6 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.NationsPlugin;
@@ -35,7 +34,7 @@ public class TaxesCollectRunnable implements Runnable
 				NationsPlugin.getLogger().error("Nation " + nation.getName() + " doesn't have an account on the economy plugin of this server");
 				continue;
 			}
-			BigDecimal upkeep = BigDecimal.valueOf(ConfigHandler.getNode("prices").getNode("upkeepPerCitizen").getDouble() * nation.getNumCitizens());
+			BigDecimal upkeep = BigDecimal.valueOf(nation.getUpkeep());
 			TransactionResult result = optAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), upkeep, NationsPlugin.getCause());
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{

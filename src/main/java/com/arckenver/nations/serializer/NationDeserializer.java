@@ -62,7 +62,8 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 			{
 				nation.addCitizen(UUID.fromString(element.getAsString()));
 			}
-			nation.setTaxes(obj.get("taxes").getAsDouble());
+			if (obj.has("taxes"))
+				nation.setTaxes(obj.get("taxes").getAsDouble());
 			nation.addExtras(obj.get("extras").getAsInt());
 			for (Entry<String, JsonElement> e : obj.get("spawns").getAsJsonObject().entrySet())
 			{
@@ -94,13 +95,13 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 				}
 				for (Entry<String, JsonElement> en : zoneObj.get("flags").getAsJsonObject().entrySet())
 				{
-					nation.setFlag(en.getKey(), en.getValue().getAsBoolean());
+					zone.setFlag(en.getKey(), en.getValue().getAsBoolean());
 				}
 				for (Entry<String, JsonElement> en : zoneObj.get("perms").getAsJsonObject().entrySet())
 				{
 					for (Entry<String, JsonElement> ent : en.getValue().getAsJsonObject().entrySet())
 					{
-						nation.setPerm(en.getKey(), ent.getKey(), ent.getValue().getAsBoolean());
+						zone.setPerm(en.getKey(), ent.getKey(), ent.getValue().getAsBoolean());
 					}
 				}
 				if (zoneObj.has("price"))

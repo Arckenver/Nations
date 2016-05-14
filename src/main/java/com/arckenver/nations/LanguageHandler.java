@@ -210,6 +210,8 @@ public class LanguageHandler
 	public static String IS;
 	public static String IT;
 	public static String IU;
+	public static String IV;
+	public static String IW;
 	public static String JA;
 	public static String JB;
 	public static String JC;
@@ -451,6 +453,8 @@ public class LanguageHandler
 		defaultLanguage.getNode("IS").setValue("Player");
 		defaultLanguage.getNode("IT").setValue("ENABLED");
 		defaultLanguage.getNode("IU").setValue("DISABLED");
+		defaultLanguage.getNode("IV").setValue("Taxes");
+		defaultLanguage.getNode("IW").setValue("Upkeep");
 		
 		defaultLanguage.getNode("JA").setValue("click here");
 		defaultLanguage.getNode("JB").setValue("Nation List");
@@ -660,6 +664,8 @@ public class LanguageHandler
 		IS = getOrDefault("IS");
 		IT = getOrDefault("IT");
 		IU = getOrDefault("IU");
+		IV = getOrDefault("IV");
+		IW = getOrDefault("IW");
 		JA = getOrDefault("JA");
 		JB = getOrDefault("JB");
 		JC = getOrDefault("JC");
