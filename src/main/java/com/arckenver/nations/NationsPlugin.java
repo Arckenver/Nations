@@ -96,7 +96,7 @@ import com.arckenver.nations.task.TaxesCollectRunnable;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 
-@Plugin(id = "com.arckenver.nations", name = "Nations", version = "0.6", description = "A towny-like worldguard-like zone managment plugin.")
+@Plugin(id = "com.arckenver.nations", name = "Nations", version = "0.7", description = "A towny-like worldguard-like zone managment plugin.")
 public class NationsPlugin
 {
 	private File rootDir;
