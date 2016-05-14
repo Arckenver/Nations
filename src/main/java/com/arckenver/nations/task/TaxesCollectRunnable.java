@@ -2,9 +2,12 @@ package com.arckenver.nations.task;
 
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.service.economy.account.Account;
+import org.spongepowered.api.service.economy.account.UniqueAccount;
 import org.spongepowered.api.service.economy.transaction.ResultType;
 import org.spongepowered.api.service.economy.transaction.TransactionResult;
 import org.spongepowered.api.text.Text;
@@ -34,6 +37,35 @@ public class TaxesCollectRunnable implements Runnable
 				NationsPlugin.getLogger().error("Nation " + nation.getName() + " doesn't have an account on the economy plugin of this server");
 				continue;
 			}
+			// nation taxes
+			BigDecimal taxes = BigDecimal.valueOf(nation.getTaxes());
+			for (UUID uuid : nation.getCitizens())
+			{
+				if (!nation.isStaff(uuid))
+				{
+					Optional<UniqueAccount> optCitizenAccount = NationsPlugin.getEcoService().getOrCreateAccount(uuid);
+					TransactionResult result = optCitizenAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), taxes, NationsPlugin.getCause());
+					if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
+					{
+						nation.removeCitizen(uuid);
+						Sponge.getServer().getPlayer(uuid).ifPresent(p ->
+									p.sendMessage(Text.of(TextColors.RED, LanguageHandler.HQ)));
+					}
+					else if (result.getResult() != ResultType.SUCCESS)
+					{
+						NationsPlugin.getLogger().error("Error while taking taxes from player " + uuid.toString() + " for nation " + nation.getName());
+					}
+					else
+					{
+						 TransactionResult res = optAccount.get().deposit(NationsPlugin.getEcoService().getDefaultCurrency(), taxes, NationsPlugin.getCause());
+						 if (res.getResult() != ResultType.SUCCESS)
+						 {
+							 NationsPlugin.getLogger().error("Error while depositing taxes withdrawn from player " + uuid.toString() + " in nation " + nation.getName());
+						 }
+					}
+				}
+			}
+			// nation upkeep
 			BigDecimal upkeep = BigDecimal.valueOf(nation.getUpkeep());
 			TransactionResult result = optAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), upkeep, NationsPlugin.getCause());
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
@@ -44,7 +76,7 @@ public class TaxesCollectRunnable implements Runnable
 			}
 			else if (result.getResult() != ResultType.SUCCESS)
 			{
-				NationsPlugin.getLogger().error("An error has occured while taking taxes from nation " + nation.getName());
+				NationsPlugin.getLogger().error("Error while taking upkeep from nation " + nation.getName());
 			}
 		}
 		

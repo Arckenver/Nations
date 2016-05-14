@@ -189,6 +189,7 @@ public class LanguageHandler
 	public static String HN;
 	public static String HO;
 	public static String HP;
+	public static String HQ;
 	public static String IA;
 	public static String IB;
 	public static String IC;
@@ -431,6 +432,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("HN").setValue("Taxes editing is disabled");
 		defaultLanguage.getNode("HO").setValue("Taxes can't be higher than {AMOUNT}");
 		defaultLanguage.getNode("HP").setValue("You successfully changed your nation's taxes");
+		defaultLanguage.getNode("HQ").setValue("You've been kicked out of your nation because you didn't have enough money to pay for the taxes");
 
 		defaultLanguage.getNode("IA").setValue("Wilderness");
 		defaultLanguage.getNode("IB").setValue("Nation");
@@ -643,6 +645,7 @@ public class LanguageHandler
 		HN = getOrDefault("HN");
 		HO = getOrDefault("HO");
 		HP = getOrDefault("HP");
+		HQ = getOrDefault("HQ");
 		IA = getOrDefault("IA");
 		IB = getOrDefault("IB");
 		IC = getOrDefault("IC");
