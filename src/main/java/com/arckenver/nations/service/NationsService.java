@@ -3,6 +3,9 @@ package com.arckenver.nations.service;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
+
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.object.Nation;
 
@@ -16,6 +19,21 @@ public class NationsService
 			return Optional.empty();
 		}
 		return Optional.of(nation.getName());
+	}
+	
+	public Optional<String> getNationNameAtLocation(Location<World> loc)
+	{
+		Nation nation = DataHandler.getNation(loc);
+		if (nation == null)
+		{
+			return Optional.empty();
+		}
+		return Optional.of(nation.getName());
+	}
+	
+	public boolean hasNation(UUID uuid)
+	{
+		return DataHandler.getNationOfPlayer(uuid) != null;
 	}
 	
 	public boolean isPresident(UUID uuid)
