@@ -2,8 +2,7 @@ package com.arckenver.nations.listener;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.entity.DisplaceEntityEvent;
-import org.spongepowered.api.event.filter.cause.First;
+import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
@@ -19,8 +18,13 @@ import com.arckenver.nations.object.Zone;
 public class PlayerMoveListener
 {
 	@Listener
-	public void onPlayerMove(DisplaceEntityEvent.TargetPlayer event, @First Player player)
+	public void onPlayerMove(MoveEntityEvent event)
 	{
+		if (!(event.getTargetEntity() instanceof Player))
+		{
+			return;
+		}
+		Player player = (Player) event.getTargetEntity();
 		if (event.getFromTransform().getLocation().getBlockX() == event.getToTransform().getLocation().getBlockX() && 
 	            event.getFromTransform().getLocation().getBlockZ() == event.getToTransform().getLocation().getBlockZ())
 	    {
