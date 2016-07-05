@@ -1,6 +1,7 @@
 package com.arckenver.nations.task;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -24,6 +25,7 @@ public class TaxesCollectRunnable implements Runnable
 	public void run()
 	{
 		MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.CL));
+		ArrayList<UUID> nationsToRemove = new ArrayList<UUID>();
 		for (Nation nation : DataHandler.getNations().values())
 		{
 			if (NationsPlugin.getEcoService() == null)
@@ -70,15 +72,18 @@ public class TaxesCollectRunnable implements Runnable
 			TransactionResult result = optAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), upkeep, NationsPlugin.getCause());
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{
-				String nationName = nation.getName();
-				DataHandler.removeNation(nation.getUUID());
-				MessageChannel.TO_ALL.send(Text.of(TextColors.RED, LanguageHandler.CM.replaceAll(Pattern.quote("\\{NATION\\}"), nationName)));
+				nationsToRemove.add(nation.getUUID());
 			}
 			else if (result.getResult() != ResultType.SUCCESS)
 			{
 				NationsPlugin.getLogger().error("Error while taking upkeep from nation " + nation.getName());
 			}
 		}
-		
+		for (UUID uuid : nationsToRemove)
+		{
+			String name = DataHandler.getNation(uuid).getName();
+			DataHandler.removeNation(uuid);
+			MessageChannel.TO_ALL.send(Text.of(TextColors.RED, LanguageHandler.CM.replaceAll(Pattern.quote("\\{NATION\\}"), name)));
+		}
 	}
 }
