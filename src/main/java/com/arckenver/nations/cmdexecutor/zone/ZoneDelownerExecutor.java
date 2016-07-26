@@ -38,6 +38,7 @@ public class ZoneDelownerExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GV));
 				return CommandResult.success();
 			}
+			zone.resetCoowners();
 			zone.setOwner(null);
 			DataHandler.saveNation(nation.getUUID());
 			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.GW.replaceAll("\\{ZONE\\}", zone.getName())));

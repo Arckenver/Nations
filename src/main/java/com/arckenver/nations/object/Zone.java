@@ -106,6 +106,11 @@ public class Zone
 		this.coowners.remove(coowner);
 	}
 
+	public void resetCoowners()
+	{
+		this.coowners = new ArrayList<UUID>();
+	}
+
 	public boolean isCoowner(UUID uuid)
 	{
 		return coowners.contains(uuid);
