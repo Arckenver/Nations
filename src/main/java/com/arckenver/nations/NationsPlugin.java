@@ -387,7 +387,7 @@ public class NationsPlugin
 		CommandSpec nationTaxesCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nation.taxes")
-				.arguments(GenericArguments.optional(GenericArguments.integer(Text.of("amount"))))
+				.arguments(GenericArguments.optional(GenericArguments.doubleNum(Text.of("amount"))))
 				.executor(new NationTaxesExecutor())
 				.build();
 
