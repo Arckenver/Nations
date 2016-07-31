@@ -213,9 +213,13 @@ public class LanguageHandler
 	public static String IU;
 	public static String IV;
 	public static String IW;
+	public static String IX;
+	public static String IY;
 	public static String JA;
 	public static String JB;
 	public static String JC;
+	public static String JD;
+	public static String JE;
 	public static String KA;
 	public static String KB;
 	
@@ -459,10 +463,14 @@ public class LanguageHandler
 		defaultLanguage.getNode("IU").setValue("DISABLED");
 		defaultLanguage.getNode("IV").setValue("Taxes");
 		defaultLanguage.getNode("IW").setValue("Upkeep");
+		defaultLanguage.getNode("IX").setValue("click");
+		defaultLanguage.getNode("IY").setValue("Admin");
 		
 		defaultLanguage.getNode("JA").setValue("click here");
 		defaultLanguage.getNode("JB").setValue("Nation List");
 		defaultLanguage.getNode("JC").setValue("World List");
+		defaultLanguage.getNode("JD").setValue("BUILD");
+		defaultLanguage.getNode("JE").setValue("INTERACT");
 
 		defaultLanguage.getNode("KA").setValue("First position set to {COORD}");
 		defaultLanguage.getNode("KB").setValue("Second position set to {COORD}");
@@ -674,9 +682,13 @@ public class LanguageHandler
 		IU = getOrDefault("IU");
 		IV = getOrDefault("IV");
 		IW = getOrDefault("IW");
+		IX = getOrDefault("IX");
+		IY = getOrDefault("IY");
 		JA = getOrDefault("JA");
 		JB = getOrDefault("JB");
 		JC = getOrDefault("JC");
+		JD = getOrDefault("JD");
+		JE = getOrDefault("JE");
 		KA = getOrDefault("KA");
 		KB = getOrDefault("KB");
 		
