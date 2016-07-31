@@ -56,7 +56,7 @@ public class NationCreateExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EL));
 				return CommandResult.success();
 			}
-			if (!nationName.matches("[a-zA-Z0-9]*"))
+			if (!nationName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]*"))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EM));
 				return CommandResult.success();

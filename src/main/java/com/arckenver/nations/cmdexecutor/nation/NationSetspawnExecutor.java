@@ -47,7 +47,7 @@ public class NationSetspawnExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			if (nation.getNumSpawns() + 1 > nation.maxSpawns())
-			if (!spawnName.matches("[a-zA-Z0-9]{1,30}"))
+			if (!spawnName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]{1,30}"))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.FY
 						.replaceAll("\\{MIN\\}", ConfigHandler.getNode("others").getNode("minZoneNameLength").getString())
