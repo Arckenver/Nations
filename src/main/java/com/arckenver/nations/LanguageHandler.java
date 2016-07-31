@@ -216,6 +216,8 @@ public class LanguageHandler
 	public static String JA;
 	public static String JB;
 	public static String JC;
+	public static String KA;
+	public static String KB;
 	
 	private static File languageFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> languageManager;
@@ -461,6 +463,9 @@ public class LanguageHandler
 		defaultLanguage.getNode("JA").setValue("click here");
 		defaultLanguage.getNode("JB").setValue("Nation List");
 		defaultLanguage.getNode("JC").setValue("World List");
+
+		defaultLanguage.getNode("KA").setValue("First position set to {COORD}");
+		defaultLanguage.getNode("KB").setValue("Second position set to {COORD}");
 	}
 	
 	public static void load()
@@ -672,6 +677,8 @@ public class LanguageHandler
 		JA = getOrDefault("JA");
 		JB = getOrDefault("JB");
 		JC = getOrDefault("JC");
+		KA = getOrDefault("KA");
+		KB = getOrDefault("KB");
 		
 		save();
 	}

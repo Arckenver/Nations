@@ -14,6 +14,7 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.arckenver.nations.DataHandler;
+import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.object.Point;
 import com.arckenver.nations.object.Rect;
 
@@ -43,10 +44,9 @@ public class GoldenAxeListener
 				firstPoint = null;
 				DataHandler.setFirstPoint(player.getUniqueId(), firstPoint);
 			}
-			player.sendMessage(Text.of(
-					TextColors.AQUA,
-					"Second position set to (" + secondPoint.getX() + " " + secondPoint.getY() + ")" +
-					((firstPoint != null) ? " (" + new Rect(firstPoint, secondPoint).size() + ")" : "")));
+			
+			String coord = secondPoint.getX() + " " + secondPoint.getY() + ")" + ((firstPoint != null) ? " (" + new Rect(firstPoint, secondPoint).size() + ")" : "");
+			player.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.KB.replaceAll("\\{COORD\\}", coord)));
 		}
 	}
 	
@@ -74,10 +74,9 @@ public class GoldenAxeListener
 				secondPoint = null;
 				DataHandler.setFirstPoint(player.getUniqueId(), secondPoint);
 			}
-			player.sendMessage(Text.of(
-					TextColors.AQUA,
-					"First position set to (" + firstPoint.getX() + " " + firstPoint.getY() + ")" +
-					((secondPoint != null) ? " (" + new Rect(firstPoint, secondPoint).size() + ")" : "")));
+			
+			String coord = secondPoint.getX() + " " + secondPoint.getY() + ")" + ((firstPoint != null) ? " (" + new Rect(firstPoint, secondPoint).size() + ")" : "");
+			player.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.KA.replaceAll("\\{COORD\\}", coord)));
 		}
 	}
 }
