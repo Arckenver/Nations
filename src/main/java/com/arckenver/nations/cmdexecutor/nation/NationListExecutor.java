@@ -32,7 +32,7 @@ public class NationListExecutor implements CommandExecutor
 			while (iter.hasNext())
 			{
 				Nation nation = iter.next();
-				if (!nation.isAdmin())
+				if (!nation.isAdmin() || src.hasPermission("nations.admin.nation.listall"))
 				{
 					builder
 					.append(Utils.nationClickable(TextColors.YELLOW, nation.getName()))
