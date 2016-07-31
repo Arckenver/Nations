@@ -27,7 +27,6 @@ public class AccountOwnerElement extends PatternMatchingCommandElement
 	@Override
 	protected Iterable<String> getChoices(CommandSource src)
 	{
-
 		ArrayList<String> list = new ArrayList<String>();
 		for (Nation nation : DataHandler.getNations().values())
 		{

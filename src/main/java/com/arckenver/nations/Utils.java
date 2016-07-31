@@ -432,9 +432,7 @@ public class Utils
 	
 	public static Text formatPrice(TextColor color, BigDecimal amount)
 	{
-		return Text.of(
-				color, NationsPlugin.getEcoService().getDefaultCurrency().format(amount),
-				color, NationsPlugin.getEcoService().getDefaultCurrency().getSymbol());
+		return Text.of(color, NationsPlugin.getEcoService().getDefaultCurrency().format(amount));
 	}
 
 	public static Text formatNationSpawns(Nation nation, TextColor color)
