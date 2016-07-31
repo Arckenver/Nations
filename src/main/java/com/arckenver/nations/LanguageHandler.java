@@ -30,6 +30,7 @@ public class LanguageHandler
 	public static String AS;
 	public static String AT;
 	public static String AU;
+	public static String AV;
 	public static String BA;
 	public static String BB;
 	public static String BC;
@@ -275,6 +276,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("AS").setValue("delete spawn with the given name");
 		defaultLanguage.getNode("AT").setValue("buy extra claimable blocks");
 		defaultLanguage.getNode("AU").setValue("get player details");
+		defaultLanguage.getNode("AV").setValue("set nation taxes");
 		
 		defaultLanguage.getNode("BA").setValue("get zone details");
 		defaultLanguage.getNode("BB").setValue("get details of the zone your standing on");
@@ -503,6 +505,7 @@ public class LanguageHandler
 		AS = getOrDefault("AS");
 		AT = getOrDefault("AT");
 		AU = getOrDefault("AU");
+		AV = getOrDefault("AV");
 		BA = getOrDefault("BA");
 		BB = getOrDefault("BB");
 		BC = getOrDefault("BC");
