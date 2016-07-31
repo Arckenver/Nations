@@ -2,7 +2,6 @@ package com.arckenver.nations.listener;
 
 import java.util.Optional;
 
-import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.InteractBlockEvent;
@@ -23,7 +22,7 @@ public class GoldenAxeListener
 	@Listener
 	public void onPlayerRightClick(InteractBlockEvent.Secondary event, @First Player player)
 	{
-		Optional<ItemStack> optItem = player.getItemInHand(HandTypes.MAIN_HAND);
+		Optional<ItemStack> optItem = player.getItemInHand();
 		if (!optItem.isPresent())
 		{
 			return;
@@ -54,7 +53,7 @@ public class GoldenAxeListener
 	@Listener
 	public void onPlayerLeftClick(InteractBlockEvent.Primary event, @First Player player)
 	{
-		Optional<ItemStack> optItem = player.getItemInHand(HandTypes.MAIN_HAND);
+		Optional<ItemStack> optItem = player.getItemInHand();
 		if (!optItem.isPresent())
 		{
 			return;
