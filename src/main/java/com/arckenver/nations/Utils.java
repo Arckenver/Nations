@@ -132,7 +132,7 @@ public class Utils
 		}
 		else
 		{
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IY + ": ", TextColors.GREEN, "true"));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IY + ": ", TextColors.GREEN, LanguageHandler.JG));
 		}
 		
 		if (clicker == CLICKER_NONE)

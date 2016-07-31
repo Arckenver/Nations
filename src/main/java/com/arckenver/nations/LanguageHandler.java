@@ -220,6 +220,8 @@ public class LanguageHandler
 	public static String JC;
 	public static String JD;
 	public static String JE;
+	public static String JG;
+	public static String JH;
 	public static String KA;
 	public static String KB;
 	
@@ -471,6 +473,8 @@ public class LanguageHandler
 		defaultLanguage.getNode("JC").setValue("World List");
 		defaultLanguage.getNode("JD").setValue("BUILD");
 		defaultLanguage.getNode("JE").setValue("INTERACT");
+		defaultLanguage.getNode("JG").setValue("true");
+		defaultLanguage.getNode("JH").setValue("false");
 
 		defaultLanguage.getNode("KA").setValue("First position set to {COORD}");
 		defaultLanguage.getNode("KB").setValue("Second position set to {COORD}");
@@ -689,6 +693,8 @@ public class LanguageHandler
 		JC = getOrDefault("JC");
 		JD = getOrDefault("JD");
 		JE = getOrDefault("JE");
+		JG = getOrDefault("JG");
+		JH = getOrDefault("JH");
 		KA = getOrDefault("KA");
 		KB = getOrDefault("KB");
 		
