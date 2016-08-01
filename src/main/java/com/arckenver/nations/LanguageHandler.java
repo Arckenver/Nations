@@ -31,6 +31,7 @@ public class LanguageHandler
 	public static String AT;
 	public static String AU;
 	public static String AV;
+	public static String AZ;
 	public static String BA;
 	public static String BB;
 	public static String BC;
@@ -81,6 +82,8 @@ public class LanguageHandler
 	public static String CV;
 	public static String CW;
 	public static String CX;
+	public static String CY;
+	public static String CZ;
 	public static String DA;
 	public static String DB;
 	public static String DC;
@@ -290,6 +293,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("BJ").setValue("buy the zone your standing on");
 		defaultLanguage.getNode("BK").setValue("delete specified zone (or standing on)");
 
+		defaultLanguage.getNode("AZ").setValue("reloads config file");
 		defaultLanguage.getNode("BL").setValue("create admin nation");
 		defaultLanguage.getNode("BM").setValue("delete given nation");
 		defaultLanguage.getNode("BN").setValue("set nation's name");
@@ -331,6 +335,8 @@ public class LanguageHandler
 		defaultLanguage.getNode("CV").setValue("Nations plugin is already enabled for this world");
 		defaultLanguage.getNode("CW").setValue("Nations plugin is already disabled for this world");
 		defaultLanguage.getNode("CX").setValue("Invalid operation, use \"give\", \"take\" or \"set\"");
+		defaultLanguage.getNode("CY").setValue("Could not load or create config file");
+		defaultLanguage.getNode("CZ").setValue("Config file has been reloaded");
 
 		defaultLanguage.getNode("DA").setValue("Price must be a positive or null value");
 		defaultLanguage.getNode("DB").setValue("Your nation can't buy more than {NUM} extra blocks");
@@ -506,6 +512,7 @@ public class LanguageHandler
 		AT = getOrDefault("AT");
 		AU = getOrDefault("AU");
 		AV = getOrDefault("AV");
+		AZ = getOrDefault("AZ");
 		BA = getOrDefault("BA");
 		BB = getOrDefault("BB");
 		BC = getOrDefault("BC");
@@ -556,6 +563,8 @@ public class LanguageHandler
 		CV = getOrDefault("CV");
 		CW = getOrDefault("CW");
 		CX = getOrDefault("CX");
+		CY = getOrDefault("CY");
+		CZ = getOrDefault("CZ");
 		DA = getOrDefault("DA");
 		DB = getOrDefault("DB");
 		DC = getOrDefault("DC");

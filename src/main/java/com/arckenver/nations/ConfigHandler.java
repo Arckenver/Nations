@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.World;
 
 import com.arckenver.nations.object.Nation;
@@ -26,6 +29,11 @@ public class ConfigHandler
 	
 	public static void load()
 	{
+		load(null);
+	}
+	
+	public static void load(CommandSource src)
+	{
 		// load file
 		try
 		{
@@ -40,8 +48,12 @@ public class ConfigHandler
 		}
 		catch (IOException e)
 		{
-			NationsPlugin.getLogger().error("Could not load or create config file !");
+			NationsPlugin.getLogger().error(LanguageHandler.CY);
 			e.printStackTrace();
+			if (src != null)
+			{
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CY));
+			}
 		}
 		
 		// check integrity
@@ -104,6 +116,10 @@ public class ConfigHandler
 			}
 		}
 		save();
+		if (src != null)
+		{
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.CZ));
+		}
 	}
 
 	public static void save()

@@ -19,6 +19,7 @@ public class NationadminExecutor implements CommandExecutor
 				TextColors.GOLD, ((src instanceof Player) ? "" : "\n") + "--------{ ",
 				TextColors.YELLOW, "/nationadmin",
 				TextColors.GOLD, " }--------",
+				TextColors.GOLD, "\n/na reload", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AZ,
 				TextColors.GOLD, "\n/na create <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BL,
 				TextColors.GOLD, "\n/na delete <nation>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BM,
 				TextColors.GOLD, "\n/na setname <nation> <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BN,
