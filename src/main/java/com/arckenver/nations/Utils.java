@@ -488,7 +488,7 @@ public class Utils
 		return Text.builder(name).color(color).onClick(TextActions.runCommand("/nw info " + name)).build();
 	}
 	
-	/// structure X
+	// structure X
 	
 	public static <T, U> T structureX(Iterator<U> iter, T obj, Consumer<T> ifNot, BiConsumer<T, U> forEach, Consumer<T> separator)
 	{
