@@ -55,7 +55,7 @@ public class Nation
 		this.ministers = new ArrayList<UUID>();
 		this.citizens = new ArrayList<UUID>();
 		this.flags = new Hashtable<String, Boolean>();
-		for (Entry<Object, ? extends CommentedConfigurationNode> e : ConfigHandler.getNode("nations").getNode("flags").getChildrenMap().entrySet())
+		for (Entry<Object, ? extends CommentedConfigurationNode> e : ConfigHandler.getNode("nations", "flags").getChildrenMap().entrySet())
 		{
 			flags.put(e.getKey().toString(), e.getValue().getBoolean());
 		}
@@ -63,18 +63,18 @@ public class Nation
 		{{
 			put(TYPE_OUTSIDER, new Hashtable<String, Boolean>()
 			{{
-				put(PERM_BUILD, ConfigHandler.getNode("nations").getNode("perms").getNode(TYPE_OUTSIDER).getNode(PERM_BUILD).getBoolean());
-				put(PERM_INTERACT, ConfigHandler.getNode("nations").getNode("perms").getNode(TYPE_OUTSIDER).getNode(PERM_INTERACT).getBoolean());
+				put(PERM_BUILD, ConfigHandler.getNode("nations", "perms").getNode(TYPE_OUTSIDER).getNode(PERM_BUILD).getBoolean());
+				put(PERM_INTERACT, ConfigHandler.getNode("nations", "perms").getNode(TYPE_OUTSIDER).getNode(PERM_INTERACT).getBoolean());
 			}});
 			put(TYPE_CITIZEN, new Hashtable<String, Boolean>()
 			{{
-				put(PERM_BUILD, ConfigHandler.getNode("nations").getNode("perms").getNode(TYPE_CITIZEN).getNode(PERM_BUILD).getBoolean());
-				put(PERM_INTERACT, ConfigHandler.getNode("nations").getNode("perms").getNode(TYPE_CITIZEN).getNode(PERM_INTERACT).getBoolean());
+				put(PERM_BUILD, ConfigHandler.getNode("nations", "perms").getNode(TYPE_CITIZEN).getNode(PERM_BUILD).getBoolean());
+				put(PERM_INTERACT, ConfigHandler.getNode("nations", "perms").getNode(TYPE_CITIZEN).getNode(PERM_INTERACT).getBoolean());
 			}});
 		}};
 		this.zones = new Hashtable<UUID, Zone>();
 		this.extras = 0;
-		this.taxes = ConfigHandler.getNode("nations").getNode("defaultTaxes").getDouble();
+		this.taxes = ConfigHandler.getNode("nations", "defaultTaxes").getDouble();
 	}
 
 	public UUID getUUID()
@@ -114,7 +114,7 @@ public class Nation
 
 	public double getUpkeep()
 	{
-		return ConfigHandler.getNode("prices").getNode("upkeepPerCitizen").getDouble() * citizens.size();
+		return ConfigHandler.getNode("prices", "upkeepPerCitizen").getDouble() * citizens.size();
 	}
 
 	public Location<World> getSpawn(String name)
@@ -144,7 +144,7 @@ public class Nation
 	
 	public int maxSpawns()
 	{
-		return 1 + IntMath.divide(region.size(), ConfigHandler.getNode("others").getNode("blocksPerSpawn").getInt(), RoundingMode.FLOOR);
+		return 1 + IntMath.divide(region.size(), ConfigHandler.getNode("others", "blocksPerSpawn").getInt(), RoundingMode.FLOOR);
 	}
 
 	public Region getRegion()
@@ -331,6 +331,6 @@ public class Nation
 
 	public int maxBlockSize()
 	{
-		return extras + citizens.size() * ConfigHandler.getNode("others").getNode("blocksPerCitizen").getInt();
+		return extras + citizens.size() * ConfigHandler.getNode("others", "blocksPerCitizen").getInt();
 	}
 }

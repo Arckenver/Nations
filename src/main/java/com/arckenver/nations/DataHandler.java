@@ -278,7 +278,7 @@ public class DataHandler
 	{
 		for (Nation nation : nations.values())
 		{
-			if (!nation.getUUID().equals(toExclude) && nation.getRegion().distance2(loc) < Math.pow(ConfigHandler.getNode("others").getNode("minNationDistance").getInt(), 2))
+			if (!nation.getUUID().equals(toExclude) && nation.getRegion().distance2(loc) < Math.pow(ConfigHandler.getNode("others", "minNationDistance").getInt(), 2))
 			{
 				return false;
 			}

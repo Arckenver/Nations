@@ -57,10 +57,10 @@ public class NationworldEnableExecutor implements CommandExecutor
 		node.getNode("perms").getNode(Nation.PERM_BUILD).setValue(true);
 		node.getNode("perms").getNode(Nation.PERM_INTERACT).setValue(true);
 		
-		node.getNode("flags").getNode("pvp").setValue(true);
-		node.getNode("flags").getNode("mobs").setValue(true);
-		node.getNode("flags").getNode("fire").setValue(true);
-		node.getNode("flags").getNode("explosions").setValue(true);
+		node.getNode("flags", "pvp").setValue(true);
+		node.getNode("flags", "mobs").setValue(true);
+		node.getNode("flags", "fire").setValue(true);
+		node.getNode("flags", "explosions").setValue(true);
 		
 		ConfigHandler.save();
 		src.sendMessage(Utils.formatWorldDescription(worldName));

@@ -66,7 +66,7 @@ public class NationClaimOutpostExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DD));
 				return CommandResult.success();
 			}
-			BigDecimal price = BigDecimal.valueOf(ConfigHandler.getNode("prices").getNode("outpostCreationPrice").getDouble());
+			BigDecimal price = BigDecimal.valueOf(ConfigHandler.getNode("prices", "outpostCreationPrice").getDouble());
 			TransactionResult result = optAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), price, NationsPlugin.getCause());
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{

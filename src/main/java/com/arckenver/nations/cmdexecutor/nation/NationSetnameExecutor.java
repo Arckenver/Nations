@@ -49,11 +49,11 @@ public class NationSetnameExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EM));
 				return CommandResult.success();
 			}
-			if (newName.length() < ConfigHandler.getNode("others").getNode("minNationNameLength").getInt() || newName.length() > ConfigHandler.getNode("others").getNode("maxNationNameLength").getInt())
+			if (newName.length() < ConfigHandler.getNode("others", "minNationNameLength").getInt() || newName.length() > ConfigHandler.getNode("others", "maxNationNameLength").getInt())
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EN
-						.replaceAll("\\{MIN\\}", ConfigHandler.getNode("others").getNode("minNationNameLength").getString())
-						.replaceAll("\\{MAX\\}", ConfigHandler.getNode("others").getNode("maxNationNameLength").getString())));
+						.replaceAll("\\{MIN\\}", ConfigHandler.getNode("others", "minNationNameLength").getString())
+						.replaceAll("\\{MAX\\}", ConfigHandler.getNode("others", "maxNationNameLength").getString())));
 				return CommandResult.success();
 			}
 			String oldName = nation.getName();

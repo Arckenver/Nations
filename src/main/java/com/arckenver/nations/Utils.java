@@ -405,12 +405,12 @@ public class Utils
 		
 		builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IK + ": "));
 		
-		boolean canBuild = ConfigHandler.getNode("worlds").getNode(name).getNode("perms").getNode("build").getBoolean();
+		boolean canBuild = ConfigHandler.getNode("worlds").getNode(name).getNode("perms", "build").getBoolean();
 		builder.append(Text.builder(LanguageHandler.JD).color((canBuild) ? TextColors.GREEN : TextColors.RED).onClick(TextActions.runCommand("/nw perm " + Nation.PERM_BUILD)).build());
 		
 		builder.append(Text.of(TextColors.GOLD, "/"));
 		
-		boolean canInteract = ConfigHandler.getNode("worlds").getNode(name).getNode("perms").getNode("interact").getBoolean();
+		boolean canInteract = ConfigHandler.getNode("worlds").getNode(name).getNode("perms", "interact").getBoolean();
 		builder.append(Text.builder(LanguageHandler.JE).color((canInteract) ? TextColors.GREEN : TextColors.RED).onClick(TextActions.runCommand("/nw perm " + Nation.PERM_INTERACT)).build());
 		
 		builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));

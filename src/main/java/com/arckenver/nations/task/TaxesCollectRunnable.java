@@ -15,6 +15,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.format.TextColors;
 
+import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.NationsPlugin;
@@ -24,6 +25,10 @@ public class TaxesCollectRunnable implements Runnable
 {
 	public void run()
 	{
+		if (ConfigHandler.getNode("prices").getNode("upkeepPerCitizen").getDouble() == 0 && DataHandler.getNations().values().stream().allMatch(n -> n.getTaxes() == 0))
+		{
+			return;
+		}
 		MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.CL));
 		ArrayList<UUID> nationsToRemove = new ArrayList<UUID>();
 		for (Nation nation : DataHandler.getNations().values())

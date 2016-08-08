@@ -46,7 +46,7 @@ public class NationBuyextraExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			int n = ctx.<Integer>getOne("amount").get();
-			int maxToBuy = ConfigHandler.getNode("others").getNode("maxExtra").getInt() - nation.getExtras();
+			int maxToBuy = ConfigHandler.getNode("others", "maxExtra").getInt() - nation.getExtras();
 			if (n > maxToBuy)
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DB.replaceAll("\\{NUM\\}", Integer.toString(maxToBuy))));
@@ -64,7 +64,7 @@ public class NationBuyextraExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DD));
 				return CommandResult.success();
 			}
-			BigDecimal price = BigDecimal.valueOf(n * ConfigHandler.getNode("prices").getNode("extraPrice").getDouble());
+			BigDecimal price = BigDecimal.valueOf(n * ConfigHandler.getNode("prices", "extraPrice").getDouble());
 			TransactionResult result = optAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), price, NationsPlugin.getCause());
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{

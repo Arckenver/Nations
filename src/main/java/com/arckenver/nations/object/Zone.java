@@ -37,7 +37,7 @@ public class Zone
 		
 
 		this.flags = new Hashtable<String, Boolean>();
-		for (Entry<Object, ? extends CommentedConfigurationNode> e : ConfigHandler.getNode("flags").getNode("zones").getChildrenMap().entrySet())
+		for (Entry<Object, ? extends CommentedConfigurationNode> e : ConfigHandler.getNode("flags", "zones").getChildrenMap().entrySet())
 		{
 			flags.put(e.getKey().toString(), e.getValue().getBoolean());
 		}
@@ -45,18 +45,18 @@ public class Zone
 		{{
 			put(Nation.TYPE_OUTSIDER, new Hashtable<String, Boolean>()
 			{{
-				put(Nation.PERM_BUILD, ConfigHandler.getNode("zones").getNode("perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD).getBoolean());
-				put(Nation.PERM_INTERACT, ConfigHandler.getNode("zones").getNode("perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT).getBoolean());
+				put(Nation.PERM_BUILD, ConfigHandler.getNode("zones", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD).getBoolean());
+				put(Nation.PERM_INTERACT, ConfigHandler.getNode("zones", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT).getBoolean());
 			}});
 			put(Nation.TYPE_CITIZEN, new Hashtable<String, Boolean>()
 			{{
-				put(Nation.PERM_BUILD, ConfigHandler.getNode("zones").getNode("perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD).getBoolean());
-				put(Nation.PERM_INTERACT, ConfigHandler.getNode("zones").getNode("perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT).getBoolean());
+				put(Nation.PERM_BUILD, ConfigHandler.getNode("zones", "perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD).getBoolean());
+				put(Nation.PERM_INTERACT, ConfigHandler.getNode("zones", "perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT).getBoolean());
 			}});
 			put(Nation.TYPE_COOWNER, new Hashtable<String, Boolean>()
 			{{
-				put(Nation.PERM_BUILD, ConfigHandler.getNode("zones").getNode("perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_BUILD).getBoolean());
-				put(Nation.PERM_INTERACT, ConfigHandler.getNode("zones").getNode("perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_INTERACT).getBoolean());
+				put(Nation.PERM_BUILD, ConfigHandler.getNode("zones", "perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_BUILD).getBoolean());
+				put(Nation.PERM_INTERACT, ConfigHandler.getNode("zones", "perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_INTERACT).getBoolean());
 			}});
 		}};
 	}

@@ -38,14 +38,14 @@ public class NationTaxesExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			double newTaxes = ctx.<Double>getOne("amount").get();
-			if (!ConfigHandler.getNode("nations").getNode("canEditTaxes").getBoolean())
+			if (!ConfigHandler.getNode("nations", "canEditTaxes").getBoolean())
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HN));
 				return CommandResult.success();
 			}
-			if (newTaxes > ConfigHandler.getNode("nations").getNode("maxTaxes").getDouble())
+			if (newTaxes > ConfigHandler.getNode("nations", "maxTaxes").getDouble())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HO.replaceAll("\\{AMOUNT\\}", String.valueOf(ConfigHandler.getNode("nations").getNode("maxTaxes").getDouble()))));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HO.replaceAll("\\{AMOUNT\\}", String.valueOf(ConfigHandler.getNode("nations", "maxTaxes").getDouble()))));
 				return CommandResult.success();
 			}
 			nation.setTaxes(newTaxes);

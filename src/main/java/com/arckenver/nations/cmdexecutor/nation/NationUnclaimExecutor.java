@@ -86,7 +86,7 @@ public class NationUnclaimExecutor implements CommandExecutor
 			int toUnclaim = nation.getRegion().size() - claimed.size();
 			
 			BigDecimal refund = BigDecimal.valueOf(0);
-			if (ConfigHandler.getNode("prices").getNode("unclaimRefundPercentage").getInt() != 0)
+			if (ConfigHandler.getNode("prices", "unclaimRefundPercentage").getInt() != 0)
 			{
 				if (NationsPlugin.getEcoService() == null)
 				{
@@ -99,7 +99,7 @@ public class NationUnclaimExecutor implements CommandExecutor
 					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DD));
 					return CommandResult.success();
 				}
-				refund = BigDecimal.valueOf(toUnclaim * ConfigHandler.getNode("prices").getNode("blockClaimPrice").getInt() * (ConfigHandler.getNode("prices").getNode("unclaimRefundPercentage").getInt() / 100));
+				refund = BigDecimal.valueOf(toUnclaim * ConfigHandler.getNode("prices", "blockClaimPrice").getInt() * (ConfigHandler.getNode("prices", "unclaimRefundPercentage").getInt() / 100));
 				TransactionResult result = optAccount.get().deposit(NationsPlugin.getEcoService().getDefaultCurrency(), refund, NationsPlugin.getCause());
 				if (result.getResult() != ResultType.SUCCESS)
 				{
@@ -114,7 +114,7 @@ public class NationUnclaimExecutor implements CommandExecutor
 			DataHandler.saveNation(nation.getUUID());
 			if (!refund.equals(BigDecimal.ZERO))
 			{
-				String str = LanguageHandler.DJ.replaceAll("\\{NUM\\}", Integer.toString(toUnclaim)).replaceAll("\\{PRECENT\\}", ConfigHandler.getNode("prices").getNode("blockClaimPrice").getString());
+				String str = LanguageHandler.DJ.replaceAll("\\{NUM\\}", Integer.toString(toUnclaim)).replaceAll("\\{PRECENT\\}", ConfigHandler.getNode("prices", "blockClaimPrice").getString());
 				src.sendMessage(Text.builder()
 						.append(Text.of(TextColors.AQUA, str.split("\\{AMOUNT\\}")[0]))
 						.append(Utils.formatPrice(TextColors.AQUA, refund))

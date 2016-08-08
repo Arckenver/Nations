@@ -61,11 +61,11 @@ public class NationCreateExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EM));
 				return CommandResult.success();
 			}
-			if (nationName.length() < ConfigHandler.getNode("others").getNode("minNationNameLength").getInt() || nationName.length() > ConfigHandler.getNode("others").getNode("maxNationNameLength").getInt())
+			if (nationName.length() < ConfigHandler.getNode("others", "minNationNameLength").getInt() || nationName.length() > ConfigHandler.getNode("others", "maxNationNameLength").getInt())
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EN
-						.replaceAll("\\{MIN\\}", ConfigHandler.getNode("others").getNode("minNationNameLength").getString())
-						.replaceAll("\\{MAX\\}", ConfigHandler.getNode("others").getNode("maxNationNameLength").getString())));
+						.replaceAll("\\{MIN\\}", ConfigHandler.getNode("others", "minNationNameLength").getString())
+						.replaceAll("\\{MAX\\}", ConfigHandler.getNode("others", "maxNationNameLength").getString())));
 				return CommandResult.success();
 			}
 			
@@ -87,7 +87,7 @@ public class NationCreateExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DO));
 				return CommandResult.success();
 			}
-			BigDecimal price = BigDecimal.valueOf(ConfigHandler.getNode("prices").getNode("nationCreationPrice").getDouble());
+			BigDecimal price = BigDecimal.valueOf(ConfigHandler.getNode("prices", "nationCreationPrice").getDouble());
 			TransactionResult result = optAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), price, NationsPlugin.getCause());
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{

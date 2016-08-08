@@ -50,8 +50,8 @@ public class NationSetspawnExecutor implements CommandExecutor
 			if (!spawnName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]{1,30}"))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.FY
-						.replaceAll("\\{MIN\\}", ConfigHandler.getNode("others").getNode("minZoneNameLength").getString())
-						.replaceAll("\\{MAX\\}", ConfigHandler.getNode("others").getNode("maxZoneNameLength").getString())));
+						.replaceAll("\\{MIN\\}", ConfigHandler.getNode("others", "minZoneNameLength").getString())
+						.replaceAll("\\{MAX\\}", ConfigHandler.getNode("others", "maxZoneNameLength").getString())));
 				return CommandResult.success();
 			}
 			nation.addSpawn(spawnName, newSpawn);

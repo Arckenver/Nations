@@ -57,42 +57,42 @@ public class ConfigHandler
 		}
 		
 		// check integrity
-		Utils.ensurePositiveNumber(config.getNode("prices").getNode("nationCreationPrice"), 2500);
-		Utils.ensurePositiveNumber(config.getNode("prices").getNode("upkeepPerCitizen"), 100);
-		Utils.ensurePositiveNumber(config.getNode("prices").getNode("unclaimRefundPercentage"), 0);
-		Utils.ensurePositiveNumber(config.getNode("prices").getNode("extraPrice"), 0.5);
-		Utils.ensurePositiveNumber(config.getNode("prices").getNode("blockClaimPrice"), 0.3);
-		Utils.ensurePositiveNumber(config.getNode("prices").getNode("outpostCreationPrice"), 1000);
+		Utils.ensurePositiveNumber(config.getNode("prices", "nationCreationPrice"), 2500);
+		Utils.ensurePositiveNumber(config.getNode("prices", "upkeepPerCitizen"), 100);
+		Utils.ensurePositiveNumber(config.getNode("prices", "unclaimRefundPercentage"), 0);
+		Utils.ensurePositiveNumber(config.getNode("prices", "extraPrice"), 0.5);
+		Utils.ensurePositiveNumber(config.getNode("prices", "blockClaimPrice"), 0.3);
+		Utils.ensurePositiveNumber(config.getNode("prices", "outpostCreationPrice"), 1000);
 		
-		Utils.ensurePositiveNumber(config.getNode("others").getNode("blocksPerCitizen"), 1000);
-		Utils.ensurePositiveNumber(config.getNode("others").getNode("blocksPerSpawn"), 3500);
-		Utils.ensurePositiveNumber(config.getNode("others").getNode("minNationDistance"), 500);
-		Utils.ensurePositiveNumber(config.getNode("others").getNode("maxExtra"), 5000);
-		Utils.ensurePositiveNumber(config.getNode("others").getNode("minNationNameLength"), 3);
-		Utils.ensurePositiveNumber(config.getNode("others").getNode("maxNationNameLength"), 13);
-		Utils.ensurePositiveNumber(config.getNode("others").getNode("minZoneNameLength"), 3);
-		Utils.ensurePositiveNumber(config.getNode("others").getNode("maxZoneNameLength"), 13);
+		Utils.ensurePositiveNumber(config.getNode("others", "blocksPerCitizen"), 1000);
+		Utils.ensurePositiveNumber(config.getNode("others", "blocksPerSpawn"), 3500);
+		Utils.ensurePositiveNumber(config.getNode("others", "minNationDistance"), 500);
+		Utils.ensurePositiveNumber(config.getNode("others", "maxExtra"), 5000);
+		Utils.ensurePositiveNumber(config.getNode("others", "minNationNameLength"), 3);
+		Utils.ensurePositiveNumber(config.getNode("others", "maxNationNameLength"), 13);
+		Utils.ensurePositiveNumber(config.getNode("others", "minZoneNameLength"), 3);
+		Utils.ensurePositiveNumber(config.getNode("others", "maxZoneNameLength"), 13);
 
-		Utils.ensureBoolean(config.getNode("nations").getNode("canEditTaxes"), true);
-		Utils.ensurePositiveNumber(config.getNode("nations").getNode("defaultTaxes"), 50);
-		Utils.ensurePositiveNumber(config.getNode("nations").getNode("maxTaxes"), 100);
+		Utils.ensureBoolean(config.getNode("nations", "canEditTaxes"), true);
+		Utils.ensurePositiveNumber(config.getNode("nations", "defaultTaxes"), 50);
+		Utils.ensurePositiveNumber(config.getNode("nations", "maxTaxes"), 100);
 		
-		Utils.ensureBoolean(config.getNode("nations").getNode("flags").getNode("pvp"), false);
-		Utils.ensureBoolean(config.getNode("nations").getNode("flags").getNode("mobs"), false);
-		Utils.ensureBoolean(config.getNode("nations").getNode("flags").getNode("fire"), false);
-		Utils.ensureBoolean(config.getNode("nations").getNode("flags").getNode("explosions"), false);
+		Utils.ensureBoolean(config.getNode("nations", "flags", "pvp"), false);
+		Utils.ensureBoolean(config.getNode("nations", "flags", "mobs"), false);
+		Utils.ensureBoolean(config.getNode("nations", "flags", "fire"), false);
+		Utils.ensureBoolean(config.getNode("nations", "flags", "explosions"), false);
 		
-		Utils.ensureBoolean(config.getNode("nations").getNode("perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD), false);
-		Utils.ensureBoolean(config.getNode("nations").getNode("perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT), false);
-		Utils.ensureBoolean(config.getNode("nations").getNode("perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD), false);
-		Utils.ensureBoolean(config.getNode("nations").getNode("perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT), true);
+		Utils.ensureBoolean(config.getNode("nations", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD), false);
+		Utils.ensureBoolean(config.getNode("nations", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT), false);
+		Utils.ensureBoolean(config.getNode("nations", "perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD), false);
+		Utils.ensureBoolean(config.getNode("nations", "perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT), true);
 		
-		Utils.ensureBoolean(config.getNode("zones").getNode("perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD), false);
-		Utils.ensureBoolean(config.getNode("zones").getNode("perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT), false);
-		Utils.ensureBoolean(config.getNode("zones").getNode("perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD), false);
-		Utils.ensureBoolean(config.getNode("zones").getNode("perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT), true);
-		Utils.ensureBoolean(config.getNode("zones").getNode("perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_BUILD), true);
-		Utils.ensureBoolean(config.getNode("zones").getNode("perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_INTERACT), true);
+		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD), false);
+		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT), false);
+		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD), false);
+		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT), true);
+		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_BUILD), true);
+		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_INTERACT), true);
 		
 		for (World world : Sponge.getServer().getWorlds())
 		{
@@ -104,10 +104,10 @@ public class ConfigHandler
 				Utils.ensureBoolean(node.getNode("perms").getNode(Nation.PERM_BUILD), true);
 				Utils.ensureBoolean(node.getNode("perms").getNode(Nation.PERM_INTERACT), true);
 				
-				Utils.ensureBoolean(node.getNode("flags").getNode("pvp"), true);
-				Utils.ensureBoolean(node.getNode("flags").getNode("mobs"), true);
-				Utils.ensureBoolean(node.getNode("flags").getNode("fire"), true);
-				Utils.ensureBoolean(node.getNode("flags").getNode("explosions"), true);
+				Utils.ensureBoolean(node.getNode("flags", "pvp"), true);
+				Utils.ensureBoolean(node.getNode("flags", "mobs"), true);
+				Utils.ensureBoolean(node.getNode("flags", "fire"), true);
+				Utils.ensureBoolean(node.getNode("flags", "explosions"), true);
 			}
 			else
 			{
@@ -134,9 +134,9 @@ public class ConfigHandler
 		}
 	}
 
-	public static CommentedConfigurationNode getNode(String path)
+	public static CommentedConfigurationNode getNode(String... path)
 	{
-		return config.getNode(path);
+		return config.getNode((Object[]) path);
 	}
 	
 	public static class Utils
