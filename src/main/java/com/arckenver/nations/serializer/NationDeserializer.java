@@ -2,6 +2,7 @@ package com.arckenver.nations.serializer;
 
 import java.lang.reflect.Type;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.spongepowered.api.Sponge;
@@ -68,8 +69,11 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 			for (Entry<String, JsonElement> e : obj.get("spawns").getAsJsonObject().entrySet())
 			{
 				JsonObject spawnObj = e.getValue().getAsJsonObject();
-				World world = Sponge.getServer().getWorld(UUID.fromString(spawnObj.get("world").getAsString())).get();
-				nation.addSpawn(e.getKey(), world.getLocation(spawnObj.get("x").getAsDouble(), spawnObj.get("y").getAsDouble(), spawnObj.get("z").getAsDouble()));
+				Optional<World> optWorld = Sponge.getServer().getWorld(UUID.fromString(spawnObj.get("world").getAsString()));
+				if (optWorld.isPresent())
+				{
+					nation.addSpawn(e.getKey(), optWorld.get().getLocation(spawnObj.get("x").getAsDouble(), spawnObj.get("y").getAsDouble(), spawnObj.get("z").getAsDouble()));
+				}
 			}
 			for (JsonElement e : obj.get("zones").getAsJsonArray())
 			{
