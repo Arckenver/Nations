@@ -72,10 +72,10 @@ public class GoldenAxeListener
 			if (secondPoint != null && !secondPoint.getWorld().equals(firstPoint.getWorld()))
 			{
 				secondPoint = null;
-				DataHandler.setFirstPoint(player.getUniqueId(), secondPoint);
+				DataHandler.setSecondPoint(player.getUniqueId(), secondPoint);
 			}
 			
-			String coord = secondPoint.getX() + " " + secondPoint.getY() + ")" + ((firstPoint != null) ? " (" + new Rect(firstPoint, secondPoint).size() + ")" : "");
+			String coord = firstPoint.getX() + " " + firstPoint.getY() + ")" + ((secondPoint != null) ? " (" + new Rect(secondPoint, firstPoint).size() + ")" : "");
 			player.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.KA.replaceAll("\\{COORD\\}", coord)));
 		}
 	}
