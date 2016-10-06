@@ -269,24 +269,37 @@ public class DataHandler
 		}
 	}
 	
-	public static boolean canClaim(Location<World> loc)
+	public static boolean canClaim(Location<World> loc, boolean ignoreMinDistance)
 	{
-		return canClaim(loc, null);
+		return canClaim(loc, ignoreMinDistance, null);
 	}
 	
-	public static boolean canClaim(Location<World> loc, UUID toExclude)
+	public static boolean canClaim(Location<World> loc, boolean ignoreMinDistance, UUID toExclude)
 	{
 		for (Nation nation : nations.values())
 		{
 			if (!nation.getUUID().equals(toExclude) && nation.getRegion().distance2(loc) < Math.pow(ConfigHandler.getNode("others", "minNationDistance").getInt(), 2))
 			{
-				return false;
+				if (ignoreMinDistance)
+				{
+					if (nation.getRegion().isInside(loc))
+					{
+						return false;
+					}
+				}
+				else
+				{
+					if (nation.getRegion().distance2(loc) < Math.pow(ConfigHandler.getNode("others", "minNationDistance").getInt(), 2))
+					{
+						return false;
+					}
+				}
 			}
 		}
 		return true;
 	}
 	
-	public static boolean canClaim(Rect rect, UUID toExclude)
+	public static boolean canClaim(Rect rect, boolean ignoreMinDistance, UUID toExclude)
 	{
 		Optional<World> optWorld = Sponge.getServer().getWorld(rect.getWorld());
 		if (!optWorld.isPresent())
@@ -294,10 +307,10 @@ public class DataHandler
 			return false;
 		}
 		World world = optWorld.get();
-		return canClaim(world.getLocation(rect.getMaxX(), rect.getMaxY(), 0), toExclude) &&
-				canClaim(world.getLocation(rect.getMaxX(), rect.getMinY(), 0), toExclude) &&
-				canClaim(world.getLocation(rect.getMinX(), rect.getMaxY(), 0), toExclude) &&
-				canClaim(world.getLocation(rect.getMinX(), rect.getMinY(), 0), toExclude);
+		return canClaim(world.getLocation(rect.getMaxX(), rect.getMaxY(), 0), ignoreMinDistance, toExclude) &&
+				canClaim(world.getLocation(rect.getMaxX(), rect.getMinY(), 0), ignoreMinDistance, toExclude) &&
+				canClaim(world.getLocation(rect.getMinX(), rect.getMaxY(), 0), ignoreMinDistance, toExclude) &&
+				canClaim(world.getLocation(rect.getMinX(), rect.getMinY(), 0), ignoreMinDistance, toExclude);
 	}
 	
 	public static void calculateWorldChunks()

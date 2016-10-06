@@ -61,7 +61,7 @@ public class NationClaimExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EB));
 				return CommandResult.success();
 			}
-			if (!DataHandler.canClaim(rect, nation.getUUID()))
+			if (!DataHandler.canClaim(rect, false, nation.getUUID()))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EI));
 				return CommandResult.success();

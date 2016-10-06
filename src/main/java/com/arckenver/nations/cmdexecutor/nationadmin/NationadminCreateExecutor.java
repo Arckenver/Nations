@@ -52,7 +52,7 @@ public class NationadminCreateExecutor implements CommandExecutor
 			}
 			
 			Location<World> loc = player.getLocation();
-			if (!DataHandler.canClaim(loc))
+			if (!DataHandler.canClaim(loc, true))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EI));
 				return CommandResult.success();

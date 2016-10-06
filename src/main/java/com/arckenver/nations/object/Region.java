@@ -124,7 +124,7 @@ public class Region
 		return cut.isEmpty();
 	}
 	
-	public boolean idAdjacent(Vector2i point)
+	public boolean isAdjacent(Vector2i point)
 	{
 		for (Rect r : rects)
 		{

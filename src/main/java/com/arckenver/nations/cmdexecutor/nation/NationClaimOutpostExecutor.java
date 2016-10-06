@@ -49,7 +49,7 @@ public class NationClaimOutpostExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			Location<World> loc = player.getLocation();
-			if (!DataHandler.canClaim(loc, nation.getUUID()))
+			if (!DataHandler.canClaim(loc, false, nation.getUUID()))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EI));
 				return CommandResult.success();

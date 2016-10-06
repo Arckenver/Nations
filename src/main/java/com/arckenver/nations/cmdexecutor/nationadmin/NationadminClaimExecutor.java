@@ -49,7 +49,7 @@ public class NationadminClaimExecutor implements CommandExecutor
 			}
 			Rect rect = new Rect(a, b);
 			
-			if (!DataHandler.canClaim(rect, nation.getUUID()))
+			if (!DataHandler.canClaim(rect, true, nation.getUUID()))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EI));
 				return CommandResult.success();

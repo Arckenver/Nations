@@ -70,7 +70,7 @@ public class NationCreateExecutor implements CommandExecutor
 			}
 			
 			Location<World> loc = player.getLocation();
-			if (!DataHandler.canClaim(loc))
+			if (!DataHandler.canClaim(loc, false))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EI));
 				return CommandResult.success();
