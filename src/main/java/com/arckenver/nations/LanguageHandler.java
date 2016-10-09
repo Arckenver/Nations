@@ -220,6 +220,7 @@ public class LanguageHandler
 	public static String IW;
 	public static String IX;
 	public static String IY;
+	public static String IZ;
 	public static String JA;
 	public static String JB;
 	public static String JC;
@@ -477,6 +478,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("IW").setValue("Upkeep");
 		defaultLanguage.getNode("IX").setValue("click");
 		defaultLanguage.getNode("IY").setValue("Admin");
+		defaultLanguage.getNode("IZ").setValue("Zones");
 		
 		defaultLanguage.getNode("JA").setValue("click here");
 		defaultLanguage.getNode("JB").setValue("Nation List");
@@ -703,6 +705,7 @@ public class LanguageHandler
 		IW = getOrDefault("IW");
 		IX = getOrDefault("IX");
 		IY = getOrDefault("IY");
+		IZ = getOrDefault("IZ");
 		JA = getOrDefault("JA");
 		JB = getOrDefault("JB");
 		JC = getOrDefault("JC");

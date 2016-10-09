@@ -271,6 +271,28 @@ public class Utils
 			{
 				builder.append(Text.of(TextColors.YELLOW, " (" + LanguageHandler.II + ")"));
 			}
+			
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IZ + ": "));
+			boolean ownNothing = true;
+			for (Zone zone : nation.getZones().values())
+			{
+				if (uuid.equals(zone.getOwner()))
+				{
+					if (ownNothing)
+					{
+						ownNothing = false;
+					}
+					else
+					{
+						builder.append(Text.of(TextColors.YELLOW, ", "));
+					}
+					builder.append(zoneClickable(TextColors.YELLOW, zone.getName()));
+				}
+			}
+			if (ownNothing)
+			{
+				builder.append(Text.of(TextColors.GRAY, LanguageHandler.IP));
+			}
 		}
 		else
 		{
