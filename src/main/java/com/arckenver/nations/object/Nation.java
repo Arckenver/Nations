@@ -11,7 +11,6 @@ import org.spongepowered.api.world.World;
 
 import com.arckenver.nations.ConfigHandler;
 import com.flowpowered.math.vector.Vector2i;
-import com.google.common.math.IntMath;
 
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
