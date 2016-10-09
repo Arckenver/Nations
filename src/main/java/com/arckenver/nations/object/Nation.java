@@ -141,11 +141,6 @@ public class Nation
 	{
 		return spawns.size();
 	}
-	
-	public int maxSpawns()
-	{
-		return 1 + IntMath.divide(region.size(), ConfigHandler.getNode("others", "blocksPerSpawn").getInt(), RoundingMode.FLOOR);
-	}
 
 	public Region getRegion()
 	{

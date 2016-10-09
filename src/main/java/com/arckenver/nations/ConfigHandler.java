@@ -65,7 +65,7 @@ public class ConfigHandler
 		Utils.ensurePositiveNumber(config.getNode("prices", "outpostCreationPrice"), 1000);
 		
 		Utils.ensurePositiveNumber(config.getNode("others", "blocksPerCitizen"), 1000);
-		Utils.ensurePositiveNumber(config.getNode("others", "blocksPerSpawn"), 3500);
+		Utils.ensurePositiveNumber(config.getNode("others", "maxNationSpawns"), 3);
 		Utils.ensurePositiveNumber(config.getNode("others", "minNationDistance"), 500);
 		Utils.ensurePositiveNumber(config.getNode("others", "maxExtra"), 5000);
 		Utils.ensurePositiveNumber(config.getNode("others", "minNationNameLength"), 3);
