@@ -37,7 +37,8 @@ public class NationSpawnExecutor implements CommandExecutor
 				src.sendMessage(Text.builder()
 						.append(Text.of(TextColors.AQUA, LanguageHandler.GA.split("\\{SPAWNLIST\\}")[0]))
 						.append(Utils.formatNationSpawns(nation, TextColors.YELLOW))
-						.append(Text.of(TextColors.AQUA, LanguageHandler.GA.split("\\{SPAWNLIST\\}")[1])).build());
+						.append(Text.of(TextColors.AQUA, LanguageHandler.GA.split("\\{SPAWNLIST\\}")[1]))
+						.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX)).build());
 				return CommandResult.success();
 			}
 			String spawnName = ctx.<String>getOne("name").get();
@@ -47,7 +48,8 @@ public class NationSpawnExecutor implements CommandExecutor
 				src.sendMessage(Text.builder()
 						.append(Text.of(TextColors.RED, LanguageHandler.GB.split("\\{SPAWNLIST\\}")[0]))
 						.append(Utils.formatNationSpawns(nation, TextColors.YELLOW))
-						.append(Text.of(TextColors.RED, LanguageHandler.GB.split("\\{SPAWNLIST\\}")[1])).build());
+						.append(Text.of(TextColors.RED, LanguageHandler.GB.split("\\{SPAWNLIST\\}")[1]))
+						.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX)).build());
 				return CommandResult.success();
 			}
 			PlayerTeleportEvent event = new PlayerTeleportEvent(player, spawn, NationsPlugin.getCause());
