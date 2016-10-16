@@ -15,7 +15,7 @@ public class ExplosionListener
 		{
 			return;
 		}
-		if (!DataHandler.getFlag("explosions", event.getTargetWorld().getLocation(event.getExplosion().getOrigin())))
+		if (!DataHandler.getFlag("explosions", event.getExplosion().getLocation()))
 		{
 			event.setCancelled(true);
 			/*event.setExplosion(Sponge.getRegistry().createBuilder(Explosion.Builder.class)

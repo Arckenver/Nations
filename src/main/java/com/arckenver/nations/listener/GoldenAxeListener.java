@@ -17,13 +17,14 @@ import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.object.Point;
 import com.arckenver.nations.object.Rect;
+import org.spongepowered.api.data.type.HandTypes;
 
 public class GoldenAxeListener
 {
 	@Listener
 	public void onPlayerRightClick(InteractBlockEvent.Secondary event, @First Player player)
 	{
-		Optional<ItemStack> optItem = player.getItemInHand();
+		Optional<ItemStack> optItem = player.getItemInHand(HandTypes.MAIN_HAND);
 		if (!optItem.isPresent())
 		{
 			return;
@@ -53,7 +54,7 @@ public class GoldenAxeListener
 	@Listener
 	public void onPlayerLeftClick(InteractBlockEvent.Primary event, @First Player player)
 	{
-		Optional<ItemStack> optItem = player.getItemInHand();
+		Optional<ItemStack> optItem = player.getItemInHand(HandTypes.MAIN_HAND);
 		if (!optItem.isPresent())
 		{
 			return;
