@@ -22,7 +22,7 @@ import org.spongepowered.api.data.type.HandTypes;
 public class GoldenAxeListener
 {
 	@Listener
-	public void onPlayerRightClick(InteractBlockEvent.Secondary event, @First Player player)
+	public void onPlayerRightClick(InteractBlockEvent.Secondary.MainHand event, @First Player player)
 	{
 		Optional<ItemStack> optItem = player.getItemInHand(HandTypes.MAIN_HAND);
 		if (!optItem.isPresent())
@@ -52,7 +52,7 @@ public class GoldenAxeListener
 	}
 	
 	@Listener
-	public void onPlayerLeftClick(InteractBlockEvent.Primary event, @First Player player)
+	public void onPlayerLeftClick(InteractBlockEvent.Primary.MainHand event, @First Player player)
 	{
 		Optional<ItemStack> optItem = player.getItemInHand(HandTypes.MAIN_HAND);
 		if (!optItem.isPresent())
