@@ -159,16 +159,25 @@ public class DataHandler
 	public static void removeNation(UUID uuid)
 	{
 		nations.remove(uuid);
-		for (Entry<UUID, Nation> e : lastNationWalkedOn.entrySet())
+		
+		ArrayList<UUID> toRemove = new ArrayList<>();
+		for (Nation nation : lastNationWalkedOn.values())
 		{
-			if (e.getValue() != null && e.getValue().getUUID().equals(uuid))
+			if (nation != null && nation.getUUID().equals(uuid))
 			{
-				lastNationWalkedOn.remove(e.getKey());
+				toRemove.add(nation.getUUID());
 			}
 		}
+		for (UUID uuidToRemove : toRemove)
+		{
+			lastNationWalkedOn.remove(uuidToRemove);
+		}
+		
 		calculateWorldChunks();
+		
 		inviteRequests.removeIf(req -> req.getNationUUID().equals(uuid));
 		joinRequests.removeIf(req -> req.getNationUUID().equals(uuid));
+		
 		File file = new File(nationsDir, uuid.toString() + ".json");
 		file.delete();
 	}
