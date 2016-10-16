@@ -94,6 +94,11 @@ public class ConfigHandler
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_BUILD), true);
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_INTERACT), true);
 		
+		for (CommentedConfigurationNode rank : config.getNode("nationRanks").getChildrenList())
+		{
+			// TODO
+		}
+		
 		for (World world : Sponge.getServer().getWorlds())
 		{
 			CommentedConfigurationNode node = config.getNode("worlds").getNode(world.getName());
@@ -137,6 +142,18 @@ public class ConfigHandler
 	public static CommentedConfigurationNode getNode(String... path)
 	{
 		return config.getNode((Object[]) path);
+	}
+	
+	public static CommentedConfigurationNode getNationRank(int numCitizens)
+	{
+		CommentedConfigurationNode rank = config.getNode("nationRanks")
+				.getChildrenList()
+				.stream()
+				.filter(node -> node.getNode("numCitizens").getInt() <= numCitizens)
+				.max((CommentedConfigurationNode a, CommentedConfigurationNode b) ->
+						Integer.compare(a.getNode("numCitizens").getInt(), b.getNode("numCitizens").getInt()))
+				.get();
+		return rank;
 	}
 	
 	public static class Utils
