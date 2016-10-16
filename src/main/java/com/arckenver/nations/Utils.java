@@ -84,7 +84,11 @@ public class Utils
 		Builder builder = Text.builder("");
 		builder.append(
 			Text.of(TextColors.GOLD, "----------{ "),
-			Text.of(TextColors.YELLOW, LanguageHandler.IB + " - " + nation.getName()),
+			Text.of(TextColors.YELLOW,
+					((ConfigHandler.getNode("others", "enableNationRanks").getBoolean()) 
+							? ConfigHandler.getNationRank(nation.getNumCitizens()).getNode("nationTitle").getString()
+							: LanguageHandler.IB)
+					+ " - " + nation.getName()),
 			Text.of(TextColors.GOLD, " }----------\n"));
 		
 		if (!nation.isAdmin())
@@ -236,7 +240,8 @@ public class Utils
 		Builder builder = Text.builder("");
 		builder.append(
 			Text.of(TextColors.GOLD, "----------{ "),
-			Text.of(TextColors.YELLOW, LanguageHandler.IS + " - " + name),
+			Text.of(TextColors.YELLOW,
+					DataHandler.getCitizenTitle(uuid) + " - " + name),
 			Text.of(TextColors.GOLD, " }----------")
 		);
 		

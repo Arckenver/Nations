@@ -72,6 +72,7 @@ public class ConfigHandler
 		Utils.ensurePositiveNumber(config.getNode("others", "maxNationNameLength"), 13);
 		Utils.ensurePositiveNumber(config.getNode("others", "minZoneNameLength"), 3);
 		Utils.ensurePositiveNumber(config.getNode("others", "maxZoneNameLength"), 13);
+		Utils.ensureBoolean(config.getNode("others", "enableNationRanks"), true);
 
 		Utils.ensureBoolean(config.getNode("nations", "canEditTaxes"), true);
 		Utils.ensurePositiveNumber(config.getNode("nations", "defaultTaxes"), 50);
@@ -94,9 +95,43 @@ public class ConfigHandler
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_BUILD), true);
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_INTERACT), true);
 		
-		for (CommentedConfigurationNode rank : config.getNode("nationRanks").getChildrenList())
+		if (config.getNode("others", "enableNationRanks").getBoolean())
 		{
-			// TODO
+			if (!config.getNode("nationRanks").hasListChildren() || config.getNode("nationRanks").getChildrenList().isEmpty())
+			{
+				CommentedConfigurationNode rank;
+
+				rank = config.getNode("nationRanks").getAppendedNode();
+				rank.getNode("numCitizens").setValue(1);
+				rank.getNode("nationTitle").setValue("Land");
+				rank.getNode("presidentTitle").setValue("Leader");
+
+				rank = config.getNode("nationRanks").getAppendedNode();
+				rank.getNode("numCitizens").setValue(3);
+				rank.getNode("nationTitle").setValue("Federation");
+				rank.getNode("presidentTitle").setValue("Count");
+
+				rank = config.getNode("nationRanks").getAppendedNode();
+				rank.getNode("numCitizens").setValue(6);
+				rank.getNode("nationTitle").setValue("Dominion");
+				rank.getNode("presidentTitle").setValue("Duke");
+
+				rank = config.getNode("nationRanks").getAppendedNode();
+				rank.getNode("numCitizens").setValue(10);
+				rank.getNode("nationTitle").setValue("Kingdom");
+				rank.getNode("presidentTitle").setValue("King");
+
+				rank = config.getNode("nationRanks").getAppendedNode();
+				rank.getNode("numCitizens").setValue(15);
+				rank.getNode("nationTitle").setValue("Empire");
+				rank.getNode("presidentTitle").setValue("Emperor");
+			}
+			for (CommentedConfigurationNode rank : config.getNode("nationRanks").getChildrenList())
+			{
+				Utils.ensurePositiveNumber(rank.getNode("numCitizens"), 1000000);
+				Utils.ensureString(rank.getNode("nationTitle"), "NO_TITLE");
+				Utils.ensureString(rank.getNode("presidentTitle"), "NO_TITLE");
+			}
 		}
 		
 		for (World world : Sponge.getServer().getWorlds())

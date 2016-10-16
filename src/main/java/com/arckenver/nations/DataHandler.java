@@ -278,6 +278,20 @@ public class DataHandler
 		}
 	}
 	
+	public static String getCitizenTitle(UUID uuid)
+	{
+		if (!ConfigHandler.getNode("others", "enableNationRanks").getBoolean())
+		{
+			return LanguageHandler.IS;
+		}
+		Nation nation = getNationOfPlayer(uuid);
+		if (nation == null || !nation.isPresident(uuid))
+		{
+			return LanguageHandler.IS;
+		}
+		return ConfigHandler.getNationRank(nation.getNumCitizens()).getNode("presidentTitle").getString();
+	}
+	
 	public static boolean canClaim(Location<World> loc, boolean ignoreMinDistance)
 	{
 		return canClaim(loc, ignoreMinDistance, null);
