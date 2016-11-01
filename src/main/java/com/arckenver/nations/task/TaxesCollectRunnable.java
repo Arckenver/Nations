@@ -46,6 +46,7 @@ public class TaxesCollectRunnable implements Runnable
 			}
 			// nation taxes
 			BigDecimal taxes = BigDecimal.valueOf(nation.getTaxes());
+			ArrayList<UUID> citizensToRemove = new ArrayList<UUID>();
 			for (UUID uuid : nation.getCitizens())
 			{
 				if (!nation.isStaff(uuid))
@@ -54,7 +55,7 @@ public class TaxesCollectRunnable implements Runnable
 					TransactionResult result = optCitizenAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), taxes, NationsPlugin.getCause());
 					if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 					{
-						nation.removeCitizen(uuid);
+						citizensToRemove.add(uuid);
 						Sponge.getServer().getPlayer(uuid).ifPresent(p ->
 									p.sendMessage(Text.of(TextColors.RED, LanguageHandler.HQ)));
 					}
@@ -71,6 +72,10 @@ public class TaxesCollectRunnable implements Runnable
 						 }
 					}
 				}
+			}
+			for (UUID uuid : citizensToRemove)
+			{
+				nation.removeCitizen(uuid);
 			}
 			// nation upkeep
 			BigDecimal upkeep = BigDecimal.valueOf(nation.getUpkeep());
