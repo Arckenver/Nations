@@ -31,6 +31,7 @@ public class LanguageHandler
 	public static String AT;
 	public static String AU;
 	public static String AV;
+	public static String AY;
 	public static String AZ;
 	public static String BA;
 	public static String BB;
@@ -297,6 +298,7 @@ public class LanguageHandler
 
 		defaultLanguage.getNode("AZ").setValue("reloads config file");
 		defaultLanguage.getNode("BL").setValue("create admin nation");
+		defaultLanguage.getNode("AY").setValue("claims for admin nation");
 		defaultLanguage.getNode("BM").setValue("delete given nation");
 		defaultLanguage.getNode("BN").setValue("set nation's name");
 		defaultLanguage.getNode("BO").setValue("set nation's president");
@@ -516,6 +518,7 @@ public class LanguageHandler
 		AT = getOrDefault("AT");
 		AU = getOrDefault("AU");
 		AV = getOrDefault("AV");
+		AY = getOrDefault("AY");
 		AZ = getOrDefault("AZ");
 		BA = getOrDefault("BA");
 		BB = getOrDefault("BB");
