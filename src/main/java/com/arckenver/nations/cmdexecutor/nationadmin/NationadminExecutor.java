@@ -21,6 +21,7 @@ public class NationadminExecutor implements CommandExecutor
 				TextColors.GOLD, " }--------",
 				TextColors.GOLD, "\n/na reload", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AZ,
 				TextColors.GOLD, "\n/na create <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BL,
+				TextColors.GOLD, "\n/na claim <nation>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AY,
 				TextColors.GOLD, "\n/na delete <nation>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BM,
 				TextColors.GOLD, "\n/na setname <nation> <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BN,
 				TextColors.GOLD, "\n/na setpres <nation> <player>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BO,
