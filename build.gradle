@@ -3,7 +3,7 @@ apply plugin: 'eclipse'
 
 targetCompatibility = "1.8"
 sourceCompatibility = "1.8"
-version = '1.0'
+version = '2.0'
 jar {
     manifest {
         attributes 'Implementation-Title': 'Nations',
@@ -20,5 +20,5 @@ repositories {
 }
 
 dependencies {
-	compile 'org.spongepowered:spongeapi:4.2.0-SNAPSHOT'
+	compile 'org.spongepowered:spongeapi:5.0.0'
 }

@@ -52,6 +52,7 @@ import com.arckenver.nations.cmdexecutor.nation.NationSpawnExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationTaxesExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationUnclaimExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationWithdrawExecutor;
+import com.arckenver.nations.cmdexecutor.nationadmin.NationadminClaimExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminCreateExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminDeleteExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminEcoExecutor;
@@ -97,7 +98,7 @@ import com.arckenver.nations.task.TaxesCollectRunnable;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 
-@Plugin(id = "com.arckenver.nations", name = "Nations", version = "1.0", description = "A towny-like worldguard-like zone managment plugin.")
+@Plugin(id = "nations", name = "Nations", version = "1.0", authors={"Arckenver"}, description = "A towny-like worldguard-like zone managment plugin.", url="https://github.com/Arckenver/Nations")
 public class NationsPlugin
 {
 	private File rootDir;
@@ -150,6 +151,13 @@ public class NationsPlugin
 				.permission("nations.command.nationadmin.create")
 				.arguments(GenericArguments.optional(GenericArguments.string(Text.of("name"))))
 				.executor(new NationadminCreateExecutor())
+				.build();
+		
+		CommandSpec nationadminClaimCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.claim")
+				.arguments(GenericArguments.optional(GenericArguments.string(Text.of("nation"))))
+				.executor(new NationadminClaimExecutor())
 				.build();
 		
 		CommandSpec nationadminSetpresCmd = CommandSpec.builder()
@@ -249,6 +257,7 @@ public class NationsPlugin
 				.executor(new NationadminExecutor())
 				.child(nationadminReloadCmd, "reload")
 				.child(nationadminCreateCmd, "create")
+				.child(nationadminClaimCmd, "claim")
 				.child(nationadminSetpresCmd, "setpres", "setpresident")
 				.child(nationadminSetnameCmd, "setname")
 				.child(nationadminForcejoinCmd, "forcejoin")
