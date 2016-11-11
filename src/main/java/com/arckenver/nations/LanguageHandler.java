@@ -436,7 +436,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("GX").setValue("You must be standing on your zone to perform that command");
 		defaultLanguage.getNode("GY").setValue("You must own this zone to perform that command");
 		defaultLanguage.getNode("GZ").setValue("You must specify zone name or stand on it");
-		defaultLanguage.getNode("HA").setValue("{NATION}'s zones are {ZONE}");
+		defaultLanguage.getNode("HA").setValue("{NATION}'s zones are {ZONELIST}");
 		defaultLanguage.getNode("HB").setValue("You can't set yourself as the new owner");
 		defaultLanguage.getNode("HC").setValue("New owner must be part of your nation");
 		defaultLanguage.getNode("HD").setValue("{PLAYER} is now the new owner of zone {ZONE}");
