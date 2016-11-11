@@ -126,11 +126,20 @@ public class ConfigHandler
 				rank.getNode("nationTitle").setValue("Empire");
 				rank.getNode("presidentTitle").setValue("Emperor");
 			}
+			boolean defaultRankMissing = true;
 			for (CommentedConfigurationNode rank : config.getNode("nationRanks").getChildrenList())
 			{
 				Utils.ensurePositiveNumber(rank.getNode("numCitizens"), 1000000);
 				Utils.ensureString(rank.getNode("nationTitle"), "NO_TITLE");
 				Utils.ensureString(rank.getNode("presidentTitle"), "NO_TITLE");
+				if (rank.getNode("numCitizens").getInt() == 0)
+					defaultRankMissing = false;
+			}
+			if (defaultRankMissing) {
+				CommentedConfigurationNode rank = config.getNode("nationRanks").getAppendedNode();
+				rank.getNode("numCitizens").setValue(0);
+				rank.getNode("nationTitle").setValue("Virtual");
+				rank.getNode("presidentTitle").setValue("Leader");
 			}
 		}
 		
