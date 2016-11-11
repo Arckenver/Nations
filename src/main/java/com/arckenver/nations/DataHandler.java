@@ -330,10 +330,10 @@ public class DataHandler
 			return false;
 		}
 		World world = optWorld.get();
-		return canClaim(world.getLocation(rect.getMaxX(), rect.getMaxY(), 0), ignoreMinDistance, toExclude) &&
-				canClaim(world.getLocation(rect.getMaxX(), rect.getMinY(), 0), ignoreMinDistance, toExclude) &&
-				canClaim(world.getLocation(rect.getMinX(), rect.getMaxY(), 0), ignoreMinDistance, toExclude) &&
-				canClaim(world.getLocation(rect.getMinX(), rect.getMinY(), 0), ignoreMinDistance, toExclude);
+		return canClaim(world.getLocation(rect.getMaxX(), 0, rect.getMaxY()), ignoreMinDistance, toExclude) &&
+				canClaim(world.getLocation(rect.getMaxX(), 0, rect.getMinY()), ignoreMinDistance, toExclude) &&
+				canClaim(world.getLocation(rect.getMinX(), 0, rect.getMaxY()), ignoreMinDistance, toExclude) &&
+				canClaim(world.getLocation(rect.getMinX(), 0, rect.getMinY()), ignoreMinDistance, toExclude);
 	}
 	
 	public static void calculateWorldChunks()
