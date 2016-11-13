@@ -119,7 +119,7 @@ public class NationSerializer implements JsonSerializer<Nation>
 				JsonArray coownersArray = new JsonArray();
 				for (UUID coowner : zone.getCoowners())
 				{
-					citizensArray.add(new JsonPrimitive(coowner.toString()));
+					coownersArray.add(new JsonPrimitive(coowner.toString()));
 				}
 				zoneObj.add("coowners", coownersArray);
 				
