@@ -52,7 +52,7 @@ public class TaxesCollectRunnable implements Runnable
 				if (!nation.isStaff(uuid))
 				{
 					Optional<UniqueAccount> optCitizenAccount = NationsPlugin.getEcoService().getOrCreateAccount(uuid);
-					TransactionResult result = optCitizenAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), taxes, NationsPlugin.getCause());
+					TransactionResult result = optCitizenAccount.get().transfer(optAccount.get(), NationsPlugin.getEcoService().getDefaultCurrency(), taxes, NationsPlugin.getCause());
 					if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 					{
 						citizensToRemove.add(uuid);
@@ -62,14 +62,6 @@ public class TaxesCollectRunnable implements Runnable
 					else if (result.getResult() != ResultType.SUCCESS)
 					{
 						NationsPlugin.getLogger().error("Error while taking taxes from player " + uuid.toString() + " for nation " + nation.getName());
-					}
-					else
-					{
-						 TransactionResult res = optAccount.get().deposit(NationsPlugin.getEcoService().getDefaultCurrency(), taxes, NationsPlugin.getCause());
-						 if (res.getResult() != ResultType.SUCCESS)
-						 {
-							 NationsPlugin.getLogger().error("Error while depositing taxes withdrawn from player " + uuid.toString() + " in nation " + nation.getName());
-						 }
 					}
 				}
 			}
@@ -93,7 +85,7 @@ public class TaxesCollectRunnable implements Runnable
 		{
 			String name = DataHandler.getNation(uuid).getName();
 			DataHandler.removeNation(uuid);
-			MessageChannel.TO_ALL.send(Text.of(TextColors.RED, LanguageHandler.CM.replaceAll(Pattern.quote("\\{NATION\\}"), name)));
+			MessageChannel.TO_ALL.send(Text.of(TextColors.RED, LanguageHandler.CM.replaceAll("\\{NATION\\}", name)));
 		}
 	}
 }
