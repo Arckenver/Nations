@@ -30,10 +30,10 @@ public class ZoneSetownerExecutor implements CommandExecutor
 			}
 			String newOwnerName = ctx.<String>getOne("owner").get();
 			Player player = (Player) src;
-			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
+			Nation nation = DataHandler.getNation(player.getLocation());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DQ));
 				return CommandResult.success();
 			}
 			Zone zone = nation.getZone(player.getLocation());

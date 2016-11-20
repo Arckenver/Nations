@@ -61,6 +61,62 @@ public class NationSerializer implements JsonSerializer<Nation>
 		}
 		json.add("rects", rectArray);
 		
+		JsonArray zonesArray = new JsonArray();
+		for (Zone zone : nation.getZones().values())
+		{
+			JsonObject zoneObj = new JsonObject();
+			
+			zoneObj.add("uuid", new JsonPrimitive(zone.getUUID().toString()));
+			zoneObj.add("name", new JsonPrimitive(zone.getName()));
+			
+			JsonObject rectJson = new JsonObject();
+			rectJson.add("world", new JsonPrimitive(zone.getRect().getWorld().toString()));
+			rectJson.add("minX", new JsonPrimitive(zone.getRect().getMinX()));
+			rectJson.add("maxX", new JsonPrimitive(zone.getRect().getMaxX()));
+			rectJson.add("minY", new JsonPrimitive(zone.getRect().getMinY()));
+			rectJson.add("maxY", new JsonPrimitive(zone.getRect().getMaxY()));
+			zoneObj.add("rect", rectJson);
+			
+			if (zone.getOwner() != null)
+			{
+				zoneObj.add("owner", new JsonPrimitive(zone.getOwner().toString()));
+			}
+			
+			JsonArray coownersArray = new JsonArray();
+			for (UUID coowner : zone.getCoowners())
+			{
+				coownersArray.add(new JsonPrimitive(coowner.toString()));
+			}
+			zoneObj.add("coowners", coownersArray);
+			
+			JsonObject zoneFlags = new JsonObject();
+			for (Entry<String, Boolean> e : zone.getFlags().entrySet())
+			{
+				zoneFlags.add(e.getKey(), new JsonPrimitive(e.getValue()));
+			}
+			zoneObj.add("flags", zoneFlags);
+			
+			JsonObject zonePerms = new JsonObject();
+			for (Entry<String, Hashtable<String, Boolean>> e : zone.getPerms().entrySet())
+			{
+				JsonObject obj = new JsonObject();
+				for (Entry<String, Boolean> en : e.getValue().entrySet())
+				{
+					obj.add(en.getKey(), new JsonPrimitive(en.getValue()));
+				}
+				zonePerms.add(e.getKey(), obj);
+			}
+			zoneObj.add("perms", zonePerms);
+			
+			if (zone.isForSale())
+			{
+				zoneObj.add("price", new JsonPrimitive(zone.getPrice()));
+			}
+			
+			zonesArray.add(zoneObj);
+		}
+		json.add("zones", zonesArray);
+		
 		if (!nation.isAdmin())
 		{
 			json.add("president", new JsonPrimitive(nation.getPresident().toString()));
@@ -95,61 +151,6 @@ public class NationSerializer implements JsonSerializer<Nation>
 			}
 			json.add("spawns", spawns);
 			
-			JsonArray zonesArray = new JsonArray();
-			for (Zone zone : nation.getZones().values())
-			{
-				JsonObject zoneObj = new JsonObject();
-				
-				zoneObj.add("uuid", new JsonPrimitive(zone.getUUID().toString()));
-				zoneObj.add("name", new JsonPrimitive(zone.getName()));
-				
-				JsonObject rectJson = new JsonObject();
-				rectJson.add("world", new JsonPrimitive(zone.getRect().getWorld().toString()));
-				rectJson.add("minX", new JsonPrimitive(zone.getRect().getMinX()));
-				rectJson.add("maxX", new JsonPrimitive(zone.getRect().getMaxX()));
-				rectJson.add("minY", new JsonPrimitive(zone.getRect().getMinY()));
-				rectJson.add("maxY", new JsonPrimitive(zone.getRect().getMaxY()));
-				zoneObj.add("rect", rectJson);
-				
-				if (zone.getOwner() != null)
-				{
-					zoneObj.add("owner", new JsonPrimitive(zone.getOwner().toString()));
-				}
-				
-				JsonArray coownersArray = new JsonArray();
-				for (UUID coowner : zone.getCoowners())
-				{
-					coownersArray.add(new JsonPrimitive(coowner.toString()));
-				}
-				zoneObj.add("coowners", coownersArray);
-				
-				JsonObject zoneFlags = new JsonObject();
-				for (Entry<String, Boolean> e : zone.getFlags().entrySet())
-				{
-					zoneFlags.add(e.getKey(), new JsonPrimitive(e.getValue()));
-				}
-				zoneObj.add("flags", zoneFlags);
-				
-				JsonObject zonePerms = new JsonObject();
-				for (Entry<String, Hashtable<String, Boolean>> e : zone.getPerms().entrySet())
-				{
-					JsonObject obj = new JsonObject();
-					for (Entry<String, Boolean> en : e.getValue().entrySet())
-					{
-						obj.add(en.getKey(), new JsonPrimitive(en.getValue()));
-					}
-					zonePerms.add(e.getKey(), obj);
-				}
-				zoneObj.add("perms", zonePerms);
-				
-				if (zone.isForSale())
-				{
-					zoneObj.add("price", new JsonPrimitive(zone.getPrice()));
-				}
-				
-				zonesArray.add(zoneObj);
-			}
-			json.add("zones", zonesArray);
 		}
 		return json;
 	}

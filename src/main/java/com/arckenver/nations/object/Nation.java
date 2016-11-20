@@ -3,8 +3,11 @@ package com.arckenver.nations.object;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -195,7 +198,14 @@ public class Nation
 	
 	public boolean isStaff(UUID uuid)
 	{
-		return isPresident(uuid) || isMinister(uuid);
+		if (isPresident(uuid) || isMinister(uuid))
+			return true;
+		if (!isAdmin())
+			return false;
+		Optional<Player> player = Sponge.getServer().getPlayer(uuid);
+		if (player.isPresent() && player.get().hasPermission("nations.admin.zone.staff"))
+			return true;
+		return false;
 	}
 	
 	public ArrayList<UUID> getCitizens()

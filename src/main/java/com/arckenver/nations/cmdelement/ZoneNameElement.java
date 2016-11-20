@@ -26,10 +26,12 @@ public class ZoneNameElement extends PatternMatchingCommandElement
 			return Collections.emptyList();
 		}
 		Player player = (Player) src;
-		Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
+		Nation nation = DataHandler.getNation(player.getLocation());
 		if (nation == null)
 		{
-			return Collections.emptyList();
+			nation = DataHandler.getNationOfPlayer(player.getUniqueId());
+			if (nation == null)
+				return Collections.emptyList();
 		}
 		return nation.getZones().values().stream().map(z -> z.getName()).collect(Collectors.toList());
 	}

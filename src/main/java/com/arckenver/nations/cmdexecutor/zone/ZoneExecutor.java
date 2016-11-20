@@ -26,6 +26,7 @@ public class ZoneExecutor implements CommandExecutor
 				TextColors.GOLD, "\n/z coowner <add/remove> <player>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BD,
 				TextColors.GOLD, "\n/z setowner <player>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BE,
 				TextColors.GOLD, "\n/z delowner", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BF,
+				TextColors.GOLD, "\n/z rename", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.DS,
 				TextColors.GOLD, "\n/z perm <type> <perm> [true/false]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BG,
 				TextColors.GOLD, "\n/z flag <flag> [true/false]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BH,
 				TextColors.GOLD, "\n/z sell <price>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BI,

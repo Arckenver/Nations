@@ -52,29 +52,8 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 			region.addRect(rect);
 		}
 		nation.setRegion(region);
-		if (!isAdmin)
-		{
-			nation.setPresident(UUID.fromString(obj.get("president").getAsString()));
-			for (JsonElement element : obj.get("ministers").getAsJsonArray())
-			{
-				nation.addMinister(UUID.fromString(element.getAsString()));
-			}
-			for (JsonElement element : obj.get("citizens").getAsJsonArray())
-			{
-				nation.addCitizen(UUID.fromString(element.getAsString()));
-			}
-			if (obj.has("taxes"))
-				nation.setTaxes(obj.get("taxes").getAsDouble());
-			nation.addExtras(obj.get("extras").getAsInt());
-			for (Entry<String, JsonElement> e : obj.get("spawns").getAsJsonObject().entrySet())
-			{
-				JsonObject spawnObj = e.getValue().getAsJsonObject();
-				Optional<World> optWorld = Sponge.getServer().getWorld(UUID.fromString(spawnObj.get("world").getAsString()));
-				if (optWorld.isPresent())
-				{
-					nation.addSpawn(e.getKey(), optWorld.get().getLocation(spawnObj.get("x").getAsDouble(), spawnObj.get("y").getAsDouble(), spawnObj.get("z").getAsDouble()));
-				}
-			}
+		
+		if (obj.has("zones")) {
 			for (JsonElement e : obj.get("zones").getAsJsonArray())
 			{
 				JsonObject zoneObj = e.getAsJsonObject();
@@ -113,6 +92,31 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 					zone.setPrice(zoneObj.get("price").getAsBigDecimal());
 				}
 				nation.addZone(zone);
+			}
+		}
+		
+		if (!isAdmin)
+		{
+			nation.setPresident(UUID.fromString(obj.get("president").getAsString()));
+			for (JsonElement element : obj.get("ministers").getAsJsonArray())
+			{
+				nation.addMinister(UUID.fromString(element.getAsString()));
+			}
+			for (JsonElement element : obj.get("citizens").getAsJsonArray())
+			{
+				nation.addCitizen(UUID.fromString(element.getAsString()));
+			}
+			if (obj.has("taxes"))
+				nation.setTaxes(obj.get("taxes").getAsDouble());
+			nation.addExtras(obj.get("extras").getAsInt());
+			for (Entry<String, JsonElement> e : obj.get("spawns").getAsJsonObject().entrySet())
+			{
+				JsonObject spawnObj = e.getValue().getAsJsonObject();
+				Optional<World> optWorld = Sponge.getServer().getWorld(UUID.fromString(spawnObj.get("world").getAsString()));
+				if (optWorld.isPresent())
+				{
+					nation.addSpawn(e.getKey(), optWorld.get().getLocation(spawnObj.get("x").getAsDouble(), spawnObj.get("y").getAsDouble(), spawnObj.get("z").getAsDouble()));
+				}
 			}
 		}
 		return nation;

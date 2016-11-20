@@ -101,6 +101,9 @@ public class LanguageHandler
 	public static String DN;
 	public static String DO;
 	public static String DP;
+	public static String DQ;
+	public static String DR;
+	public static String DS;
 	public static String EA;
 	public static String EB;
 	public static String EC;
@@ -196,6 +199,7 @@ public class LanguageHandler
 	public static String HP;
 	public static String HQ;
 	public static String HR;
+	public static String HS;
 	public static String IA;
 	public static String IB;
 	public static String IC;
@@ -358,6 +362,9 @@ public class LanguageHandler
 		defaultLanguage.getNode("DN").setValue("An unexpected error has occured while processing transaction");
 		defaultLanguage.getNode("DO").setValue("Could not get your account on the economy plugin of this server");
 		defaultLanguage.getNode("DP").setValue("Could not get zone owner's account on the economy plugin of this server");
+		defaultLanguage.getNode("DQ").setValue("You must be standing in a nation to perform that command");
+		defaultLanguage.getNode("DR").setValue("You do not have permission to buy a zone in this nation");
+		defaultLanguage.getNode("DS").setValue("rename zone");
 		
 		defaultLanguage.getNode("EA").setValue("You must select a region with a golden axe first (right/left click)");
 		defaultLanguage.getNode("EB").setValue("Your selection must be adjacent to your region");
@@ -454,6 +461,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("HP").setValue("You successfully changed your nation's taxes");
 		defaultLanguage.getNode("HQ").setValue("You've been kicked out of your nation because you didn't have enough money to pay for the taxes");
 		defaultLanguage.getNode("HR").setValue("Your nation can't have more than {MAX} spawns");
+		defaultLanguage.getNode("HS").setValue("You renamed the zone to {ZONE}");
 
 		defaultLanguage.getNode("IA").setValue("Wilderness");
 		defaultLanguage.getNode("IB").setValue("Nation");
@@ -588,6 +596,9 @@ public class LanguageHandler
 		DN = getOrDefault("DN");
 		DO = getOrDefault("DO");
 		DP = getOrDefault("DP");
+		DQ = getOrDefault("DQ");
+		DR = getOrDefault("DR");
+		DS = getOrDefault("DS");
 		EA = getOrDefault("EA");
 		EB = getOrDefault("EB");
 		EC = getOrDefault("EC");
@@ -683,6 +694,7 @@ public class LanguageHandler
 		HP = getOrDefault("HP");
 		HQ = getOrDefault("HQ");
 		HR = getOrDefault("HR");
+		HS = getOrDefault("HS");
 		IA = getOrDefault("IA");
 		IB = getOrDefault("IB");
 		IC = getOrDefault("IC");
