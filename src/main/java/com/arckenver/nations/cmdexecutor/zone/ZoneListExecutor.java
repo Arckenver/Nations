@@ -39,7 +39,7 @@ public class ZoneListExecutor implements CommandExecutor
 			if (src instanceof Player)
 			{
 				Player player = (Player) src;
-				nation = DataHandler.getNationOfPlayer(player.getUniqueId());
+				nation = DataHandler.getNation(player.getLocation());
 				if (nation == null)
 				{
 					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CG));

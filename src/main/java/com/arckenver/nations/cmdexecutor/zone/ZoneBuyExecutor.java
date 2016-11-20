@@ -32,10 +32,16 @@ public class ZoneBuyExecutor implements CommandExecutor
 		if (src instanceof Player)
 		{
 			Player player = (Player) src;
-			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
+			Nation nation = DataHandler.getNation(player.getLocation());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DQ));
+				return CommandResult.success();
+			}
+			Nation playerNation = DataHandler.getNationOfPlayer(player.getUniqueId());
+			if (!nation.isAdmin() && !nation.getUUID().equals(playerNation.getUUID()))
+			{
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DR));
 				return CommandResult.success();
 			}
 			Zone zone = nation.getZone(player.getLocation());
@@ -100,6 +106,8 @@ public class ZoneBuyExecutor implements CommandExecutor
 			}
 			zone.setOwner(player.getUniqueId());
 			zone.setPrice(null);
+			if (nation.isAdmin())
+				zone.setName(player.getName());
 			DataHandler.saveNation(nation.getUUID());
 			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.GU.replaceAll("\\{ZONE\\}", zone.getName())));
 			if (oldOwner != null)

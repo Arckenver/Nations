@@ -81,6 +81,7 @@ import com.arckenver.nations.cmdexecutor.zone.ZoneFlagExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneInfoExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneListExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZonePermExecutor;
+import com.arckenver.nations.cmdexecutor.zone.ZoneRenameExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneSellExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneSetownerExecutor;
 import com.arckenver.nations.listener.BuildPermListener;
@@ -538,6 +539,13 @@ public class NationsPlugin
 				.arguments()
 				.executor(new ZoneDelownerExecutor())
 				.build();
+		
+		CommandSpec zoneRenameCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.zone.rename")
+				.arguments(GenericArguments.optional(GenericArguments.string(Text.of("name"))))
+				.executor(new ZoneRenameExecutor())
+				.build();
 
 		CommandSpec zonePermCmd = CommandSpec.builder()
 				.description(Text.of(""))
@@ -597,6 +605,7 @@ public class NationsPlugin
 				.child(zoneCoownerCmd, "coowner")
 				.child(zoneSetownerCmd, "setowner")
 				.child(zoneDelownerCmd, "delowner")
+				.child(zoneRenameCmd, "rename")
 				.child(zonePermCmd, "perm")
 				.child(zoneFlagCmd, "flag")
 				.child(zoneSellCmd, "sell", "forsale", "fs")

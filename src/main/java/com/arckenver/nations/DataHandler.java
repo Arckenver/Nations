@@ -34,7 +34,7 @@ public class DataHandler
 {
 	private static File nationsDir;
 	private static Gson gson;
-	
+
 	private static Hashtable<UUID, Nation> nations;
 	private static Hashtable<UUID, Hashtable<Vector2i, ArrayList<Nation>>> worldChunks;
 	private static HashMap<UUID, Nation> lastNationWalkedOn;
@@ -43,7 +43,7 @@ public class DataHandler
 	private static Hashtable<UUID, Point> secondPoints;
 	private static ArrayList<Request> inviteRequests;
 	private static ArrayList<Request> joinRequests;
-	
+
 	public static void init(File rootDir)
 	{
 		nationsDir = new File(rootDir, "nations");
@@ -53,7 +53,7 @@ public class DataHandler
 				.setPrettyPrinting()
 				.create();
 	}
-	
+
 	public static void load()
 	{
 		nationsDir.mkdirs();
@@ -90,17 +90,17 @@ public class DataHandler
 		{
 			saveNation(uuid);
 		}
-		
+
 	}
-	
+
 	// nations
-	
+
 	public static void addNation(Nation nation)
 	{
 		nations.put(nation.getUUID(), nation);
 		saveNation(nation.getUUID());
 	}
-	
+
 	public static Nation getNation(UUID uuid)
 	{
 		return nations.get(uuid);
@@ -140,7 +140,7 @@ public class DataHandler
 		}
 		return null;
 	}
-	
+
 	public static Nation getNationOfPlayer(UUID uuid)
 	{
 		for (Nation nation : nations.values())
@@ -159,7 +159,7 @@ public class DataHandler
 	public static void removeNation(UUID uuid)
 	{
 		nations.remove(uuid);
-		
+
 		ArrayList<UUID> toRemove = new ArrayList<>();
 		for (Nation nation : lastNationWalkedOn.values())
 		{
@@ -172,16 +172,16 @@ public class DataHandler
 		{
 			lastNationWalkedOn.remove(uuidToRemove);
 		}
-		
+
 		calculateWorldChunks();
-		
+
 		inviteRequests.removeIf(req -> req.getNationUUID().equals(uuid));
 		joinRequests.removeIf(req -> req.getNationUUID().equals(uuid));
-		
+
 		File file = new File(nationsDir, uuid.toString() + ".json");
 		file.delete();
 	}
-	
+
 	public static Hashtable<UUID, Nation> getNations()
 	{
 		return nations;
@@ -201,7 +201,7 @@ public class DataHandler
 		}
 		return zone.getFlag(flag);
 	}
-	
+
 	public static boolean getPerm(String perm, UUID playerUUID, Location<World> loc)
 	{
 		Nation nation = getNation(loc);
@@ -222,23 +222,19 @@ public class DataHandler
 			}
 			return nation.getPerm(Nation.TYPE_OUTSIDER, perm);
 		}
+
+		if (nation.isStaff(playerUUID) || zone.isOwner(playerUUID))
+			return true;
+		if (zone.isCoowner(playerUUID))
+			return zone.getPerm(Nation.TYPE_COOWNER, perm);
 		if (nation.isCitizen(playerUUID))
-		{
-			if (nation.isStaff(playerUUID) || zone.isOwner(playerUUID))
-			{
-				return true;
-			}
-			if (zone.isCoowner(playerUUID))
-			{
-				return zone.getPerm(Nation.TYPE_COOWNER, perm);
-			}
 			return zone.getPerm(Nation.TYPE_CITIZEN, perm);
-		}
+
 		return zone.getPerm(Nation.TYPE_OUTSIDER, perm);
 	}
-	
+
 	// players
-	
+
 	public static String getPlayerName(UUID uuid)
 	{
 		Optional<Player> optPlayer = Sponge.getServer().getPlayer(uuid);
@@ -255,12 +251,12 @@ public class DataHandler
 			return null;
 		}
 	}
-	
+
 	public static Collection<String> getPlayerNames()
 	{
 		return Sponge.getServer().getGameProfileManager().getCache().getProfiles().stream().filter(gp -> gp.getName().isPresent()).map(gp -> gp.getName().get()).collect(Collectors.toList());
 	}
-	
+
 	public static UUID getPlayerUUID(String name)
 	{
 		Optional<Player> optPlayer = Sponge.getServer().getPlayer(name);
@@ -277,7 +273,7 @@ public class DataHandler
 			return null;
 		}
 	}
-	
+
 	public static String getCitizenTitle(UUID uuid)
 	{
 		if (!ConfigHandler.getNode("others", "enableNationRanks").getBoolean())
@@ -291,12 +287,12 @@ public class DataHandler
 		}
 		return ConfigHandler.getNationRank(nation.getNumCitizens()).getNode("presidentTitle").getString();
 	}
-	
+
 	public static boolean canClaim(Location<World> loc, boolean ignoreMinDistance)
 	{
 		return canClaim(loc, ignoreMinDistance, null);
 	}
-	
+
 	public static boolean canClaim(Location<World> loc, boolean ignoreMinDistance, UUID toExclude)
 	{
 		for (Nation nation : nations.values())
@@ -321,7 +317,7 @@ public class DataHandler
 		}
 		return true;
 	}
-	
+
 	public static boolean canClaim(Rect rect, boolean ignoreMinDistance, UUID toExclude)
 	{
 		Optional<World> optWorld = Sponge.getServer().getWorld(rect.getWorld());
@@ -335,7 +331,7 @@ public class DataHandler
 				canClaim(world.getLocation(rect.getMinX(), 0, rect.getMaxY()), ignoreMinDistance, toExclude) &&
 				canClaim(world.getLocation(rect.getMinX(), 0, rect.getMinY()), ignoreMinDistance, toExclude);
 	}
-	
+
 	public static void calculateWorldChunks()
 	{
 		worldChunks = new Hashtable<UUID, Hashtable<Vector2i, ArrayList<Nation>>>();
@@ -344,7 +340,7 @@ public class DataHandler
 			addToWorldChunks(nation);
 		}
 	}
-	
+
 	public static void addToWorldChunks(Nation nation)
 	{
 		for (Rect r : nation.getRegion().getRects())
@@ -371,9 +367,9 @@ public class DataHandler
 			}
 		}
 	}
-	
+
 	// lastNationWalkedOn
-	
+
 	public static Nation getLastNationWalkedOn(UUID uuid)
 	{
 		return lastNationWalkedOn.get(uuid);
@@ -393,41 +389,41 @@ public class DataHandler
 	{
 		lastZoneWalkedOn.put(uuid, zone);
 	}
-	
+
 	// points
-	
+
 	public static Point getFirstPoint(UUID uuid)
 	{
 		return firstPoints.get(uuid);
 	}
-	
+
 	public static void setFirstPoint(UUID uuid, Point point)
 	{
 		firstPoints.put(uuid, point);
 	}
-	
+
 	public static void removeFirstPoint(UUID uuid)
 	{
 		firstPoints.remove(uuid);
 	}
-	
+
 	public static Point getSecondPoint(UUID uuid)
 	{
 		return secondPoints.get(uuid);
 	}
-	
+
 	public static void setSecondPoint(UUID uuid, Point point)
 	{
 		secondPoints.put(uuid, point);
 	}
-	
+
 	public static void removeSecondPoint(UUID uuid)
 	{
 		secondPoints.remove(uuid);
 	}
 
 	// requests
-	
+
 	public static Request getJoinRequest(UUID nationUUID, UUID uuid)
 	{
 		for (Request req : joinRequests)
@@ -439,12 +435,12 @@ public class DataHandler
 		}
 		return null;
 	}
-	
+
 	public static void addJoinRequest(Request req)
 	{
 		joinRequests.add(req);
 	}
-	
+
 	public static void removeJoinRequest(Request req)
 	{
 		joinRequests.remove(req);
@@ -461,19 +457,19 @@ public class DataHandler
 		}
 		return null;
 	}
-	
+
 	public static void addInviteRequest(Request req)
 	{
 		inviteRequests.add(req);
 	}
-	
+
 	public static void removeInviteRequest(Request req)
 	{
 		inviteRequests.remove(req);
 	}
-	
+
 	// saves
-	
+
 	public static void saveNation(UUID uuid)
 	{
 		Nation nation = nations.get(uuid);
