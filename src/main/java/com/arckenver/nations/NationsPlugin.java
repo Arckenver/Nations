@@ -253,7 +253,7 @@ public class NationsPlugin
 		
 		CommandSpec nationadminCmd = CommandSpec.builder()
 				.description(Text.of(""))
-				.permission("nations.command.nationadmin")
+				.permission("nations.command.nationadmin.execute")
 				.executor(new NationadminExecutor())
 				.child(nationadminReloadCmd, "reload")
 				.child(nationadminCreateCmd, "create")
@@ -456,7 +456,7 @@ public class NationsPlugin
 
 		CommandSpec nationCmd = CommandSpec.builder()
 				.description(Text.of(""))
-				.permission("nations.command.nation")
+				.permission("nations.command.nation.execute")
 				.executor(new NationExecutor())
 				.child(nationInfoCmd, "info")
 				.child(nationHereCmd, "here", "h")
@@ -588,7 +588,7 @@ public class NationsPlugin
 
 		CommandSpec zoneCmd = CommandSpec.builder()
 				.description(Text.of(""))
-				.permission("nations.command.zone")
+				.permission("nations.command.zone.execute")
 				.executor(new ZoneExecutor())
 				.child(zoneInfoCmd, "info")
 				.child(zoneListCmd, "list")
@@ -660,7 +660,7 @@ public class NationsPlugin
 		
 		CommandSpec nationworldCmd = CommandSpec.builder()
 				.description(Text.of(""))
-				.permission("nations.command.nationworld")
+				.permission("nations.command.nationworld.execute")
 				.executor(new NationworldExecutor())
 				.child(worldInfoCmd, "info")
 				.child(worldListCmd, "list")
