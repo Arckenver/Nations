@@ -15,6 +15,7 @@ public class Rect
 	private int maxX;
 	private int minY;
 	private int maxY;
+	private boolean useless = false;
 	
 	public Rect(UUID world, Vector2i point)
 	{
@@ -98,6 +99,11 @@ public class Rect
 	public int size()
 	{
 		return width()*height();
+	}
+	
+
+	public boolean useless() {
+		return useless;
 	}
 	
 	public boolean isInside(Vector2i point)
@@ -220,7 +226,11 @@ public class Rect
 			{
 				result.add(new Rect(world, minX, maxX, minY, maxY));
 			}
-			else if (rect.getMinX() > minX && rect.getMaxX() < maxX && (!(rect.getMaxY() >= minY || maxY >= rect.getMinY())))
+			else if (rect.getMinX() > minX && rect.getMaxX() < maxX && rect.getMinY() > minY && rect.getMaxY() < maxY) {
+				result.add(new Rect(world, minX, maxX, minY, maxY));
+				rect.useless = true;
+			}
+			else if (rect.getMinX() > minX && rect.getMaxX() < maxX)
 			{
 				result.add(new Rect(world, minX, rect.getMinX() - 1, minY, maxY));
 				result.add(new Rect(world, rect.getMaxX() + 1, maxX, minY, maxY));

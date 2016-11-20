@@ -20,12 +20,12 @@ public class NationworldExecutor implements CommandExecutor
 				TextColors.GOLD, ((src instanceof Player) ? "" : "\n") + "--------{ ",
 				TextColors.YELLOW, "/nationworld",
 				TextColors.GOLD, " }--------",
-				TextColors.GOLD, "\n/nw info [world]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BS,
-				TextColors.GOLD, "\n/nw list", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BT,
-				TextColors.GOLD, "\n/nw enable <world>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BU,
-				TextColors.GOLD, "\n/nw disable <world>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BV,
-				TextColors.GOLD, "\n/nw perm <perm> [true|false]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BW,
-				TextColors.GOLD, "\n/nw flag <flag> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BX
+				TextColors.GOLD, "\n/nw info [world]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BU,
+				TextColors.GOLD, "\n/nw list", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BV,
+				TextColors.GOLD, "\n/nw enable <world>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BW, 
+				TextColors.GOLD, "\n/nw disable <world>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BX,
+				TextColors.GOLD, "\n/nw perm <perm> [true|false]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BY,
+				TextColors.GOLD, "\n/nw flag <flag> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BZ
 		));
 		return CommandResult.success();
 	}

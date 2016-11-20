@@ -2,6 +2,7 @@ package com.arckenver.nations.object;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.UUID;
 
 import org.spongepowered.api.world.Location;
@@ -51,13 +52,16 @@ public class Region
 	{
 		ArrayList<Rect> toAdd = new ArrayList<Rect>();
 		toAdd.add(rect);
-		for (Rect r : rects)
+		for (Iterator<Rect> it = rects.iterator(); it.hasNext();)
 		{
+			Rect r = it.next();
 			ArrayList<Rect> futureToAdd = new ArrayList<Rect>();
 			for (Rect rectToAdd : toAdd)
 			{
 				futureToAdd.addAll(rectToAdd.cutBy(r));
 			}
+			if (r.useless())
+				it.remove();
 			toAdd = futureToAdd;
 		}
 		rects.addAll(toAdd);
