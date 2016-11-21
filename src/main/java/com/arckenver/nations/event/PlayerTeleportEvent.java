@@ -7,7 +7,7 @@ import org.spongepowered.api.event.entity.living.humanoid.player.TargetPlayerEve
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-public class PlayerTeleportEvent implements TargetPlayerEvent, Cancellable
+public class PlayerTeleportEvent extends AbstractEvent implements TargetPlayerEvent, Cancellable
 {
 	private final Player player;
 	private final Location<World> dest;
