@@ -65,6 +65,7 @@ import com.arckenver.nations.cmdexecutor.nationadmin.NationadminPermExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminReloadExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSetnameExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSetpresExecutor;
+import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSpawnExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldDisableExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldEnableExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldExecutor;
@@ -253,6 +254,15 @@ public class NationsPlugin
 				.executor(new NationadminPermExecutor())
 				.build();
 		
+		CommandSpec nationadminSpawnCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.spawn")
+				.arguments(
+						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
+						GenericArguments.optional(GenericArguments.string(Text.of("name"))))
+				.executor(new NationadminSpawnExecutor())
+				.build();
+		
 		CommandSpec nationadminCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nationadmin.execute")
@@ -260,6 +270,7 @@ public class NationsPlugin
 				.child(nationadminReloadCmd, "reload")
 				.child(nationadminCreateCmd, "create")
 				.child(nationadminClaimCmd, "claim")
+				.child(nationadminSpawnCmd, "spawn")
 				.child(nationadminSetpresCmd, "setpres", "setpresident")
 				.child(nationadminSetnameCmd, "setname")
 				.child(nationadminForcejoinCmd, "forcejoin")

@@ -34,6 +34,7 @@ public class NationExecutor implements CommandExecutor
 				TextColors.GOLD, "\n/n resign <successor>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AM,
 				TextColors.GOLD, "\n/n minister <add/remove> <player>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AN,
 				TextColors.GOLD, "\n/n citizen <player>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AU,
+				TextColors.GOLD, "\n/n chat", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AW,
 				TextColors.GOLD, "\n/n perm <type> <perm> [true|false]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AO,
 				TextColors.GOLD, "\n/n flag <flag> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AP,
 				TextColors.GOLD, "\n/n taxes <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AV,
