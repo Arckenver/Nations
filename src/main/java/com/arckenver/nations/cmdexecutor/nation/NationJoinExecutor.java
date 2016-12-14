@@ -54,9 +54,12 @@ public class NationJoinExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			req = DataHandler.getInviteRequest(nation.getUUID(), guestPlayer.getUniqueId());
-			if (req != null)
+			if (nation.getFlag("open") || req != null)
 			{
-				DataHandler.removeInviteRequest(req);
+				if (req != null)
+				{
+					DataHandler.removeInviteRequest(req);
+				}
 				for (UUID uuid : nation.getCitizens())
 				{
 					Optional<Player> optPlayer = Sponge.getServer().getPlayer(uuid);

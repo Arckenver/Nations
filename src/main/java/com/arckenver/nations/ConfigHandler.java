@@ -84,6 +84,7 @@ public class ConfigHandler
 		Utils.ensureBoolean(config.getNode("nations", "flags", "mobs"), false);
 		Utils.ensureBoolean(config.getNode("nations", "flags", "fire"), false);
 		Utils.ensureBoolean(config.getNode("nations", "flags", "explosions"), false);
+		Utils.ensureBoolean(config.getNode("nations", "flags", "open"), false);
 		
 		Utils.ensureBoolean(config.getNode("nations", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD), false);
 		Utils.ensureBoolean(config.getNode("nations", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT), false);
