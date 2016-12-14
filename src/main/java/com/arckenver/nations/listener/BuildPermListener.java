@@ -1,5 +1,10 @@
 package com.arckenver.nations.listener;
 
+import java.util.Optional;
+
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.data.property.block.HeldItemProperty;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
@@ -13,6 +18,7 @@ import com.arckenver.nations.LanguageHandler;
 
 public class BuildPermListener
 {
+
 	@Listener
 	public void onPlayerPlacesBlock(ChangeBlockEvent.Place event, @First Player player)
 	{
@@ -28,14 +34,16 @@ public class BuildPermListener
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
+			if (!trans.getFinal().getState().getType().getId().equals(ConfigHandler.getNode("others", "gravestoneBlock").getString("gravestone:gravestone"))) {
 				trans.setValid(DataHandler.getPerm("build", player.getUniqueId(), loc));
 				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
 				{
 					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
 				}
+			}
 		}));
 	}
-	
+
 	@Listener
 	public void onPlayerBreaksBlock(ChangeBlockEvent.Break event, @First Player player)
 	{
@@ -51,11 +59,11 @@ public class BuildPermListener
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-				trans.setValid(DataHandler.getPerm("build", player.getUniqueId(), loc));
-				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
-				{
-					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
-				}
+			trans.setValid(DataHandler.getPerm("build", player.getUniqueId(), loc));
+			if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
+			{
+				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+			}
 		}));
 	}
 }
