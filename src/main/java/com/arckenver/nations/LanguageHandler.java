@@ -31,6 +31,7 @@ public class LanguageHandler
 	public static String AT;
 	public static String AU;
 	public static String AV;
+	public static String AW;
 	public static String AY;
 	public static String AZ;
 	public static String BA;
@@ -289,6 +290,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("AT").setValue("buy extra claimable blocks");
 		defaultLanguage.getNode("AU").setValue("get player details");
 		defaultLanguage.getNode("AV").setValue("set nation taxes");
+		defaultLanguage.getNode("AW").setValue("toggle nation chat");
 		
 		defaultLanguage.getNode("BA").setValue("get zone details");
 		defaultLanguage.getNode("BB").setValue("get details of the zone your standing on");
@@ -530,6 +532,7 @@ public class LanguageHandler
 		AT = getOrDefault("AT");
 		AU = getOrDefault("AU");
 		AV = getOrDefault("AV");
+		AW = getOrDefault("AW");
 		AY = getOrDefault("AY");
 		AZ = getOrDefault("AZ");
 		BA = getOrDefault("BA");
