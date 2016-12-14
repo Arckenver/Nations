@@ -29,6 +29,7 @@ import com.arckenver.nations.cmdelement.PlayerNameElement;
 import com.arckenver.nations.cmdelement.WorldNameElement;
 import com.arckenver.nations.cmdelement.ZoneNameElement;
 import com.arckenver.nations.cmdexecutor.nation.NationBuyextraExecutor;
+import com.arckenver.nations.cmdexecutor.nation.NationChatExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationCitizenExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationClaimExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationClaimOutpostExecutor;
@@ -454,6 +455,13 @@ public class NationsPlugin
 						GenericArguments.optional(GenericArguments.bool(Text.of("bool"))))
 				.executor(new NationFlagExecutor())
 				.build();
+		
+		CommandSpec nationChatCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.chat")
+				.arguments()
+				.executor(new NationChatExecutor())
+				.build();
 
 		CommandSpec nationCmd = CommandSpec.builder()
 				.description(Text.of(""))
@@ -481,6 +489,7 @@ public class NationsPlugin
 				.child(nationMinisterCmd, "minister")
 				.child(nationPermCmd, "perm")
 				.child(nationFlagCmd, "flag")
+				.child(nationChatCmd, "chat", "c")
 				.build();
 
 		CommandSpec zoneInfoCmd = CommandSpec.builder()

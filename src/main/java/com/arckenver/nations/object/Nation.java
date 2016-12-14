@@ -8,10 +8,13 @@ import java.util.UUID;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.arckenver.nations.ConfigHandler;
+import com.arckenver.nations.DataHandler;
+import com.arckenver.nations.service.NationMessageChannel;
 import com.flowpowered.math.vector.Vector2i;
 
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -38,6 +41,8 @@ public class Nation
 	private Hashtable<UUID, Zone> zones;
 	private int extras;
 	private double taxes;
+	
+	private NationMessageChannel channel = new NationMessageChannel();
 
 	public Nation(UUID uuid, String name)
 	{
@@ -216,6 +221,9 @@ public class Nation
 	public void addCitizen(UUID uuid)
 	{
 		citizens.add(uuid);
+		Optional<Player> player = Sponge.getServer().getPlayer(uuid);
+		if (player.isPresent())
+			channel.addMember(player.get());
 	}
 
 	public boolean isCitizen(UUID uuid)
@@ -235,6 +243,12 @@ public class Nation
 				.forEach(zone -> zone.setOwner(null));
 		ministers.remove(uuid);
 		citizens.remove(uuid);
+		Optional<Player> player = Sponge.getServer().getPlayer(uuid);
+		if (player.isPresent())
+		{
+			channel.removeMember(player.get());
+			player.get().setMessageChannel(MessageChannel.TO_ALL);
+		}
 	}
 	
 	public Hashtable<String, Boolean> getFlags()
@@ -335,5 +349,10 @@ public class Nation
 	public int maxBlockSize()
 	{
 		return extras + citizens.size() * ConfigHandler.getNode("others", "blocksPerCitizen").getInt();
+	}
+	
+	public NationMessageChannel getMessageChannel()
+	{
+		return channel;
 	}
 }
