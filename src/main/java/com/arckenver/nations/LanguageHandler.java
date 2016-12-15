@@ -32,6 +32,7 @@ public class LanguageHandler
 	public static String AU;
 	public static String AV;
 	public static String AW;
+	public static String AX;
 	public static String AY;
 	public static String AZ;
 	public static String BA;
@@ -293,6 +294,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("AU").setValue("get player details");
 		defaultLanguage.getNode("AV").setValue("set nation taxes");
 		defaultLanguage.getNode("AW").setValue("toggle nation chat");
+		defaultLanguage.getNode("AX").setValue("teleport to spawn of a public nation");
 		
 		defaultLanguage.getNode("BA").setValue("get zone details");
 		defaultLanguage.getNode("BB").setValue("get details of the zone your standing on");
@@ -537,6 +539,7 @@ public class LanguageHandler
 		AU = getOrDefault("AU");
 		AV = getOrDefault("AV");
 		AW = getOrDefault("AW");
+		AX = getOrDefault("AX");
 		AY = getOrDefault("AY");
 		AZ = getOrDefault("AZ");
 		BA = getOrDefault("BA");

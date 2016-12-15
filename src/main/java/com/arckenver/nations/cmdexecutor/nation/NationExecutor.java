@@ -38,7 +38,8 @@ public class NationExecutor implements CommandExecutor
 				TextColors.GOLD, "\n/n perm <type> <perm> [true|false]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AO,
 				TextColors.GOLD, "\n/n flag <flag> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AP,
 				TextColors.GOLD, "\n/n taxes <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AV,
-				TextColors.GOLD, "\n/n spawn <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AQ,
+				TextColors.GOLD, "\n/n spawn [name]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AQ,
+				TextColors.GOLD, "\n/n visit <nation> [name]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AX,
 				TextColors.GOLD, "\n/n setspawn <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AR,
 				TextColors.GOLD, "\n/n delspawn <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AS,
 				TextColors.GOLD, "\n/n buyextra <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AT));
