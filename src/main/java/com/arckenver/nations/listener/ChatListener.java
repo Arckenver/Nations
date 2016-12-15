@@ -2,7 +2,6 @@ package com.arckenver.nations.listener;
 
 import java.util.Optional;
 
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
@@ -13,6 +12,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.format.TextColors;
 
+import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.service.NationMessageChannel;
@@ -36,7 +36,7 @@ public class ChatListener
 			return;
 		}
 		MessageChannel chan = channel.get();
-		if (chan.equals(MessageChannel.TO_ALL))
+		if (chan.equals(MessageChannel.TO_ALL) && ConfigHandler.getNode("others", "enableNationTag").getBoolean(true))
 		{
 			e.setMessage(Text.of(TextColors.WHITE, " [", TextColors.DARK_AQUA, nation.getName(), TextColors.WHITE,  "] "), e.getMessage());
 		}

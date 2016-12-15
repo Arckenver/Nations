@@ -13,7 +13,6 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.arckenver.nations.ConfigHandler;
-import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.service.NationMessageChannel;
 import com.flowpowered.math.vector.Vector2i;
 

@@ -73,6 +73,7 @@ public class ConfigHandler
 		Utils.ensurePositiveNumber(config.getNode("others", "minZoneNameLength"), 3);
 		Utils.ensurePositiveNumber(config.getNode("others", "maxZoneNameLength"), 13);
 		Utils.ensureBoolean(config.getNode("others", "enableNationRanks"), true);
+		Utils.ensureBoolean(config.getNode("others", "enableNationTag"), true);
 		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");	
 		
 

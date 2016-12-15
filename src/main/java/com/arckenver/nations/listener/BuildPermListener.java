@@ -1,10 +1,5 @@
 package com.arckenver.nations.listener;
 
-import java.util.Optional;
-
-import org.spongepowered.api.block.BlockSnapshot;
-import org.spongepowered.api.block.BlockState;
-import org.spongepowered.api.data.property.block.HeldItemProperty;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;

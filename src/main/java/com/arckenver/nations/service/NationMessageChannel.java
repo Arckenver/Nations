@@ -2,14 +2,11 @@ package com.arckenver.nations.service;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Optional;
 import java.util.Set;
 import java.util.WeakHashMap;
 
-import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageReceiver;
 import org.spongepowered.api.text.channel.MutableMessageChannel;
-import org.spongepowered.api.text.format.TextColors;
 
 public class NationMessageChannel implements MutableMessageChannel {
     private Set<MessageReceiver> members;
