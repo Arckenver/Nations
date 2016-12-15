@@ -53,6 +53,7 @@ import com.arckenver.nations.cmdexecutor.nation.NationSpawnExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationTaxesExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationUnclaimExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationWithdrawExecutor;
+import com.arckenver.nations.cmdexecutor.nation.NationVisitExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminClaimExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminCreateExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminDeleteExecutor;
@@ -65,7 +66,6 @@ import com.arckenver.nations.cmdexecutor.nationadmin.NationadminPermExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminReloadExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSetnameExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSetpresExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSpawnExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldDisableExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldEnableExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldExecutor;
@@ -101,7 +101,7 @@ import com.arckenver.nations.task.TaxesCollectRunnable;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 
-@Plugin(id = "nations", name = "Nations", version = "2.2", authors={"Arckenver"}, description = "A towny-like worldguard-like zone managment plugin.", url="https://github.com/Arckenver/Nations")
+@Plugin(id = "nations", name = "Nations", version = "2.3", authors={"Arckenver"}, description = "A towny-like worldguard-like zone managment plugin.", url="https://github.com/Arckenver/Nations")
 public class NationsPlugin
 {
 	private File rootDir;
@@ -253,15 +253,7 @@ public class NationsPlugin
 						GenericArguments.optional(GenericArguments.bool(Text.of("bool"))))
 				.executor(new NationadminPermExecutor())
 				.build();
-		
-		CommandSpec nationadminSpawnCmd = CommandSpec.builder()
-				.description(Text.of(""))
-				.permission("nations.command.nationadmin.spawn")
-				.arguments(
-						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
-						GenericArguments.optional(GenericArguments.string(Text.of("name"))))
-				.executor(new NationadminSpawnExecutor())
-				.build();
+	
 		
 		CommandSpec nationadminCmd = CommandSpec.builder()
 				.description(Text.of(""))
@@ -270,7 +262,6 @@ public class NationsPlugin
 				.child(nationadminReloadCmd, "reload")
 				.child(nationadminCreateCmd, "create")
 				.child(nationadminClaimCmd, "claim")
-				.child(nationadminSpawnCmd, "spawn")
 				.child(nationadminSetpresCmd, "setpres", "setpresident")
 				.child(nationadminSetnameCmd, "setname")
 				.child(nationadminForcejoinCmd, "forcejoin")
@@ -473,6 +464,15 @@ public class NationsPlugin
 				.arguments()
 				.executor(new NationChatExecutor())
 				.build();
+		
+		CommandSpec nationVisitCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.visit")
+				.arguments(
+						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
+						GenericArguments.optional(GenericArguments.string(Text.of("name"))))
+				.executor(new NationVisitExecutor())
+				.build();
 
 		CommandSpec nationCmd = CommandSpec.builder()
 				.description(Text.of(""))
@@ -501,6 +501,7 @@ public class NationsPlugin
 				.child(nationPermCmd, "perm")
 				.child(nationFlagCmd, "flag")
 				.child(nationChatCmd, "chat", "c")
+				.child(nationVisitCmd, "visit")
 				.build();
 
 		CommandSpec zoneInfoCmd = CommandSpec.builder()

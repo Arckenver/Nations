@@ -488,13 +488,13 @@ public class Utils
 					(b, spawnName) -> b.append(Text.builder(spawnName).color(color).onClick(TextActions.runCommand("/n " + cmd + " " + spawnName)).build()),
 					(b) -> b.append(Text.of(color, ", "))).build();
 		}
-		else if (clicker == CLICKER_ADMIN)
+		if (clicker == CLICKER_ADMIN || nation.getFlag("public"))
 		{
 			return structureX(
 					nation.getSpawns().keySet().iterator(),
 					Text.builder(),
 					(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
-					(b, spawnName) -> b.append(Text.builder(spawnName).color(color).onClick(TextActions.runCommand("/na " + cmd + " " + nation.getName() + " " + spawnName)).build()),
+					(b, spawnName) -> b.append(Text.builder(spawnName).color(color).onClick(TextActions.runCommand("/n visit " + nation.getName() + " " + spawnName)).build()),
 					(b) -> b.append(Text.of(color, ", "))).build();
 		}
 		return structureX(
@@ -503,6 +503,7 @@ public class Utils
 				(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
 				(b, spawnName) -> b.append(Text.builder(spawnName).color(color).build()),
 				(b) -> b.append(Text.of(color, ", "))).build();
+
 	}
 
 	// clickable

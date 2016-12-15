@@ -1,5 +1,8 @@
 package com.arckenver.nations.cmdexecutor.nation;
 
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -7,6 +10,8 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.scheduler.Scheduler;
+import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
@@ -52,13 +57,35 @@ public class NationSpawnExecutor implements CommandExecutor
 						.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX)).build());
 				return CommandResult.success();
 			}
-			PlayerTeleportEvent event = new PlayerTeleportEvent(player, spawn, NationsPlugin.getCause());
-			Sponge.getEventManager().post(event);
-			if (!event.isCancelled())
-			{
-				player.setLocation(spawn);
-				src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GC));
+			if (player.hasPermission("nations.admin.bypass.teleport.warmup")) {
+				PlayerTeleportEvent event = new PlayerTeleportEvent(player, spawn, NationsPlugin.getCause());
+				Sponge.getEventManager().post(event);
+				if (!event.isCancelled())
+				{
+					player.setLocation(spawn);
+					src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GC));
+				}
+				return CommandResult.success();
 			}
+			
+			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.HU));
+			
+			Scheduler scheduler = Sponge.getScheduler();
+			Task.Builder taskBuilder = scheduler.createTaskBuilder();
+			taskBuilder.execute(new Consumer<Task>() {
+				
+				@Override
+				public void accept(Task t) {
+					t.cancel();
+					PlayerTeleportEvent event = new PlayerTeleportEvent(player, spawn, NationsPlugin.getCause());
+					Sponge.getEventManager().post(event);
+					if (!event.isCancelled())
+					{
+						player.setLocation(spawn);
+						src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GC));
+					}
+				}
+			}).delay(10, TimeUnit.SECONDS).submit(NationsPlugin.getInstance());
 		}
 		else
 		{

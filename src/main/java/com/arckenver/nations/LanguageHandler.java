@@ -203,6 +203,8 @@ public class LanguageHandler
 	public static String HQ;
 	public static String HR;
 	public static String HS;
+	public static String HT;
+	public static String HU;
 	public static String IA;
 	public static String IB;
 	public static String IC;
@@ -468,6 +470,8 @@ public class LanguageHandler
 		defaultLanguage.getNode("HQ").setValue("You've been kicked out of your nation because you didn't have enough money to pay for the taxes");
 		defaultLanguage.getNode("HR").setValue("Your nation can't have more than {MAX} spawns");
 		defaultLanguage.getNode("HS").setValue("You renamed the zone to {ZONE}");
+		defaultLanguage.getNode("HT").setValue("This nation is not public");
+		defaultLanguage.getNode("HU").setValue("Teleport will start in 10 seconds");
 
 		defaultLanguage.getNode("IA").setValue("Wilderness");
 		defaultLanguage.getNode("IB").setValue("Nation");
@@ -704,6 +708,8 @@ public class LanguageHandler
 		HQ = getOrDefault("HQ");
 		HR = getOrDefault("HR");
 		HS = getOrDefault("HS");
+		HT = getOrDefault("HT");
+		HU = getOrDefault("HU");
 		IA = getOrDefault("IA");
 		IB = getOrDefault("IB");
 		IC = getOrDefault("IC");
