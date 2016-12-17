@@ -14,8 +14,8 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
+import com.arckenver.nations.channel.NationMessageChannel;
 import com.arckenver.nations.object.Nation;
-import com.arckenver.nations.service.NationMessageChannel;
 
 @Plugin(id = "spongenationtag", name = "Sponge Nation Chat Tag", version = "1.1",
 description = "Towny like chat formating", authors = {"Carrot"})
@@ -25,17 +25,18 @@ public class ChatListener
 	@Listener(order = Order.LATE)
 	public void onPlayerChat(MessageChannelEvent.Chat e, @First Player p)
 	{
-		Optional<MessageChannel> channel = e.getChannel();
-		if (!channel.isPresent())
-		{
-			return;
-		}
 		Nation nation = DataHandler.getNationOfPlayer(p.getUniqueId());
 		if (nation == null)
 		{
 			return;
 		}
-		MessageChannel chan = channel.get();
+		MessageChannel chan = MessageChannel.TO_ALL;
+		Optional<MessageChannel> channel = e.getChannel();
+		if (channel.isPresent())
+		{
+			chan = channel.get();
+		}
+		
 		if (chan.equals(MessageChannel.TO_ALL) && ConfigHandler.getNode("others", "enableNationTag").getBoolean(true))
 		{
 			e.setMessage(Text.of(TextColors.WHITE, " [", TextColors.DARK_AQUA, nation.getName(), TextColors.WHITE,  "] "), e.getMessage());

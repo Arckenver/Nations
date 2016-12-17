@@ -33,7 +33,9 @@ public class BuildPermListener
 				trans.setValid(DataHandler.getPerm("build", player.getUniqueId(), loc));
 				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
 				{
-					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+					try {
+						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+					} catch (Exception e) {}
 				}
 			}
 		}));
@@ -57,7 +59,9 @@ public class BuildPermListener
 			trans.setValid(DataHandler.getPerm("build", player.getUniqueId(), loc));
 			if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
 			{
-				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+				try {
+					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+				} catch (Exception e) {}
 			}
 		}));
 	}

@@ -12,8 +12,8 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
+import com.arckenver.nations.channel.NationMessageChannel;
 import com.arckenver.nations.object.Nation;
-import com.arckenver.nations.service.NationMessageChannel;
 
 public class NationChatExecutor implements CommandExecutor
 {

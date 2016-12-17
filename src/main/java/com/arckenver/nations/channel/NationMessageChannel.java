@@ -1,4 +1,4 @@
-package com.arckenver.nations.service;
+package com.arckenver.nations.channel;
 
 import java.util.Collection;
 import java.util.Collections;

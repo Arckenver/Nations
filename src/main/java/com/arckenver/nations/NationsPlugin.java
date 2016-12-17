@@ -523,7 +523,7 @@ public class NationsPlugin
 				.permission("nations.command.zone.create")
 				.arguments(
 						GenericArguments.optional(GenericArguments.string(Text.of("name"))),
-						GenericArguments.optional(new CitizenNameElement(Text.of("owner"))))
+						GenericArguments.optional(new PlayerNameElement(Text.of("owner"))))
 				.executor(new ZoneCreateExecutor())
 				.build();
 
@@ -543,14 +543,14 @@ public class NationsPlugin
 										.put("add", "add")
 										.put("remove", "remove")
 										.build())),
-						GenericArguments.optional(new CitizenNameElement(Text.of("citizen"))))
+						GenericArguments.optional(new PlayerNameElement(Text.of("citizen"))))
 				.executor(new ZoneCoownerExecutor())
 				.build();
 
 		CommandSpec zoneSetownerCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.zone.setowner")
-				.arguments(GenericArguments.optional(new CitizenNameElement(Text.of("owner"))))
+				.arguments(GenericArguments.optional(new PlayerNameElement(Text.of("owner"))))
 				.executor(new ZoneSetownerExecutor())
 				.build();
 
