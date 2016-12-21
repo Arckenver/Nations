@@ -2,6 +2,7 @@ package com.arckenver.nations.listener;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.text.Text;
@@ -14,7 +15,7 @@ import com.arckenver.nations.LanguageHandler;
 public class BuildPermListener
 {
 
-	@Listener
+	@Listener(order=Order.FIRST)
 	public void onPlayerPlacesBlock(ChangeBlockEvent.Place event, @First Player player)
 	{
 		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
@@ -41,7 +42,7 @@ public class BuildPermListener
 		}));
 	}
 
-	@Listener
+	@Listener(order=Order.FIRST)
 	public void onPlayerBreaksBlock(ChangeBlockEvent.Break event, @First Player player)
 	{
 		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
