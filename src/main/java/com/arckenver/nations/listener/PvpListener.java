@@ -4,6 +4,7 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.cause.entity.damage.source.EntityDamageSource;
+import org.spongepowered.api.event.cause.entity.damage.source.IndirectEntityDamageSource;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.filter.cause.All;
 
@@ -12,6 +13,7 @@ import com.arckenver.nations.DataHandler;
 
 public class PvpListener
 {
+	
 	@Listener
 	public void onEntityDamagedByPlayer(DamageEntityEvent event, @All(ignoreEmpty=false) EntityDamageSource[] sources)
 	{
@@ -22,7 +24,8 @@ public class PvpListener
 		Entity attacker = null;
 		for (int i = 0; i < sources.length; i++)
 		{
-			if (sources[i].getSource().getType() == EntityTypes.PLAYER)
+			if (sources[i].getSource().getType() == EntityTypes.PLAYER
+					|| (sources[i] instanceof IndirectEntityDamageSource && ((IndirectEntityDamageSource) sources[i]).getIndirectSource().getType() == EntityTypes.PLAYER))
 			{
 				attacker = sources[i].getSource();
 			}
