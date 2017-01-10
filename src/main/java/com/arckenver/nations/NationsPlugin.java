@@ -39,6 +39,7 @@ import com.arckenver.nations.cmdexecutor.nation.NationDepositExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationFlagExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationHereExecutor;
+import com.arckenver.nations.cmdexecutor.nation.NationHomeExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationInfoExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationInviteExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationJoinExecutor;
@@ -384,6 +385,13 @@ public class NationsPlugin
 				.arguments(GenericArguments.optional(GenericArguments.string(Text.of("name"))))
 				.executor(new NationSpawnExecutor())
 				.build();
+		
+		CommandSpec nationHomeCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.home")
+				.arguments()
+				.executor(new NationHomeExecutor())
+				.build();
 
 		CommandSpec nationSetspawnCmd = CommandSpec.builder()
 				.description(Text.of(""))
@@ -493,6 +501,7 @@ public class NationsPlugin
 				.child(nationLeaveCmd, "leave", "quit")
 				.child(nationResignCmd, "resign")
 				.child(nationSpawnCmd, "spawn")
+				.child(nationHomeCmd, "home")
 				.child(nationSetspawnCmd, "setspawn")
 				.child(nationDelspawnCmd, "delspawn")
 				.child(nationBuyextraCmd, "buyextra")
