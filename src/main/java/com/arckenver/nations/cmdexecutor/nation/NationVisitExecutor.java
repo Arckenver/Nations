@@ -82,7 +82,7 @@ public class NationVisitExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			
-			if (player.hasPermission("nations.admin.bypass.teleport.warmup")) {
+			if (player.hasPermission("nations.bypass.teleport.warmup")) {
 				PlayerTeleportEvent event = new PlayerTeleportEvent(player, spawn, NationsPlugin.getCause());
 				Sponge.getEventManager().post(event);
 				if (!event.isCancelled())
