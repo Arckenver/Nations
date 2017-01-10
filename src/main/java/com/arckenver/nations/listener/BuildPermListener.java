@@ -1,5 +1,6 @@
 package com.arckenver.nations.listener;
 
+import org.spongepowered.api.data.value.mutable.SetValue;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
@@ -26,14 +27,15 @@ public class BuildPermListener
 		{
 			return;
 		}
+		String graveItem = ConfigHandler.getNode("others", "gravestoneBlock").getString("gravestone:gravestone");
 		event
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			if (!trans.getFinal().getState().getType().getId().equals(ConfigHandler.getNode("others", "gravestoneBlock").getString("gravestone:gravestone"))) {
-				trans.setValid(DataHandler.getPerm("build", player.getUniqueId(), loc));
+			if (!trans.getFinal().getState().getType().getId().equals(graveItem)) {
 				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
 				{
+					trans.setValid(false);
 					try {
 						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
 					} catch (Exception e) {}
@@ -57,9 +59,9 @@ public class BuildPermListener
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			trans.setValid(DataHandler.getPerm("build", player.getUniqueId(), loc));
 			if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
 			{
+				trans.setValid(false);
 				try {
 					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
 				} catch (Exception e) {}
