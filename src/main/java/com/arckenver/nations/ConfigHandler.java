@@ -73,6 +73,9 @@ public class ConfigHandler
 		Utils.ensurePositiveNumber(config.getNode("others", "minZoneNameLength"), 3);
 		Utils.ensurePositiveNumber(config.getNode("others", "maxZoneNameLength"), 13);
 		Utils.ensureBoolean(config.getNode("others", "enableNationRanks"), true);
+		Utils.ensureBoolean(config.getNode("others", "enableNationTag"), true);
+		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");	
+		
 
 		Utils.ensureBoolean(config.getNode("nations", "canEditTaxes"), true);
 		Utils.ensurePositiveNumber(config.getNode("nations", "defaultTaxes"), 50);
@@ -82,6 +85,8 @@ public class ConfigHandler
 		Utils.ensureBoolean(config.getNode("nations", "flags", "mobs"), false);
 		Utils.ensureBoolean(config.getNode("nations", "flags", "fire"), false);
 		Utils.ensureBoolean(config.getNode("nations", "flags", "explosions"), false);
+		Utils.ensureBoolean(config.getNode("nations", "flags", "open"), false);
+		Utils.ensureBoolean(config.getNode("nations", "flags", "public"), false);
 		
 		Utils.ensureBoolean(config.getNode("nations", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD), false);
 		Utils.ensureBoolean(config.getNode("nations", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT), false);

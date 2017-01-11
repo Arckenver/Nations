@@ -31,6 +31,8 @@ public class LanguageHandler
 	public static String AT;
 	public static String AU;
 	public static String AV;
+	public static String AW;
+	public static String AX;
 	public static String AY;
 	public static String AZ;
 	public static String BA;
@@ -104,6 +106,8 @@ public class LanguageHandler
 	public static String DQ;
 	public static String DR;
 	public static String DS;
+	public static String DT;
+	public static String DU;
 	public static String EA;
 	public static String EB;
 	public static String EC;
@@ -200,6 +204,10 @@ public class LanguageHandler
 	public static String HQ;
 	public static String HR;
 	public static String HS;
+	public static String HT;
+	public static String HU;
+	public static String HV;
+	public static String HW;
 	public static String IA;
 	public static String IB;
 	public static String IC;
@@ -287,6 +295,8 @@ public class LanguageHandler
 		defaultLanguage.getNode("AT").setValue("buy extra claimable blocks");
 		defaultLanguage.getNode("AU").setValue("get player details");
 		defaultLanguage.getNode("AV").setValue("set nation taxes");
+		defaultLanguage.getNode("AW").setValue("toggle nation chat");
+		defaultLanguage.getNode("AX").setValue("teleport to spawn of a public nation");
 		
 		defaultLanguage.getNode("BA").setValue("get zone details");
 		defaultLanguage.getNode("BB").setValue("get details of the zone your standing on");
@@ -365,6 +375,8 @@ public class LanguageHandler
 		defaultLanguage.getNode("DQ").setValue("You must be standing in a nation to perform that command");
 		defaultLanguage.getNode("DR").setValue("You do not have permission to buy a zone in this nation");
 		defaultLanguage.getNode("DS").setValue("rename zone");
+		defaultLanguage.getNode("DT").setValue("You are now speaking in your nations's private channel");
+		defaultLanguage.getNode("DU").setValue("You are no longer speaking in your nation's private channel");
 		
 		defaultLanguage.getNode("EA").setValue("You must select a region with a golden axe first (right/left click)");
 		defaultLanguage.getNode("EB").setValue("Your selection must be adjacent to your region");
@@ -462,6 +474,10 @@ public class LanguageHandler
 		defaultLanguage.getNode("HQ").setValue("You've been kicked out of your nation because you didn't have enough money to pay for the taxes");
 		defaultLanguage.getNode("HR").setValue("Your nation can't have more than {MAX} spawns");
 		defaultLanguage.getNode("HS").setValue("You renamed the zone to {ZONE}");
+		defaultLanguage.getNode("HT").setValue("This nation is not public");
+		defaultLanguage.getNode("HU").setValue("Teleport will start in 10 seconds");
+		defaultLanguage.getNode("HV").setValue("No spawn named 'home' found. Make one with /n setspawn home");
+		defaultLanguage.getNode("HW").setValue("if you have a spawn named 'home', tp to it");
 
 		defaultLanguage.getNode("IA").setValue("Wilderness");
 		defaultLanguage.getNode("IB").setValue("Nation");
@@ -526,6 +542,8 @@ public class LanguageHandler
 		AT = getOrDefault("AT");
 		AU = getOrDefault("AU");
 		AV = getOrDefault("AV");
+		AW = getOrDefault("AW");
+		AX = getOrDefault("AX");
 		AY = getOrDefault("AY");
 		AZ = getOrDefault("AZ");
 		BA = getOrDefault("BA");
@@ -599,6 +617,8 @@ public class LanguageHandler
 		DQ = getOrDefault("DQ");
 		DR = getOrDefault("DR");
 		DS = getOrDefault("DS");
+		DT = getOrDefault("DT");
+		DU = getOrDefault("DU");
 		EA = getOrDefault("EA");
 		EB = getOrDefault("EB");
 		EC = getOrDefault("EC");
@@ -695,6 +715,10 @@ public class LanguageHandler
 		HQ = getOrDefault("HQ");
 		HR = getOrDefault("HR");
 		HS = getOrDefault("HS");
+		HT = getOrDefault("HT");
+		HU = getOrDefault("HU");
+		HV = getOrDefault("HV");
+		HW = getOrDefault("HW");
 		IA = getOrDefault("IA");
 		IB = getOrDefault("IB");
 		IC = getOrDefault("IC");

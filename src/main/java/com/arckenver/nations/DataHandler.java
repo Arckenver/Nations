@@ -158,6 +158,11 @@ public class DataHandler
 
 	public static void removeNation(UUID uuid)
 	{
+		Nation oldNation = getNation(uuid);
+		if (oldNation != null) {
+			NationsPlugin.getLogger().info("Removing Nation " + uuid + ": ");
+			NationsPlugin.getLogger().info(Utils.formatNationDescription(oldNation, Utils.CLICKER_ADMIN).toPlain());
+		}
 		nations.remove(uuid);
 
 		ArrayList<UUID> toRemove = new ArrayList<>();

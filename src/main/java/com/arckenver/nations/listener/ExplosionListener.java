@@ -1,6 +1,7 @@
 package com.arckenver.nations.listener;
 
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.world.ExplosionEvent;
 
 import com.arckenver.nations.ConfigHandler;
@@ -8,7 +9,7 @@ import com.arckenver.nations.DataHandler;
 
 public class ExplosionListener
 {
-	@Listener
+	@Listener(order=Order.FIRST)
 	public void onExplosion(ExplosionEvent.Pre event)
 	{
 		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())

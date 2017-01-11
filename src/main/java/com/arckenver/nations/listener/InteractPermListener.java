@@ -2,6 +2,7 @@ package com.arckenver.nations.listener;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.text.Text;
@@ -13,7 +14,7 @@ import com.arckenver.nations.LanguageHandler;
 
 public class InteractPermListener
 {
-	@Listener
+	@Listener(order=Order.FIRST)
 	public void onInteract(InteractBlockEvent event, @First Player player)
 	{
 		if (!ConfigHandler.getNode("worlds").getNode(player.getWorld().getName()).getNode("enabled").getBoolean())
