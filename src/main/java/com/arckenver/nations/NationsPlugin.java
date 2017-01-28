@@ -8,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import com.arckenver.nations.listener.*;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.args.GenericArguments;
@@ -87,15 +88,6 @@ import com.arckenver.nations.cmdexecutor.zone.ZonePermExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneRenameExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneSellExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneSetownerExecutor;
-import com.arckenver.nations.listener.BuildPermListener;
-import com.arckenver.nations.listener.ExplosionListener;
-import com.arckenver.nations.listener.FireListener;
-import com.arckenver.nations.listener.GoldenAxeListener;
-import com.arckenver.nations.listener.InteractPermListener;
-import com.arckenver.nations.listener.MobSpawningListener;
-import com.arckenver.nations.listener.PlayerConnectionListener;
-import com.arckenver.nations.listener.PlayerMoveListener;
-import com.arckenver.nations.listener.PvpListener;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.service.NationsService;
 import com.arckenver.nations.task.TaxesCollectRunnable;
@@ -723,6 +715,7 @@ public class NationsPlugin
 		Sponge.getEventManager().registerListeners(this, new MobSpawningListener());
 		Sponge.getEventManager().registerListeners(this, new BuildPermListener());
 		Sponge.getEventManager().registerListeners(this, new InteractPermListener());
+		Sponge.getEventManager().registerListeners( this, new MobEnterListener());
 
 		LocalDateTime localNow = LocalDateTime.now();
 		ZonedDateTime zonedNow = ZonedDateTime.of(localNow, ZoneId.systemDefault());

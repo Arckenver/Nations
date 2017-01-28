@@ -71,6 +71,7 @@ public class TaxesCollectRunnable implements Runnable
 			// nation upkeep
 			BigDecimal upkeep = BigDecimal.valueOf(nation.getUpkeep());
 			TransactionResult result = optAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), upkeep, NationsPlugin.getCause());
+			//Add the transaction data to put the withdrawn ammount into the SERVER account
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{
 				nationsToRemove.add(nation.getUUID());
