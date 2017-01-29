@@ -17,11 +17,10 @@ import javax.management.monitor.MonitorSettingException;
 public class MobEnterListener {
     @Listener
     public void onMoveEntityEvent(MoveEntityEvent event) {
-        if (!ConfigHandler.getNode("worlds").getNode(event.getTargetEntity().getWorld().getName()).getNode("enabled").getBoolean())
+        if (!ConfigHandler.getNode("worlds").getNode(event.getTargetEntity().getWorld().getName()).getNode("enabled").getBoolean() || !ConfigHandler.getNode("others", "preventMobEnter").getBoolean())
         {
             return;
         }
-        //event.filterEntities(e -> !(e instanceof Monster) || DataHandler.getFlag("mobs", e.getLocation()));
 
         if (event.getTargetEntity() instanceof Monster)
         {
