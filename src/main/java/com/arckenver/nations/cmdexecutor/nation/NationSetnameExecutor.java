@@ -44,7 +44,7 @@ public class NationSetnameExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EL));
 				return CommandResult.success();
 			}
-			if (!newName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]*"))
+			if (!newName.matches("[a-zA-Z\\._ -]{1,}"))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EM));
 				return CommandResult.success();
