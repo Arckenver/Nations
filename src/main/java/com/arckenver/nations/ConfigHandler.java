@@ -57,7 +57,7 @@ public class ConfigHandler
 		}
 		
 		// check integrity
-        Utils.ensureBoolean(config.getNode("upkeep", "perBlock"), false);
+		Utils.ensureBoolean(config.getNode("upkeep", "perBlock"), false);
 		Utils.ensurePositiveNumber(config.getNode("upkeep", "price"), 0.10);
 
 		Utils.ensurePositiveNumber(config.getNode("prices", "nationCreationPrice"), 2500);

@@ -54,7 +54,7 @@ public class NationSpawnExecutor implements CommandExecutor
 						.append(Text.of(TextColors.RED, LanguageHandler.GB.split("\\{SPAWNLIST\\}")[0]))
 						.append(Utils.formatNationSpawns(nation, TextColors.YELLOW))
                         .append(Text.of(TextColors.AQUA, LanguageHandler.GA.split("\\{SPAWNLIST\\}")[1]))
-						//.append(Text.of(TextColors.RED, LanguageHandler.GB.split("\\{SPAWNLIST\\}")[1]))
+						.append(Text.of(TextColors.RED, LanguageHandler.GB.split("\\{SPAWNLIST\\}")[1]))
 						.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX)).build());
 				return CommandResult.success();
 			}
