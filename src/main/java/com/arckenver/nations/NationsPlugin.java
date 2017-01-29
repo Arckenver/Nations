@@ -725,13 +725,13 @@ public class NationsPlugin
 		long initalDelay = Duration.between(zonedNow, zonedNext).getSeconds();
 
 		Sponge.getScheduler()
-				.createTaskBuilder()
-				.execute(new TaxesCollectRunnable())
-				.delay(initalDelay, TimeUnit.SECONDS)
-				.interval(1, TimeUnit.DAYS)
-				.async()
-				.submit(this);
-
+			.createTaskBuilder()
+			.execute(new TaxesCollectRunnable())
+			.delay(initalDelay, TimeUnit.SECONDS)
+			.interval(1, TimeUnit.DAYS)
+			.async()
+			.submit(this);
+		
 		logger.info("Plugin ready");
 	}
 

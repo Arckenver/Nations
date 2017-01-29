@@ -119,7 +119,16 @@ public class Nation
 
 	public double getUpkeep()
 	{
-		return ConfigHandler.getNode("prices", "upkeepPerCitizen").getDouble() * citizens.size();
+		if (isAdmin()) {
+			return 0;
+		}
+		else if (!ConfigHandler.getNode("upkeep", "perBlock").getBoolean()) {
+			return ConfigHandler.getNode("prices", "upkeepPerCitizen").getDouble() * citizens.size();
+		}
+		else
+		{
+			return ConfigHandler.getNode("prices", "upkeepPerCitizen").getDouble() * region.size();
+		}
 	}
 
 	public Location<World> getSpawn(String name)

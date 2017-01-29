@@ -16,6 +16,7 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
+import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.object.Nation;
@@ -70,8 +71,9 @@ public class TaxesCollectRunnable implements Runnable
 			}
 			// nation upkeep
 			BigDecimal upkeep = BigDecimal.valueOf(nation.getUpkeep());
+
 			TransactionResult result = optAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), upkeep, NationsPlugin.getCause());
-			//Add the transaction data to put the withdrawn ammount into the SERVER account
+
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{
 				nationsToRemove.add(nation.getUUID());
