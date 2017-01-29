@@ -715,7 +715,7 @@ public class NationsPlugin
 		Sponge.getEventManager().registerListeners(this, new MobSpawningListener());
 		Sponge.getEventManager().registerListeners(this, new BuildPermListener());
 		Sponge.getEventManager().registerListeners(this, new InteractPermListener());
-		Sponge.getEventManager().registerListeners( this, new MobEnterListener());
+		Sponge.getEventManager().registerListeners(this, new MobEnterListener());
 
 		LocalDateTime localNow = LocalDateTime.now();
 		ZonedDateTime zonedNow = ZonedDateTime.of(localNow, ZoneId.systemDefault());

@@ -39,18 +39,19 @@ public class ChatListener
 		
 		if (chan.equals(MessageChannel.TO_ALL) && ConfigHandler.getNode("others", "enableNationTag").getBoolean(true))
 		{
-			//check if president of nation then format tag depending on that
+            if (ConfigHandler.getNode("others", "enableNationTagWithTitle").getBoolean(true) && !nation.isPresident(p.getUniqueId()))
+            {
+				e.setMessage(Text.of(TextColors.WHITE, "[", TextColors.DARK_AQUA, nation.getName(), TextColors.WHITE, "] "), e.getMessage());
+			}
+			else
+			{
+				e.setMessage(Text.of(TextColors.WHITE, "[", TextColors.DARK_AQUA, nation.getName(), TextColors.WHITE, "]", TextColors.RED, "-", TextColors.WHITE, "[", TextColors.DARK_AQUA, DataHandler.getCitizenTitle(p.getUniqueId()), TextColors.WHITE, "] "), e.getMessage());
+			}
 
-			if (!nation.isPresident(p.getUniqueId())) {
-				e.setMessage(Text.of(TextColors.WHITE, " [", TextColors.DARK_AQUA, nation.getName(), TextColors.WHITE,  "] "), e.getMessage());
-			}
-			else {
-				e.setMessage(Text.of(TextColors.WHITE, " [", TextColors.DARK_AQUA, nation.getName(), TextColors.WHITE,  "]", TextColors.RED, "-", TextColors.WHITE, "[", TextColors.DARK_AQUA, DataHandler.getCitizenTitle(p.getUniqueId()) ,TextColors.WHITE,"] "), e.getMessage());
-			}
 		}
 		else if (chan instanceof NationMessageChannel)
 		{
-			e.setMessage(Text.of(TextColors.WHITE, " {", TextColors.YELLOW, nation.getName(), TextColors.WHITE,  "} "), Text.of(TextColors.YELLOW, e.getMessage()));
+			e.setMessage(Text.of(TextColors.WHITE, "{", TextColors.YELLOW, nation.getName(), TextColors.WHITE,  "} "), Text.of(TextColors.YELLOW, e.getMessage()));
 		}
 	}
 }
