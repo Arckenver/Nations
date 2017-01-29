@@ -731,7 +731,7 @@ public class NationsPlugin
 			.interval(1, TimeUnit.DAYS)
 			.async()
 			.submit(this);
-		
+
 		logger.info("Plugin ready");
 	}
 
