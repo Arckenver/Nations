@@ -38,7 +38,7 @@ public class NationadminCreateExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EL));
 				return CommandResult.success();
 			}
-			if (!nationName.matches("[a-zA-Z\\._ -]{1,}"))
+			if (!nationName.matches("[a-zA-Z\\._-]{1,}"))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EM));
 				return CommandResult.success();
