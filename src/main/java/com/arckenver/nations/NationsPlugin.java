@@ -717,6 +717,7 @@ public class NationsPlugin
 		Sponge.getEventManager().registerListeners(this, new InteractPermListener());
 		Sponge.getEventManager().registerListeners(this, new MobEnterListener());
 
+
 		LocalDateTime localNow = LocalDateTime.now();
 		ZonedDateTime zonedNow = ZonedDateTime.of(localNow, ZoneId.systemDefault());
 		ZonedDateTime zonedNext = zonedNow.withHour(12).withMinute(0).withSecond(0);
