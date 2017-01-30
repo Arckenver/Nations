@@ -106,6 +106,15 @@ public class NationUnclaimExecutor implements CommandExecutor
 					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DN));
 					return CommandResult.success();
 				}
+				else
+				{
+					if (ConfigHandler.getNode("economy", "serverAccount").getString() != null)
+					{
+						String serverAccount = ConfigHandler.getNode("economy", "serverAccount").getString();
+						Optional<Account> optServerAccount = NationsPlugin.getEcoService().getOrCreateAccount(serverAccount);
+						TransactionResult resultServer = optServerAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), refund, NationsPlugin.getCause());
+					}
+				}
 			}
 			
 			

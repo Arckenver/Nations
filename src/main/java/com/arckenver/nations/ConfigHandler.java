@@ -60,6 +60,8 @@ public class ConfigHandler
 		Utils.ensureBoolean(config.getNode("upkeep", "perBlock"), false);
 		Utils.ensurePositiveNumber(config.getNode("upkeep", "price"), 0.10);
 
+		Utils.ensureString(config.getNode("economy", "serverAccount"), "");
+
 		Utils.ensurePositiveNumber(config.getNode("prices", "nationCreationPrice"), 2500);
 		Utils.ensurePositiveNumber(config.getNode("prices", "upkeepPerCitizen"), 100);
 		Utils.ensurePositiveNumber(config.getNode("prices", "unclaimRefundPercentage"), 0);

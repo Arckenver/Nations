@@ -16,7 +16,6 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
-import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.object.Nation;
@@ -81,6 +80,20 @@ public class TaxesCollectRunnable implements Runnable
 			else if (result.getResult() != ResultType.SUCCESS)
 			{
 				NationsPlugin.getLogger().error("Error while taking upkeep from nation " + nation.getName());
+			}
+			else
+			{
+				if (ConfigHandler.getNode("economy", "serverAccount").getString() != null)
+				{
+					String serverAccount = ConfigHandler.getNode("economy", "serverAccount").getString();
+					Optional<Account> optServerAccount = NationsPlugin.getEcoService().getOrCreateAccount(serverAccount);
+					TransactionResult resultServer = optServerAccount.get().deposit(NationsPlugin.getEcoService().getDefaultCurrency(), upkeep, NationsPlugin.getCause());
+
+					if (resultServer.getResult() != ResultType.SUCCESS)
+					{
+						NationsPlugin.getLogger().error("Error Giving money to SERVER account");
+					}
+				}
 			}
 		}
 		for (UUID uuid : nationsToRemove)

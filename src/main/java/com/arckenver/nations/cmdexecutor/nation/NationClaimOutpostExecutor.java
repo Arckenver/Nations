@@ -81,6 +81,20 @@ public class NationClaimOutpostExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DN));
 				return CommandResult.success();
 			}
+			else
+			{
+				if (ConfigHandler.getNode("economy", "serverAccount").getString() != null)
+				{
+					String serverAccount = ConfigHandler.getNode("economy", "serverAccount").getString();
+					Optional<Account> optServerAccount = NationsPlugin.getEcoService().getOrCreateAccount(serverAccount);
+					TransactionResult resultServer = optServerAccount.get().deposit(NationsPlugin.getEcoService().getDefaultCurrency(), price, NationsPlugin.getCause());
+
+					if (resultServer.getResult() != ResultType.SUCCESS)
+					{
+						NationsPlugin.getLogger().error("Error Giving money to SERVER account");
+					}
+				}
+			}
 			
 			nation.getRegion().addRect(new Rect(loc.getExtent().getUniqueId(), loc.getBlockX(), loc.getBlockX(), loc.getBlockZ(), loc.getBlockZ()));
 			DataHandler.addToWorldChunks(nation);
