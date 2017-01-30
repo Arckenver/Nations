@@ -123,11 +123,11 @@ public class Nation
 			return 0;
 		}
 		else if (!ConfigHandler.getNode("upkeep", "perBlock").getBoolean()) {
-			return ConfigHandler.getNode("upkeep", "price").getDouble() * citizens.size();
+			return ConfigHandler.getNode("prices", "upkeepperCitizen").getDouble() * citizens.size();
 		}
 		else
 		{
-			return ConfigHandler.getNode("prices", "upkeepPerCitizen").getDouble() * region.size();
+			return ConfigHandler.getNode("upkeep", "price").getDouble() * region.size();
 		}
 	}
 

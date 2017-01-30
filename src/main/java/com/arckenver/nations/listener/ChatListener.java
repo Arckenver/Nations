@@ -39,7 +39,7 @@ public class ChatListener
 		
 		if (chan.equals(MessageChannel.TO_ALL) && ConfigHandler.getNode("others", "enableNationTag").getBoolean(true))
 		{
-            if (ConfigHandler.getNode("others", "enableNationTagWithTitle").getBoolean(true) && !nation.isPresident(p.getUniqueId()))
+            if (ConfigHandler.getNode("others", "enableNationTagWithTitle").getBoolean() && !nation.isPresident(p.getUniqueId()))
             {
 				e.setMessage(Text.of(TextColors.WHITE, "[", TextColors.DARK_AQUA, nation.getName(), TextColors.WHITE, "] "), e.getMessage());
 			}
