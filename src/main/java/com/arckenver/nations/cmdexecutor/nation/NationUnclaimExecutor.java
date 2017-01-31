@@ -113,6 +113,7 @@ public class NationUnclaimExecutor implements CommandExecutor
 						String serverAccount = ConfigHandler.getNode("economy", "serverAccount").getString();
 						Optional<Account> optServerAccount = NationsPlugin.getEcoService().getOrCreateAccount(serverAccount);
 						TransactionResult resultServer = optServerAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), refund, NationsPlugin.getCause());
+						//this should probably be a bit different, current setup causes the server to generate money if the server account had none... i think?
 					}
 				}
 			}
