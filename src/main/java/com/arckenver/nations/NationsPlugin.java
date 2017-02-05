@@ -8,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import com.arckenver.nations.cmdexecutor.nationadmin.*;
 import com.arckenver.nations.listener.*;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -56,18 +57,6 @@ import com.arckenver.nations.cmdexecutor.nation.NationTaxesExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationUnclaimExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationWithdrawExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationVisitExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminClaimExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminCreateExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminDeleteExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminEcoExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminFlagExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminForcejoinExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminForceleaveExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminPermExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminReloadExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSetnameExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSetpresExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldDisableExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldEnableExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldExecutor;
@@ -246,6 +235,11 @@ public class NationsPlugin
 						GenericArguments.optional(GenericArguments.bool(Text.of("bool"))))
 				.executor(new NationadminPermExecutor())
 				.build();
+		CommandSpec nationadminForceupkeepCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.forceupkeep")
+				.executor(new NationadminForceupkeepExecutor())
+				.build();
 	
 		
 		CommandSpec nationadminCmd = CommandSpec.builder()
@@ -263,6 +257,7 @@ public class NationsPlugin
 				.child(nationadminDeleteCmd, "delete")
 				.child(nationadminFlagCmd, "flag")
 				.child(nationadminPermCmd, "perm")
+				.child(nationadminForceupkeepCmd, "forceupkeep")
 				.build();
 
 		CommandSpec nationInfoCmd = CommandSpec.builder()
