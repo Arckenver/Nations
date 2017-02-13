@@ -243,6 +243,9 @@ public class LanguageHandler
 	public static String JH;
 	public static String KA;
 	public static String KB;
+	public static String KC;
+	public static String KD;
+	public static String KE;
 	
 	private static File languageFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> languageManager;
@@ -516,6 +519,9 @@ public class LanguageHandler
 
 		defaultLanguage.getNode("KA").setValue("First position set to {COORD}");
 		defaultLanguage.getNode("KB").setValue("Second position set to {COORD}");
+		defaultLanguage.getNode("KC").setValue("Nation tag must be 2-4 letters or numbers");
+		defaultLanguage.getNode("KD").setValue("Nation tag set to");
+		defaultLanguage.getNode("KE").setValue("Change Nation tag");
 	}
 	
 	public static void load()
@@ -754,6 +760,9 @@ public class LanguageHandler
 		JH = getOrDefault("JH");
 		KA = getOrDefault("KA");
 		KB = getOrDefault("KB");
+		KC = getOrDefault("KC");
+		KD = getOrDefault("KD");
+		KE = getOrDefault("KE");
 		
 		save();
 	}
