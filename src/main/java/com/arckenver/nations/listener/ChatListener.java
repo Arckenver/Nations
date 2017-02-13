@@ -38,7 +38,7 @@ public class ChatListener
 		}
 
 		String tag;
-		if (ConfigHandler.getNode("others", "enableNationShortTag").getBoolean() && nation.getTag() != null)
+		if (ConfigHandler.getNode("others", "enableNationShortTag").getBoolean() && nation.getTag() != null && nation.getTag().length() > 1)
 		{
 			tag = nation.getTag();
 		}

@@ -520,7 +520,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("KA").setValue("First position set to {COORD}");
 		defaultLanguage.getNode("KB").setValue("Second position set to {COORD}");
 		defaultLanguage.getNode("KC").setValue("Nation tag must be 2-4 letters or numbers");
-		defaultLanguage.getNode("KD").setValue("Nation tag set to");
+		defaultLanguage.getNode("KD").setValue("Nation tag set to ");
 		defaultLanguage.getNode("KE").setValue("Change Nation tag");
 	}
 	
