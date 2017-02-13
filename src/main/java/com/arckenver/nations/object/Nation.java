@@ -40,6 +40,7 @@ public class Nation
 	private Hashtable<UUID, Zone> zones;
 	private int extras;
 	private double taxes;
+	private String tag;
 	
 	private NationMessageChannel channel = new NationMessageChannel();
 
@@ -263,7 +264,18 @@ public class Nation
 	{
 		return flags;
 	}
-	
+
+	public void setTag(String tag)
+	{
+        this.tag = tag;
+
+	}
+
+	public String getTag()
+	{
+		return tag;
+	}
+
 	public void setFlag(String flag, boolean b)
 	{
 		flags.put(flag, b);

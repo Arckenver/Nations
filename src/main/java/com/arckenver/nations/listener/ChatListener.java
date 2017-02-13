@@ -36,29 +36,40 @@ public class ChatListener
 		{
 			chan = channel.get();
 		}
-		
+
+		String tag;
+		if (ConfigHandler.getNode("others", "enableNationShortTag").getBoolean() && nation.getTag() != null)
+		{
+			tag = nation.getTag();
+		}
+		else
+		{
+			tag = nation.getName();
+		}
+
 		if (chan.equals(MessageChannel.TO_ALL) && ConfigHandler.getNode("others", "enableNationTag").getBoolean(true))
 		{
+
 			if (ConfigHandler.getNode("others", "enableNationTagWithTitle").getBoolean())
 			{
 				if (nation.isPresident(p.getUniqueId()))
 				{
-					e.setMessage(Text.of(TextColors.WHITE, "[", TextColors.DARK_AQUA, nation.getName(), TextColors.WHITE, "]", TextColors.RED, "-", TextColors.WHITE, "[", TextColors.DARK_AQUA, DataHandler.getCitizenTitle(p.getUniqueId()), TextColors.WHITE, "] "), e.getMessage());
+					e.setMessage(Text.of(TextColors.WHITE, "[", TextColors.DARK_AQUA, tag, TextColors.WHITE, "]", TextColors.RED, "-", TextColors.WHITE, "[", TextColors.DARK_AQUA, DataHandler.getCitizenTitle(p.getUniqueId()), TextColors.WHITE, "] "), e.getMessage());
 
 				}
 				else
 				{
-					e.setMessage(Text.of(TextColors.WHITE, "[", TextColors.DARK_AQUA, nation.getName(), TextColors.WHITE, "] "), e.getMessage());
+					e.setMessage(Text.of(TextColors.WHITE, "[", TextColors.DARK_AQUA, tag, TextColors.WHITE, "] "), e.getMessage());
 				}
 			}
             else
 			{
-				e.setMessage(Text.of(TextColors.WHITE, "[", TextColors.DARK_AQUA, nation.getName(), TextColors.WHITE, "] "), e.getMessage());
+				e.setMessage(Text.of(TextColors.WHITE, "[", TextColors.DARK_AQUA, tag, TextColors.WHITE, "] "), e.getMessage());
 		    }
 		}
 		else if (chan instanceof NationMessageChannel)
 		{
-			e.setMessage(Text.of(TextColors.WHITE, "{", TextColors.YELLOW, nation.getName(), TextColors.WHITE,  "} "), Text.of(TextColors.YELLOW, e.getMessage()));
+			e.setMessage(Text.of(TextColors.WHITE, "{", TextColors.YELLOW, tag, TextColors.WHITE,  "} "), Text.of(TextColors.YELLOW, e.getMessage()));
 		}
 	}
 }

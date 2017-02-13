@@ -8,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import com.arckenver.nations.cmdexecutor.nation.*;
 import com.arckenver.nations.cmdexecutor.nationadmin.*;
 import com.arckenver.nations.listener.*;
 import org.slf4j.Logger;
@@ -30,33 +31,6 @@ import com.arckenver.nations.cmdelement.NationNameElement;
 import com.arckenver.nations.cmdelement.PlayerNameElement;
 import com.arckenver.nations.cmdelement.WorldNameElement;
 import com.arckenver.nations.cmdelement.ZoneNameElement;
-import com.arckenver.nations.cmdexecutor.nation.NationBuyextraExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationChatExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationCitizenExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationClaimExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationClaimOutpostExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationCreateExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationDelspawnExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationDepositExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationFlagExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationHereExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationHomeExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationInfoExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationInviteExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationJoinExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationKickExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationLeaveExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationListExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationMinisterExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationPermExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationResignExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationSetspawnExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationSpawnExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationTaxesExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationUnclaimExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationWithdrawExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationVisitExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldDisableExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldEnableExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldExecutor;
@@ -439,6 +413,14 @@ public class NationsPlugin
 				.executor(new NationPermExecutor())
 				.build();
 
+		CommandSpec nationTagCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.tag")
+				.arguments(
+						GenericArguments.string(Text.of("tag")))
+				.executor(new NationTagExecutor())
+				.build();
+
 		CommandSpec nationFlagCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nation.flag")
@@ -498,6 +480,7 @@ public class NationsPlugin
 				.child(nationFlagCmd, "flag")
 				.child(nationChatCmd, "chat", "c")
 				.child(nationVisitCmd, "visit")
+				.child(nationTagCmd, "tag")
 				.build();
 
 		CommandSpec zoneInfoCmd = CommandSpec.builder()

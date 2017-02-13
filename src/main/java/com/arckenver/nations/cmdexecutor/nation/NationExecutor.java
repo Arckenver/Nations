@@ -43,7 +43,8 @@ public class NationExecutor implements CommandExecutor
 				TextColors.GOLD, "\n/n visit <nation> [name]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AX,
 				TextColors.GOLD, "\n/n setspawn <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AR,
 				TextColors.GOLD, "\n/n delspawn <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AS,
-				TextColors.GOLD, "\n/n buyextra <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AT));
+				TextColors.GOLD, "\n/n buyextra <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AT,
+		        TextColors.GOLD, "\n/n tag <tag>", TextColors.GRAY, " - ", TextColors.YELLOW, "Change nation tag (2-3 characters"));
 		return CommandResult.success();
 	}
 }
