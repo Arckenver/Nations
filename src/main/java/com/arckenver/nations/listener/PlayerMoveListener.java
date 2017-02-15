@@ -1,10 +1,12 @@
 package com.arckenver.nations.listener;
 
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.chat.ChatTypes;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -71,7 +73,14 @@ public class PlayerMoveListener
 		
 		builder.append((DataHandler.getFlag("pvp", loc)) ? Text.of(TextColors.DARK_RED, "(PvP)") : Text.of(TextColors.DARK_GREEN, "(No PvP)"));
 		builder.append(Text.of(TextColors.GRAY, " ~"));
-		
-		player.sendMessage(builder.build());
+
+		if (ConfigHandler.getNode("others", "useTitleForNationEnter").getBoolean())
+		{
+			player.sendMessage(ChatTypes.ACTION_BAR, builder.build());
+		}
+		else
+		{
+			player.sendMessage(builder.build());
+		}
 	}
 }

@@ -55,7 +55,6 @@ public class ChatListener
 				if (nation.isPresident(p.getUniqueId()))
 				{
 					e.setMessage(Text.of(TextColors.WHITE, "[", TextColors.DARK_AQUA, tag, TextColors.WHITE, "]", TextColors.RED, "-", TextColors.WHITE, "[", TextColors.DARK_AQUA, DataHandler.getCitizenTitle(p.getUniqueId()), TextColors.WHITE, "] "), e.getMessage());
-
 				}
 				else
 				{

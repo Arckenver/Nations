@@ -82,7 +82,8 @@ public class ConfigHandler
 		Utils.ensureBoolean(config.getNode("others", "enableNationTagWithTitle"), false);
 		Utils.ensureBoolean(config.getNode("others", "enableNationShortTag"), false);
 		Utils.ensureBoolean(config.getNode("others", "preventMobEnter"), false);
-		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");	
+		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");
+		Utils.ensureBoolean(config.getNode("others", "useTitleForNationEnter"), false);
 		
 
 		Utils.ensureBoolean(config.getNode("nations", "canEditTaxes"), true);
