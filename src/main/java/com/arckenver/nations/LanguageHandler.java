@@ -254,6 +254,7 @@ public class LanguageHandler
 	public static String LF;
 	public static String LG;
 	public static String LH;
+	public static String MA;
 	
 	private static File languageFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> languageManager;
@@ -539,6 +540,8 @@ public class LanguageHandler
 		defaultLanguage.getNode("LF").setValue("Upkeep per block");
 		defaultLanguage.getNode("LG").setValue("Upkeep per player");
 		defaultLanguage.getNode("LH").setValue("See all prices");
+
+		defaultLanguage.getNode("MA").setValue("Force upkeep to be charged");
 	}
 	
 	public static void load()
@@ -788,6 +791,7 @@ public class LanguageHandler
 		LF = getOrDefault("LF");
 		LG = getOrDefault("LG");
 		LH = getOrDefault("LH");
+		MA = getOrDefault("MA");
 
 		save();
 	}

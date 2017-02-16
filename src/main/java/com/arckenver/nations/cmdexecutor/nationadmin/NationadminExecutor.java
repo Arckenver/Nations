@@ -30,7 +30,7 @@ public class NationadminExecutor implements CommandExecutor
 				TextColors.GOLD, "\n/na eco <give|take|set> <nation> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BR,
 				TextColors.GOLD, "\n/na perm <nation> <type> <perm> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BS,
 				TextColors.GOLD, "\n/na flag <nation> <flag> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BT,
-				TextColors.GOLD, "\n/na forceupkeep", TextColors.GRAY, " - ", TextColors.YELLOW
+				TextColors.GOLD, "\n/na forceupkeep", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.MA
 		));
 		return CommandResult.success();
 	}
