@@ -40,6 +40,7 @@ public class Nation
 	private Hashtable<UUID, Zone> zones;
 	private int extras;
 	private double taxes;
+	private String tag;
 	
 	private NationMessageChannel channel = new NationMessageChannel();
 
@@ -119,7 +120,16 @@ public class Nation
 
 	public double getUpkeep()
 	{
-		return ConfigHandler.getNode("prices", "upkeepPerCitizen").getDouble() * citizens.size();
+		if (isAdmin()) {
+			return 0;
+		}
+		else if (!ConfigHandler.getNode("upkeep", "perBlock").getBoolean()) {
+			return ConfigHandler.getNode("prices", "upkeepperCitizen").getDouble() * citizens.size();
+		}
+		else
+		{
+			return ConfigHandler.getNode("upkeep", "price").getDouble() * region.size();
+		}
 	}
 
 	public Location<World> getSpawn(String name)
@@ -254,7 +264,18 @@ public class Nation
 	{
 		return flags;
 	}
-	
+
+	public void setTag(String tag)
+	{
+        this.tag = tag;
+
+	}
+
+	public String getTag()
+	{
+		return tag;
+	}
+
 	public void setFlag(String flag, boolean b)
 	{
 		flags.put(flag, b);

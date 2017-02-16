@@ -28,6 +28,7 @@ public class NationSerializer implements JsonSerializer<Nation>
 		json.add("uuid", new JsonPrimitive(nation.getUUID().toString()));
 		json.add("name", new JsonPrimitive(nation.getName()));
 		json.add("admin", new JsonPrimitive(nation.isAdmin()));
+		json.add("tag", new JsonPrimitive(nation.getTag()));
 		
 		JsonObject flags = new JsonObject();
 		for (Entry<String, Boolean> e : nation.getFlags().entrySet())
@@ -47,7 +48,6 @@ public class NationSerializer implements JsonSerializer<Nation>
 			perms.add(e.getKey(), obj);
 		}
 		json.add("perms", perms);
-		
 		JsonArray rectArray = new JsonArray();
 		for (Rect r : nation.getRegion().getRects())
 		{

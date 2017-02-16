@@ -57,6 +57,11 @@ public class ConfigHandler
 		}
 		
 		// check integrity
+		Utils.ensureBoolean(config.getNode("upkeep", "perBlock"), false);
+		Utils.ensurePositiveNumber(config.getNode("upkeep", "price"), 0.10);
+
+		Utils.ensureString(config.getNode("economy", "serverAccount"), "");
+
 		Utils.ensurePositiveNumber(config.getNode("prices", "nationCreationPrice"), 2500);
 		Utils.ensurePositiveNumber(config.getNode("prices", "upkeepPerCitizen"), 100);
 		Utils.ensurePositiveNumber(config.getNode("prices", "unclaimRefundPercentage"), 0);
@@ -74,7 +79,11 @@ public class ConfigHandler
 		Utils.ensurePositiveNumber(config.getNode("others", "maxZoneNameLength"), 13);
 		Utils.ensureBoolean(config.getNode("others", "enableNationRanks"), true);
 		Utils.ensureBoolean(config.getNode("others", "enableNationTag"), true);
-		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");	
+		Utils.ensureBoolean(config.getNode("others", "enableNationTagWithTitle"), false);
+		Utils.ensureBoolean(config.getNode("others", "enableNationShortTag"), false);
+		Utils.ensureBoolean(config.getNode("others", "preventMobEnter"), false);
+		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");
+		Utils.ensureBoolean(config.getNode("others", "useTitleForNationEnter"), false);
 		
 
 		Utils.ensureBoolean(config.getNode("nations", "canEditTaxes"), true);

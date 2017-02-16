@@ -56,7 +56,7 @@ public class NationCreateExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EL));
 				return CommandResult.success();
 			}
-			if (!nationName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]*"))
+			if (!nationName.matches("[a-zA-Z0-9\\._-]{1,}"))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EM));
 				return CommandResult.success();
@@ -102,11 +102,26 @@ public class NationCreateExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DN));
 				return CommandResult.success();
 			}
+			else
+			{
+				if (ConfigHandler.getNode("economy", "serverAccount").getString() != null)
+				{
+					String serverAccount = ConfigHandler.getNode("economy", "serverAccount").getString();
+					Optional<Account> optServerAccount = NationsPlugin.getEcoService().getOrCreateAccount(serverAccount);
+					TransactionResult resultServer = optServerAccount.get().deposit(NationsPlugin.getEcoService().getDefaultCurrency(), price, NationsPlugin.getCause());
+
+					if (resultServer.getResult() != ResultType.SUCCESS)
+					{
+						NationsPlugin.getLogger().error("Error Giving money to SERVER account");
+					}
+				}
+			}
 			
 			Nation nation = new Nation(UUID.randomUUID(), nationName);
 			nation.addSpawn("home", loc);
 			nation.addCitizen(player.getUniqueId());
 			nation.setPresident(player.getUniqueId());
+			nation.setTag("");
 			nation.getRegion().addRect(new Rect(player.getWorld().getUniqueId(), loc.getBlockX(), loc.getBlockX(), loc.getBlockZ(), loc.getBlockZ()));
 			Optional<Account> optNationAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
 			if (!optNationAccount.isPresent())

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.arckenver.nations.*;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -18,10 +19,6 @@ import org.spongepowered.api.service.economy.transaction.TransactionResult;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.arckenver.nations.DataHandler;
-import com.arckenver.nations.LanguageHandler;
-import com.arckenver.nations.NationsPlugin;
-import com.arckenver.nations.Utils;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.object.Zone;
 
@@ -69,7 +66,17 @@ public class ZoneBuyExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			Account receiver;
-			if (oldOwner == null)
+			if (nation.isAdmin() && oldOwner == null && ConfigHandler.getNode("economy", "serverAccount").getString() != null)
+			{
+				Optional<Account> optReceiver = NationsPlugin.getEcoService().getOrCreateAccount(ConfigHandler.getNode("economy", "serverAccount").getString());
+				if (!optReceiver.isPresent())
+				{
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DD));
+					return CommandResult.success();
+				}
+				receiver = optReceiver.get();
+			}
+			else if (oldOwner == null)
 			{
 				Optional<Account> optReceiver = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID());
 				if (!optReceiver.isPresent())

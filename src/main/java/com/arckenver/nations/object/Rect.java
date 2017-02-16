@@ -15,8 +15,9 @@ public class Rect
 	private int maxX;
 	private int minY;
 	private int maxY;
+	private int size;
 	private boolean useless = false;
-	
+
 	public Rect(UUID world, Vector2i point)
 	{
 		this(world, point.getX(), point.getX(), point.getY(), point.getY());
@@ -90,17 +91,16 @@ public class Rect
 	{
 		return maxX - minX + 1;
 	}
-	
+
 	public int height()
 	{
 		return maxY - minY + 1;
 	}
-	
+
 	public int size()
 	{
-		return width()*height();
+		return Math.abs(width()*height());
 	}
-	
 
 	public boolean useless() {
 		return useless;

@@ -8,6 +8,9 @@ import java.time.ZonedDateTime;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import com.arckenver.nations.cmdexecutor.nation.*;
+import com.arckenver.nations.cmdexecutor.nationadmin.*;
+import com.arckenver.nations.listener.*;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.args.GenericArguments;
@@ -28,45 +31,6 @@ import com.arckenver.nations.cmdelement.NationNameElement;
 import com.arckenver.nations.cmdelement.PlayerNameElement;
 import com.arckenver.nations.cmdelement.WorldNameElement;
 import com.arckenver.nations.cmdelement.ZoneNameElement;
-import com.arckenver.nations.cmdexecutor.nation.NationBuyextraExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationChatExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationCitizenExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationClaimExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationClaimOutpostExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationCreateExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationDelspawnExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationDepositExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationFlagExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationHereExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationHomeExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationInfoExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationInviteExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationJoinExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationKickExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationLeaveExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationListExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationMinisterExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationPermExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationResignExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationSetspawnExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationSpawnExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationTaxesExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationUnclaimExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationWithdrawExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationVisitExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminClaimExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminCreateExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminDeleteExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminEcoExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminFlagExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminForcejoinExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminForceleaveExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminPermExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminReloadExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSetnameExecutor;
-import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSetpresExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldDisableExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldEnableExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldExecutor;
@@ -87,15 +51,6 @@ import com.arckenver.nations.cmdexecutor.zone.ZonePermExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneRenameExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneSellExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneSetownerExecutor;
-import com.arckenver.nations.listener.BuildPermListener;
-import com.arckenver.nations.listener.ExplosionListener;
-import com.arckenver.nations.listener.FireListener;
-import com.arckenver.nations.listener.GoldenAxeListener;
-import com.arckenver.nations.listener.InteractPermListener;
-import com.arckenver.nations.listener.MobSpawningListener;
-import com.arckenver.nations.listener.PlayerConnectionListener;
-import com.arckenver.nations.listener.PlayerMoveListener;
-import com.arckenver.nations.listener.PvpListener;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.service.NationsService;
 import com.arckenver.nations.task.TaxesCollectRunnable;
@@ -254,6 +209,11 @@ public class NationsPlugin
 						GenericArguments.optional(GenericArguments.bool(Text.of("bool"))))
 				.executor(new NationadminPermExecutor())
 				.build();
+		CommandSpec nationadminForceupkeepCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.forceupkeep")
+				.executor(new NationadminForceupkeepExecutor())
+				.build();
 	
 		
 		CommandSpec nationadminCmd = CommandSpec.builder()
@@ -271,6 +231,7 @@ public class NationsPlugin
 				.child(nationadminDeleteCmd, "delete")
 				.child(nationadminFlagCmd, "flag")
 				.child(nationadminPermCmd, "perm")
+				.child(nationadminForceupkeepCmd, "forceupkeep")
 				.build();
 
 		CommandSpec nationInfoCmd = CommandSpec.builder()
@@ -452,6 +413,14 @@ public class NationsPlugin
 				.executor(new NationPermExecutor())
 				.build();
 
+		CommandSpec nationTagCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.tag")
+				.arguments(
+						GenericArguments.string(Text.of("tag")))
+				.executor(new NationTagExecutor())
+				.build();
+
 		CommandSpec nationFlagCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nation.flag")
@@ -480,6 +449,12 @@ public class NationsPlugin
 						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
 						GenericArguments.optional(GenericArguments.string(Text.of("name"))))
 				.executor(new NationVisitExecutor())
+				.build();
+
+		CommandSpec nationCostCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.costs")
+				.executor(new NationCostExecutor())
 				.build();
 
 		CommandSpec nationCmd = CommandSpec.builder()
@@ -511,6 +486,8 @@ public class NationsPlugin
 				.child(nationFlagCmd, "flag")
 				.child(nationChatCmd, "chat", "c")
 				.child(nationVisitCmd, "visit")
+				.child(nationTagCmd, "tag")
+				.child(nationCostCmd, "cost")
 				.build();
 
 		CommandSpec zoneInfoCmd = CommandSpec.builder()
@@ -723,6 +700,8 @@ public class NationsPlugin
 		Sponge.getEventManager().registerListeners(this, new MobSpawningListener());
 		Sponge.getEventManager().registerListeners(this, new BuildPermListener());
 		Sponge.getEventManager().registerListeners(this, new InteractPermListener());
+		Sponge.getEventManager().registerListeners(this, new MobEnterListener());
+
 
 		LocalDateTime localNow = LocalDateTime.now();
 		ZonedDateTime zonedNow = ZonedDateTime.of(localNow, ZoneId.systemDefault());
@@ -732,12 +711,12 @@ public class NationsPlugin
 		long initalDelay = Duration.between(zonedNow, zonedNext).getSeconds();
 
 		Sponge.getScheduler()
-				.createTaskBuilder()
-				.execute(new TaxesCollectRunnable())
-				.delay(initalDelay, TimeUnit.SECONDS)
-				.interval(1, TimeUnit.DAYS)
-				.async()
-				.submit(this);
+			.createTaskBuilder()
+			.execute(new TaxesCollectRunnable())
+			.delay(initalDelay, TimeUnit.SECONDS)
+			.interval(1, TimeUnit.DAYS)
+			.async()
+			.submit(this);
 
 		logger.info("Plugin ready");
 	}

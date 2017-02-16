@@ -51,6 +51,7 @@ public class NationHomeExecutor implements CommandExecutor
 					player.setLocation(spawn);
 					src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GC));
 				}
+
 				return CommandResult.success();
 			}
 			
@@ -65,11 +66,13 @@ public class NationHomeExecutor implements CommandExecutor
 					t.cancel();
 					PlayerTeleportEvent event = new PlayerTeleportEvent(player, spawn, NationsPlugin.getCause());
 					Sponge.getEventManager().post(event);
-					if (!event.isCancelled())
+				    //
+                    if (!event.isCancelled())
 					{
 						player.setLocation(spawn);
 						src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GC));
 					}
+					//
 				}
 			}).delay(10, TimeUnit.SECONDS).submit(NationsPlugin.getInstance());
 		}

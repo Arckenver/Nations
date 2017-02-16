@@ -32,12 +32,14 @@ public class ZoneSellExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			Zone zone = nation.getZone(player.getLocation());
-			if (zone == null)
-			{
+			if (zone == null) {
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GX));
 				return CommandResult.success();
 			}
-			if ((!zone.isOwner(player.getUniqueId()) || nation.isAdmin()) && !nation.isStaff(player.getUniqueId()))
+			if (nation.isStaff(player.getUniqueId())){
+				//empty for reasons
+			}
+			else if (!zone.isOwner(player.getUniqueId()))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GV));
 				return CommandResult.success();
