@@ -69,7 +69,7 @@ public class NationClaimExecutor implements CommandExecutor
 			Region claimed = nation.getRegion().copy();
 			claimed.addRect(rect);
 			
-			if (claimed.size() > nation.maxBlockSize())
+			if (claimed.size() > nation.maxBlockSize() || claimed.size() < 1)
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EG));
 				return CommandResult.success();
