@@ -41,12 +41,12 @@ public class NationTagExecutor implements CommandExecutor
 			}
 			if (!tag.matches("[a-zA-Z0-9]{1,}") | tag.length() < 2 || tag.length() > 4)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.KC));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HZ));
 				return CommandResult.success();
 			}
 			nation.setTag(tag);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Text.of(TextColors.GOLD, LanguageHandler.KD + tag));
+			src.sendMessage(Text.of(TextColors.GOLD, LanguageHandler.HY + tag));
 		}
 		else
 		{

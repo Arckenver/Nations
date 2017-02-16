@@ -208,6 +208,9 @@ public class LanguageHandler
 	public static String HU;
 	public static String HV;
 	public static String HW;
+	public static String HX;
+	public static String HY;
+	public static String HZ;
 	public static String IA;
 	public static String IB;
 	public static String IC;
@@ -243,9 +246,14 @@ public class LanguageHandler
 	public static String JH;
 	public static String KA;
 	public static String KB;
-	public static String KC;
-	public static String KD;
-	public static String KE;
+	public static String LA;
+	public static String LB;
+	public static String LC;
+	public static String LD;
+	public static String LE;
+	public static String LF;
+	public static String LG;
+	public static String LH;
 	
 	private static File languageFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> languageManager;
@@ -481,6 +489,9 @@ public class LanguageHandler
 		defaultLanguage.getNode("HU").setValue("Teleport will start in 10 seconds");
 		defaultLanguage.getNode("HV").setValue("No spawn named 'home' found. Make one with /n setspawn home");
 		defaultLanguage.getNode("HW").setValue("if you have a spawn named 'home', tp to it");
+		defaultLanguage.getNode("HX").setValue("Change Nation tag");
+		defaultLanguage.getNode("HY").setValue("Nation tag set to ");
+		defaultLanguage.getNode("HZ").setValue("Tag must be 2 to 4 letters or numbers");
 
 		defaultLanguage.getNode("IA").setValue("Wilderness");
 		defaultLanguage.getNode("IB").setValue("Nation");
@@ -519,9 +530,15 @@ public class LanguageHandler
 
 		defaultLanguage.getNode("KA").setValue("First position set to {COORD}");
 		defaultLanguage.getNode("KB").setValue("Second position set to {COORD}");
-		defaultLanguage.getNode("KC").setValue("Nation tag must be 2-4 letters or numbers");
-		defaultLanguage.getNode("KD").setValue("Nation tag set to ");
-		defaultLanguage.getNode("KE").setValue("Change Nation tag");
+
+		defaultLanguage.getNode("LA").setValue("Price per block");
+		defaultLanguage.getNode("LB").setValue("Extra block price");
+		defaultLanguage.getNode("LC").setValue("New nation price");
+		defaultLanguage.getNode("LD").setValue("Outpost price");
+		defaultLanguage.getNode("LE").setValue("Refund price");
+		defaultLanguage.getNode("LF").setValue("Upkeep per block");
+		defaultLanguage.getNode("LG").setValue("Upkeep per player");
+		defaultLanguage.getNode("LH").setValue("See all prices");
 	}
 	
 	public static void load()
@@ -725,6 +742,9 @@ public class LanguageHandler
 		HU = getOrDefault("HU");
 		HV = getOrDefault("HV");
 		HW = getOrDefault("HW");
+		HX = getOrDefault("HX");
+		HY = getOrDefault("HY");
+		HZ = getOrDefault("HZ");
 		IA = getOrDefault("IA");
 		IB = getOrDefault("IB");
 		IC = getOrDefault("IC");
@@ -760,10 +780,15 @@ public class LanguageHandler
 		JH = getOrDefault("JH");
 		KA = getOrDefault("KA");
 		KB = getOrDefault("KB");
-		KC = getOrDefault("KC");
-		KD = getOrDefault("KD");
-		KE = getOrDefault("KE");
-		
+		LA = getOrDefault("LA");
+		LB = getOrDefault("LB");
+		LC = getOrDefault("LC");
+		LD = getOrDefault("LD");
+		LE = getOrDefault("LE");
+		LF = getOrDefault("LF");
+		LG = getOrDefault("LG");
+		LH = getOrDefault("LH");
+
 		save();
 	}
 	

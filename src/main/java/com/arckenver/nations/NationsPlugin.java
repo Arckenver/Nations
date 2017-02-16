@@ -451,6 +451,12 @@ public class NationsPlugin
 				.executor(new NationVisitExecutor())
 				.build();
 
+		CommandSpec nationCostCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.costs")
+				.executor(new NationCostExecutor())
+				.build();
+
 		CommandSpec nationCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nation.execute")
@@ -481,6 +487,7 @@ public class NationsPlugin
 				.child(nationChatCmd, "chat", "c")
 				.child(nationVisitCmd, "visit")
 				.child(nationTagCmd, "tag")
+				.child(nationCostCmd, "cost")
 				.build();
 
 		CommandSpec zoneInfoCmd = CommandSpec.builder()
