@@ -23,7 +23,7 @@ public class NationCostExecutor implements CommandExecutor
 				TextColors.GOLD, "\n", LanguageHandler.LA, TextColors.GRAY, " - ", NationsPlugin.getEcoService().getDefaultCurrency().getSymbol(), TextColors.YELLOW, ConfigHandler.getNode("prices", "blockClaimPrice").getDouble(),
 				TextColors.GOLD, "\n", LanguageHandler.LB, TextColors.GRAY, " - ", NationsPlugin.getEcoService().getDefaultCurrency().getSymbol(), TextColors.YELLOW, ConfigHandler.getNode("prices", "extraPrice").getDouble(),
 				TextColors.GOLD, "\n", LanguageHandler.LC, TextColors.GRAY, " - ", NationsPlugin.getEcoService().getDefaultCurrency().getSymbol(), TextColors.YELLOW, ConfigHandler.getNode("prices", "nationCreationPrice").getDouble(),
-				TextColors.GOLD, "\n", LanguageHandler.LD, TextColors.GRAY, " - ", NationsPlugin.getEcoService().getDefaultCurrency().getSymbol(), TextColors.YELLOW, ConfigHandler.getNode("prices", "outPostCreationPrice").getDouble(),
+				TextColors.GOLD, "\n", LanguageHandler.LD, TextColors.GRAY, " - ", NationsPlugin.getEcoService().getDefaultCurrency().getSymbol(), TextColors.YELLOW, ConfigHandler.getNode("prices", "outpostCreationPrice").getDouble(),
 				TextColors.GOLD, "\n", LanguageHandler.LE, TextColors.GRAY, " - ", NationsPlugin.getEcoService().getDefaultCurrency().getSymbol(), TextColors.YELLOW, (ConfigHandler.getNode("prices", "blockClaimPrice").getDouble()) * ConfigHandler.getNode("prices", "unclaimRefundPercentage").getDouble()
 		));
 		if (!ConfigHandler.getNode("upkeep", "perblock").getBoolean())
