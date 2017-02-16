@@ -121,7 +121,7 @@ public class NationCreateExecutor implements CommandExecutor
 			nation.addSpawn("home", loc);
 			nation.addCitizen(player.getUniqueId());
 			nation.setPresident(player.getUniqueId());
-			nation.setTag(null);
+			nation.setTag("");
 			nation.getRegion().addRect(new Rect(player.getWorld().getUniqueId(), loc.getBlockX(), loc.getBlockX(), loc.getBlockZ(), loc.getBlockZ()));
 			Optional<Account> optNationAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
 			if (!optNationAccount.isPresent())
