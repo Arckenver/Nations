@@ -43,7 +43,9 @@ public class NationChatExecutor implements CommandExecutor
 			}
 			else
 			{
-				channel.send(player, Text.of(TextColors.WHITE, " {", TextColors.YELLOW, nation.getName(), TextColors.WHITE,  "} ", player.getName(), ": ", TextColors.YELLOW, ctx.<String>getOne("msg").get()));
+				Text msg = Text.of(TextColors.WHITE, " {", TextColors.YELLOW, nation.getName(), TextColors.WHITE,  "} ", player.getName(), ": ", TextColors.YELLOW, ctx.<String>getOne("msg").get());
+				channel.send(player, msg);
+				DataHandler.getSpyChannel().send(Text.of(TextColors.WHITE, " [", TextColors.RED, "SpyChat", TextColors.WHITE,  "]", msg));
 			}
 
 		}

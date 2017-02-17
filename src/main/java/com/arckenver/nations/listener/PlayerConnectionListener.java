@@ -34,6 +34,7 @@ public class PlayerConnectionListener
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation != null)
 				nation.getMessageChannel().removeMember(player);
+			DataHandler.getSpyChannel().removeMember(player);
 		}
 	}
 }

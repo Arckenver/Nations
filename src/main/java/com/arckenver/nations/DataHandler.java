@@ -18,6 +18,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import com.arckenver.nations.channel.NationMessageChannel;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.object.Point;
 import com.arckenver.nations.object.Rect;
@@ -43,6 +44,7 @@ public class DataHandler
 	private static Hashtable<UUID, Point> secondPoints;
 	private static ArrayList<Request> inviteRequests;
 	private static ArrayList<Request> joinRequests;
+	private static NationMessageChannel spyChannel;
 
 	public static void init(File rootDir)
 	{
@@ -82,6 +84,7 @@ public class DataHandler
 		secondPoints = new Hashtable<UUID, Point>();
 		inviteRequests = new ArrayList<Request>();
 		joinRequests = new ArrayList<Request>();
+		spyChannel = new NationMessageChannel();
 	}
 
 	public static void save()
@@ -91,6 +94,11 @@ public class DataHandler
 			saveNation(uuid);
 		}
 
+	}
+	
+	public static NationMessageChannel getSpyChannel()
+	{
+		return spyChannel;
 	}
 
 	// nations

@@ -108,6 +108,8 @@ public class LanguageHandler
 	public static String DS;
 	public static String DT;
 	public static String DU;
+	public static String DV;
+	public static String DW;
 	public static String EA;
 	public static String EB;
 	public static String EC;
@@ -376,8 +378,10 @@ public class LanguageHandler
 		defaultLanguage.getNode("DQ").setValue("You must be standing in a nation to perform that command");
 		defaultLanguage.getNode("DR").setValue("You do not have permission to buy a zone in this nation");
 		defaultLanguage.getNode("DS").setValue("rename zone");
-		defaultLanguage.getNode("DT").setValue("You are now speaking in your nations's private channel");
+		defaultLanguage.getNode("DT").setValue("You are now speaking in your nation's private channel");
 		defaultLanguage.getNode("DU").setValue("You are no longer speaking in your nation's private channel");
+		defaultLanguage.getNode("DV").setValue("You are now spying nations' private channels");
+		defaultLanguage.getNode("DW").setValue("You are no longer spying nations' private channels");
 		
 		defaultLanguage.getNode("EA").setValue("You must select a region with a golden axe first (right/left click)");
 		defaultLanguage.getNode("EB").setValue("Your selection must be adjacent to your region");
@@ -621,6 +625,8 @@ public class LanguageHandler
 		DS = getOrDefault("DS");
 		DT = getOrDefault("DT");
 		DU = getOrDefault("DU");
+		DV = getOrDefault("DV");
+		DW = getOrDefault("DW");
 		EA = getOrDefault("EA");
 		EB = getOrDefault("EB");
 		EC = getOrDefault("EC");

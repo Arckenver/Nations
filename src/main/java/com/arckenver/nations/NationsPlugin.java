@@ -66,6 +66,7 @@ import com.arckenver.nations.cmdexecutor.nationadmin.NationadminPermExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminReloadExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSetnameExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSetpresExecutor;
+import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSpyExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldDisableExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldEnableExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldExecutor;
@@ -254,6 +255,12 @@ public class NationsPlugin
 				.executor(new NationadminPermExecutor())
 				.build();
 	
+		CommandSpec nationadminSpyCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.spy")
+				.arguments()
+				.executor(new NationadminSpyExecutor())
+				.build();
 		
 		CommandSpec nationadminCmd = CommandSpec.builder()
 				.description(Text.of(""))
@@ -270,6 +277,7 @@ public class NationsPlugin
 				.child(nationadminDeleteCmd, "delete")
 				.child(nationadminFlagCmd, "flag")
 				.child(nationadminPermCmd, "perm")
+				.child(nationadminSpyCmd, "spy", "spychat")
 				.build();
 
 		CommandSpec nationInfoCmd = CommandSpec.builder()
