@@ -160,8 +160,8 @@ public class DataHandler
 	{
 		Nation oldNation = getNation(uuid);
 		if (oldNation != null) {
-			NationsPlugin.getLogger().info("Removing Nation " + uuid + ": ");
-			NationsPlugin.getLogger().info(Utils.formatNationDescription(oldNation, Utils.CLICKER_ADMIN).toPlain());
+			NationsPlugin.getLogger().warn("Removing Nation " + uuid + ": ");
+			NationsPlugin.getLogger().warn(Utils.formatNationDescription(oldNation, Utils.CLICKER_ADMIN).toPlain());
 		}
 		nations.remove(uuid);
 
