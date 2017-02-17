@@ -94,6 +94,11 @@ public class Nation
 
 	public String getName()
 	{
+		return name.replace("_", " ");
+	}
+
+	public String getRealName()
+	{
 		return name;
 	}
 	

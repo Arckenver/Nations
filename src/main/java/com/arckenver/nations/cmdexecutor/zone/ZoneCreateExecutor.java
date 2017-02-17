@@ -43,7 +43,7 @@ public class ZoneCreateExecutor implements CommandExecutor
 			{
 				zoneName = ctx.<String>getOne("name").get();
 			}
-			if (zoneName != null && !zoneName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]*{1,30}"))
+			if (zoneName != null && !zoneName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}\"_\"]*{1,30}"))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.FY
 						.replaceAll("\\{MIN\\}", "1")

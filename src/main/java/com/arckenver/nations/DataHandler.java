@@ -118,7 +118,7 @@ public class DataHandler
 	{
 		for (Nation nation : nations.values())
 		{
-			if (nation.getName().equalsIgnoreCase(name))
+			if (nation.getRealName().equalsIgnoreCase(name))
 			{
 				return nation;
 			}

@@ -35,7 +35,7 @@ public class NationListExecutor implements CommandExecutor
 				if (!nation.isAdmin() || src.hasPermission("nations.admin.nation.listall"))
 				{
 					builder
-					.append(Utils.nationClickable(TextColors.YELLOW, nation.getName()))
+					.append(Utils.nationClickable(TextColors.YELLOW, nation.getRealName()))
 					.append(Text.of(TextColors.GOLD, " [" + nation.getNumCitizens() + "]"));
 					if (iter.hasNext())
 					{

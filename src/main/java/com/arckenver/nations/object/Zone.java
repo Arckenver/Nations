@@ -71,6 +71,11 @@ public class Zone
 	{
       if (name == null)
 			return LanguageHandler.HX;
+		return name.replace("_", " ");
+	}
+	
+	public String getRealName()
+	{
 		return name;
 	}
 

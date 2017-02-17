@@ -30,7 +30,7 @@ public class AccountOwnerElement extends PatternMatchingCommandElement
 		ArrayList<String> list = new ArrayList<String>();
 		for (Nation nation : DataHandler.getNations().values())
 		{
-			list.add(nation.getName());
+			list.add(nation.getRealName());
 		}
 		list.addAll(DataHandler.getPlayerNames());
 		return list;

@@ -44,7 +44,7 @@ public class NationSetnameExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EL));
 				return CommandResult.success();
 			}
-			if (!newName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]*"))
+			if (!newName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}\"_\"]*"))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EM));
 				return CommandResult.success();
@@ -61,7 +61,7 @@ public class NationSetnameExecutor implements CommandExecutor
 			DataHandler.saveNation(nation.getUUID());
 			MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.FW
 					.replaceAll("\\{OLDNAME\\}", oldName)
-					.replaceAll("\\{NEWNAME\\}", newName)));
+					.replaceAll("\\{NEWNAME\\}", nation.getName())));
 		}
 		else
 		{
