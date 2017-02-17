@@ -76,7 +76,7 @@ public class PlayerMoveListener
 				);
 			}
 		}
-		else
+		else if (nation != null)
 		{
 			builder.append(Text.of(TextColors.GRAY, " - "));
 			builder.append(Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident())));
@@ -87,6 +87,6 @@ public class PlayerMoveListener
 		builder.append(Text.of(TextColors.GRAY, " ~"));
 		
 		player.sendMessage(builder.build());
-		NationsPlugin.getLogger().warn(Text.of(player.getName(), " entered area ", builder.build()).toPlain());
+		NationsPlugin.getLogger().info(Text.of(player.getName(), " entered area ", builder.build()).toPlain());
 	}
 }
