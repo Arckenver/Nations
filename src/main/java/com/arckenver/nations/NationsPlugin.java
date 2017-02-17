@@ -468,7 +468,7 @@ public class NationsPlugin
 		CommandSpec nationChatCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nation.chat")
-				.arguments()
+				.arguments(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("msg"))))
 				.executor(new NationChatExecutor())
 				.build();
 		

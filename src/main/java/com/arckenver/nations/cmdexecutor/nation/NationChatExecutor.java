@@ -30,15 +30,22 @@ public class NationChatExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			NationMessageChannel channel = nation.getMessageChannel();
-			
-			if (player.getMessageChannel().equals(channel)) {
-				player.setMessageChannel(MessageChannel.TO_ALL);
-				src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.DU));
-			} else {
-				player.setMessageChannel(channel);
-				src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.DT));
+
+			if (!ctx.<String>getOne("msg").isPresent())
+			{
+				if (player.getMessageChannel().equals(channel)) {
+					player.setMessageChannel(MessageChannel.TO_ALL);
+					src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.DU));
+				} else {
+					player.setMessageChannel(channel);
+					src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.DT));
+				}
 			}
-			
+			else
+			{
+				channel.send(player, Text.of(TextColors.WHITE, " {", TextColors.YELLOW, nation.getName(), TextColors.WHITE,  "} ", player.getName(), ": ", TextColors.YELLOW, ctx.<String>getOne("msg").get()));
+			}
+
 		}
 		else
 		{
