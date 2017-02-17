@@ -56,6 +56,10 @@ public class InteractPermListener
 		}
 		if (target instanceof ItemFrame)
 		{
+			if (player.hasPermission("nations.admin.bypass.perm.build"))
+			{
+				return;
+			}
 			if (!DataHandler.getPerm("build", player.getUniqueId(), event.getTargetEntity().getLocation()))
 			{
 				event.setCancelled(true);
