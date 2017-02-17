@@ -110,6 +110,7 @@ public class LanguageHandler
 	public static String DU;
 	public static String DV;
 	public static String DW;
+	public static String DX;
 	public static String EA;
 	public static String EB;
 	public static String EC;
@@ -382,6 +383,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("DU").setValue("You are no longer speaking in your nation's private channel");
 		defaultLanguage.getNode("DV").setValue("You are now spying nations' private channels");
 		defaultLanguage.getNode("DW").setValue("You are no longer spying nations' private channels");
+		defaultLanguage.getNode("DX").setValue("spy on nations' private channels");
 		
 		defaultLanguage.getNode("EA").setValue("You must select a region with a golden axe first (right/left click)");
 		defaultLanguage.getNode("EB").setValue("Your selection must be adjacent to your region");
@@ -627,6 +629,7 @@ public class LanguageHandler
 		DU = getOrDefault("DU");
 		DV = getOrDefault("DV");
 		DW = getOrDefault("DW");
+		DX = getOrDefault("DX");
 		EA = getOrDefault("EA");
 		EB = getOrDefault("EB");
 		EC = getOrDefault("EC");
