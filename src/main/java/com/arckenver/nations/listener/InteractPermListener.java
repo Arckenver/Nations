@@ -1,9 +1,12 @@
 package com.arckenver.nations.listener;
 
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.monster.Monster;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.block.InteractBlockEvent;
+import org.spongepowered.api.event.entity.InteractEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -32,5 +35,28 @@ public class InteractPermListener
 				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HI));
 			}
 		});
+	}
+
+	@Listener(order=Order.FIRST)
+	public void onInteract(InteractEntityEvent event, @First Player player)
+	{
+		if (!ConfigHandler.getNode("worlds").getNode(player.getWorld().getName()).getNode("enabled").getBoolean())
+		{
+			return;
+		}
+		if (player.hasPermission("nations.admin.bypass.perm.interact"))
+		{
+			return;
+		}
+		Entity target = event.getTargetEntity();
+		if (target instanceof Player || target instanceof Monster)
+		{
+			return;
+		}
+		if (!DataHandler.getPerm("interact", player.getUniqueId(), event.getTargetEntity().getLocation()))
+		{
+			event.setCancelled(true);
+			player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HI));
+		}
 	}
 }
