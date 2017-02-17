@@ -1,14 +1,16 @@
 package com.arckenver.nations.cmdexecutor.nation;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Text.Builder;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.DataHandler;
@@ -20,31 +22,28 @@ public class NationListExecutor implements CommandExecutor
 {
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
-		Builder builder = Text.builder();
-		Iterator<Nation> iter = DataHandler.getNations().values().iterator();
-		if (!iter.hasNext())
+	List<Text> contents = new ArrayList<>();
+	Iterator<Nation> iter = DataHandler.getNations().values().iterator();
+	if (!iter.hasNext())
+	{
+		contents.add(Text.of(TextColors.YELLOW, LanguageHandler.CO));
+	}
+	else
+	{
+		while (iter.hasNext())
 		{
-			builder.append(Text.of(TextColors.YELLOW, LanguageHandler.CO));
-		}
-		else
-		{
-			builder.append(Text.of(TextColors.GOLD, "--------{ ", TextColors.YELLOW, LanguageHandler.JB, TextColors.GOLD, " }--------\n"));
-			while (iter.hasNext())
+			Nation nation = iter.next();
+			if (!nation.isAdmin() || src.hasPermission("nations.admin.nation.listall"))
 			{
-				Nation nation = iter.next();
-				if (!nation.isAdmin() || src.hasPermission("nations.admin.nation.listall"))
-				{
-					builder
-					.append(Utils.nationClickable(TextColors.YELLOW, nation.getRealName()))
-					.append(Text.of(TextColors.GOLD, " [" + nation.getNumCitizens() + "]"));
-					if (iter.hasNext())
-					{
-						builder.append(Text.of(TextColors.YELLOW, ", "));
-					}
-				}
+				contents.add(Text.of(Utils.nationClickable(TextColors.YELLOW, nation.getRealName()), TextColors.GOLD, " [" + nation.getNumCitizens() + "]"));
 			}
 		}
-		src.sendMessage(builder.build());
-		return CommandResult.success();
+	}
+	PaginationList.builder()
+    .title(Text.of(TextColors.GOLD, "{ ", TextColors.YELLOW, LanguageHandler.JB, TextColors.GOLD, " }"))
+    .contents(contents)
+    .padding(Text.of("-"))
+    .sendTo(src);
+	return CommandResult.success();
 	}
 }
