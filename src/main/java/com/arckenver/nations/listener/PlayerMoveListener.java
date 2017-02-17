@@ -76,7 +76,7 @@ public class PlayerMoveListener
 				);
 			}
 		}
-		else if (nation != null)
+		else if (nation != null && !nation.isAdmin())
 		{
 			builder.append(Text.of(TextColors.GRAY, " - "));
 			builder.append(Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident())));

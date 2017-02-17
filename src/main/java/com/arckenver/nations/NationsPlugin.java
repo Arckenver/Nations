@@ -154,7 +154,7 @@ public class NationsPlugin
 		CommandSpec nationadminCreateCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nationadmin.create")
-				.arguments(GenericArguments.optional(GenericArguments.string(Text.of("name"))))
+				.arguments(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("name"))))
 				.executor(new NationadminCreateExecutor())
 				.build();
 		
@@ -179,7 +179,7 @@ public class NationsPlugin
 				.permission("nations.command.nationadmin.setname")
 				.arguments(
 						GenericArguments.optional(new NationNameElement(Text.of("oldname"))),
-						GenericArguments.optional(GenericArguments.string(Text.of("newname"))))
+						GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("newname"))))
 				.executor(new NationadminSetnameExecutor())
 				.build();
 
