@@ -6,10 +6,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.economy.account.Account;
 import org.spongepowered.api.service.economy.account.UniqueAccount;
 import org.spongepowered.api.service.economy.transaction.ResultType;
 import org.spongepowered.api.service.economy.transaction.TransactionResult;
+import org.spongepowered.api.service.user.UserStorageService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.format.TextColors;
@@ -46,22 +48,32 @@ public class TaxesCollectRunnable implements Runnable
 			// nation taxes
 			BigDecimal taxes = BigDecimal.valueOf(nation.getTaxes());
 			ArrayList<UUID> citizensToRemove = new ArrayList<UUID>();
+
+			UserStorageService userStorage = Sponge.getServiceManager().provide(UserStorageService.class).get();
+
 			for (UUID uuid : nation.getCitizens())
 			{
-				if (!nation.isStaff(uuid))
+				MessageChannel.TO_CONSOLE.send(Text.of("tax" + uuid));
+				Optional<User> user = userStorage.get(uuid);
+				if (user.isPresent() && user.get().hasPermission("nations.admin.nation.exempt")) {
+
+					MessageChannel.TO_CONSOLE.send(Text.of("exempt!!"));
+					continue;
+				}
+				MessageChannel.TO_CONSOLE.send(Text.of("taxed!!"));
+				if (nation.isStaff(uuid))
+					continue;
+				Optional<UniqueAccount> optCitizenAccount = NationsPlugin.getEcoService().getOrCreateAccount(uuid);
+				TransactionResult result = optCitizenAccount.get().transfer(optAccount.get(), NationsPlugin.getEcoService().getDefaultCurrency(), taxes, NationsPlugin.getCause());
+				if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 				{
-					Optional<UniqueAccount> optCitizenAccount = NationsPlugin.getEcoService().getOrCreateAccount(uuid);
-					TransactionResult result = optCitizenAccount.get().transfer(optAccount.get(), NationsPlugin.getEcoService().getDefaultCurrency(), taxes, NationsPlugin.getCause());
-					if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
-					{
-						citizensToRemove.add(uuid);
-						Sponge.getServer().getPlayer(uuid).ifPresent(p ->
-									p.sendMessage(Text.of(TextColors.RED, LanguageHandler.HQ)));
-					}
-					else if (result.getResult() != ResultType.SUCCESS)
-					{
-						NationsPlugin.getLogger().error("Error while taking taxes from player " + uuid.toString() + " for nation " + nation.getName());
-					}
+					citizensToRemove.add(uuid);
+					Sponge.getServer().getPlayer(uuid).ifPresent(p ->
+					p.sendMessage(Text.of(TextColors.RED, LanguageHandler.HQ)));
+				}
+				else if (result.getResult() != ResultType.SUCCESS)
+				{
+					NationsPlugin.getLogger().error("Error while taking taxes from player " + uuid.toString() + " for nation " + nation.getName());
 				}
 			}
 			for (UUID uuid : citizensToRemove)

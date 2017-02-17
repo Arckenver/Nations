@@ -13,7 +13,6 @@ import org.spongepowered.api.world.World;
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
-import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.Utils;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.object.Zone;
