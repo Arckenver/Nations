@@ -53,14 +53,12 @@ public class TaxesCollectRunnable implements Runnable
 
 			for (UUID uuid : nation.getCitizens())
 			{
-				MessageChannel.TO_CONSOLE.send(Text.of("tax" + uuid));
 				Optional<User> user = userStorage.get(uuid);
-				if (user.isPresent() && user.get().hasPermission("nations.admin.nation.exempt")) {
+				if (user.isPresent() && user.get().hasPermission("nations.admin.nation.exempt"))
+				{
 
-					MessageChannel.TO_CONSOLE.send(Text.of("exempt!!"));
 					continue;
 				}
-				MessageChannel.TO_CONSOLE.send(Text.of("taxed!!"));
 				if (nation.isStaff(uuid))
 					continue;
 				Optional<UniqueAccount> optCitizenAccount = NationsPlugin.getEcoService().getOrCreateAccount(uuid);
