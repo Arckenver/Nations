@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -168,8 +170,8 @@ public class DataHandler
 	{
 		Nation oldNation = getNation(uuid);
 		if (oldNation != null) {
-			NationsPlugin.getLogger().warn("Removing Nation " + uuid + ": ");
-			NationsPlugin.getLogger().warn(Utils.formatNationDescription(oldNation, Utils.CLICKER_ADMIN).toPlain());
+			MessageChannel.TO_CONSOLE.send(Text.of("Removing Nation " + uuid + ": "));
+			MessageChannel.TO_CONSOLE.send(Utils.formatNationDescription(oldNation, Utils.CLICKER_ADMIN));
 		}
 		nations.remove(uuid);
 

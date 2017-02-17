@@ -5,6 +5,7 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -87,6 +88,6 @@ public class PlayerMoveListener
 		builder.append(Text.of(TextColors.GRAY, " ~"));
 		
 		player.sendMessage(builder.build());
-		NationsPlugin.getLogger().info(Text.of(player.getName(), " entered area ", builder.build()).toPlain());
+		MessageChannel.TO_CONSOLE.send(Text.of(player.getName(), " entered area ", builder.build()));
 	}
 }
