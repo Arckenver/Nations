@@ -1,10 +1,12 @@
 package com.arckenver.nations.listener;
 
-import org.spongepowered.api.data.value.mutable.SetValue;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
+import org.spongepowered.api.event.cause.entity.spawn.EntitySpawnCause;
+import org.spongepowered.api.event.cause.entity.spawn.SpawnTypes;
+import org.spongepowered.api.event.entity.SpawnEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -67,5 +69,25 @@ public class BuildPermListener
 				} catch (Exception e) {}
 			}
 		}));
+	}
+	
+	@Listener(order=Order.FIRST)
+	public void onEntitySpawn(SpawnEntityEvent event, @First Player player, @First EntitySpawnCause entitySpawnCause)
+	{
+		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
+		{
+			return;
+		}
+		if (player.hasPermission("nations.admin.bypass.perm.build"))
+		{
+			return;
+		}
+		if (entitySpawnCause.getType() == SpawnTypes.PLACEMENT)
+		{
+			try {
+			if (!DataHandler.getPerm("build", player.getUniqueId(), event.getEntities().get(0).getLocation()))
+				event.setCancelled(true);
+			} catch (IndexOutOfBoundsException e) {}
+		}
 	}
 }

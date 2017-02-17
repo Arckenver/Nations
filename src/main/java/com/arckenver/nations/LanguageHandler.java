@@ -108,6 +108,10 @@ public class LanguageHandler
 	public static String DS;
 	public static String DT;
 	public static String DU;
+	public static String DV;
+	public static String DW;
+	public static String DX;
+	public static String DY;
 	public static String EA;
 	public static String EB;
 	public static String EC;
@@ -208,6 +212,7 @@ public class LanguageHandler
 	public static String HU;
 	public static String HV;
 	public static String HW;
+	public static String HX;
 	public static String IA;
 	public static String IB;
 	public static String IC;
@@ -243,6 +248,12 @@ public class LanguageHandler
 	public static String JH;
 	public static String KA;
 	public static String KB;
+	public static String LA;
+	public static String LB;
+	public static String LC;
+	public static String LD;
+	public static String LE;
+	public static String LF;
 	
 	private static File languageFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> languageManager;
@@ -337,7 +348,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("CF").setValue("Invalid zone name");
 		defaultLanguage.getNode("CG").setValue("You must specify nation name");
 		defaultLanguage.getNode("CH").setValue("You must specify player name");
-		defaultLanguage.getNode("CI").setValue("You must be in a nation to perform that command");
+		defaultLanguage.getNode("CI").setValue("You must be in a nation to perform that command, type /n ? for more help");
 		defaultLanguage.getNode("CJ").setValue("You must be president of your nation to perform that command");
 		defaultLanguage.getNode("CK").setValue("You must be president or minister of your nation to perform that command");
 		defaultLanguage.getNode("CL").setValue("A new day is here ! Nations will now have to pay their upkeeps");
@@ -375,8 +386,12 @@ public class LanguageHandler
 		defaultLanguage.getNode("DQ").setValue("You must be standing in a nation to perform that command");
 		defaultLanguage.getNode("DR").setValue("You do not have permission to buy a zone in this nation");
 		defaultLanguage.getNode("DS").setValue("rename zone");
-		defaultLanguage.getNode("DT").setValue("You are now speaking in your nations's private channel");
+		defaultLanguage.getNode("DT").setValue("You are now speaking in your nation's private channel");
 		defaultLanguage.getNode("DU").setValue("You are no longer speaking in your nation's private channel");
+		defaultLanguage.getNode("DV").setValue("You are now spying nations' private channels");
+		defaultLanguage.getNode("DW").setValue("You are no longer spying nations' private channels");
+		defaultLanguage.getNode("DX").setValue("spy on nations' private channels");
+		defaultLanguage.getNode("DY").setValue("display nation prices");
 		
 		defaultLanguage.getNode("EA").setValue("You must select a region with a golden axe first (right/left click)");
 		defaultLanguage.getNode("EB").setValue("Your selection must be adjacent to your region");
@@ -478,6 +493,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("HU").setValue("Teleport will start in 10 seconds");
 		defaultLanguage.getNode("HV").setValue("No spawn named 'home' found. Make one with /n setspawn home");
 		defaultLanguage.getNode("HW").setValue("if you have a spawn named 'home', tp to it");
+		defaultLanguage.getNode("HX").setValue("Unnamed");
 
 		defaultLanguage.getNode("IA").setValue("Wilderness");
 		defaultLanguage.getNode("IB").setValue("Nation");
@@ -516,6 +532,13 @@ public class LanguageHandler
 
 		defaultLanguage.getNode("KA").setValue("First position set to {COORD}");
 		defaultLanguage.getNode("KB").setValue("Second position set to {COORD}");
+		
+		defaultLanguage.getNode("LA").setValue("Nation prices");
+		defaultLanguage.getNode("LB").setValue("Nation creation");
+		defaultLanguage.getNode("LC").setValue("Outpost creation");
+		defaultLanguage.getNode("LD").setValue("Upkeep per citizen");
+		defaultLanguage.getNode("LE").setValue("Price per block claimed");
+		defaultLanguage.getNode("LF").setValue("Price per extra block");
 	}
 	
 	public static void load()
@@ -619,6 +642,10 @@ public class LanguageHandler
 		DS = getOrDefault("DS");
 		DT = getOrDefault("DT");
 		DU = getOrDefault("DU");
+		DV = getOrDefault("DV");
+		DW = getOrDefault("DW");
+		DX = getOrDefault("DX");
+		DY = getOrDefault("DY");
 		EA = getOrDefault("EA");
 		EB = getOrDefault("EB");
 		EC = getOrDefault("EC");
@@ -719,6 +746,7 @@ public class LanguageHandler
 		HU = getOrDefault("HU");
 		HV = getOrDefault("HV");
 		HW = getOrDefault("HW");
+		HX = getOrDefault("HX");
 		IA = getOrDefault("IA");
 		IB = getOrDefault("IB");
 		IC = getOrDefault("IC");
@@ -754,6 +782,12 @@ public class LanguageHandler
 		JH = getOrDefault("JH");
 		KA = getOrDefault("KA");
 		KB = getOrDefault("KB");
+		LA = getOrDefault("LA");
+		LB = getOrDefault("LB");
+		LC = getOrDefault("LC");
+		LD = getOrDefault("LD");
+		LE = getOrDefault("LE");
+		LF = getOrDefault("LF");
 		
 		save();
 	}

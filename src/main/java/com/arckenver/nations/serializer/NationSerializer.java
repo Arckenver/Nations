@@ -26,7 +26,7 @@ public class NationSerializer implements JsonSerializer<Nation>
 		JsonObject json = new JsonObject();
 		
 		json.add("uuid", new JsonPrimitive(nation.getUUID().toString()));
-		json.add("name", new JsonPrimitive(nation.getName()));
+		json.add("name", new JsonPrimitive(nation.getRealName()));
 		json.add("admin", new JsonPrimitive(nation.isAdmin()));
 		
 		JsonObject flags = new JsonObject();
@@ -67,7 +67,8 @@ public class NationSerializer implements JsonSerializer<Nation>
 			JsonObject zoneObj = new JsonObject();
 			
 			zoneObj.add("uuid", new JsonPrimitive(zone.getUUID().toString()));
-			zoneObj.add("name", new JsonPrimitive(zone.getName()));
+			if (zone.isNamed())
+				zoneObj.add("name", new JsonPrimitive(zone.getRealName()));
 			
 			JsonObject rectJson = new JsonObject();
 			rectJson.add("world", new JsonPrimitive(zone.getRect().getWorld().toString()));

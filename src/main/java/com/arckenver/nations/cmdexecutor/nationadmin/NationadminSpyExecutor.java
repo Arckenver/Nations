@@ -1,4 +1,4 @@
-package com.arckenver.nations.cmdexecutor.nation;
+package com.arckenver.nations.cmdexecutor.nationadmin;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -11,39 +11,31 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
-import com.arckenver.nations.Utils;
-import com.arckenver.nations.object.Nation;
+import com.arckenver.nations.channel.NationMessageChannel;
 
-public class NationExecutor implements CommandExecutor
+public class NationadminSpyExecutor implements CommandExecutor
 {
+	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
-		int clicker = Utils.CLICKER_NONE;
-		Nation nation;
 		if (src instanceof Player)
 		{
-			Player player = (Player) src;
-			nation = DataHandler.getNationOfPlayer(player.getUniqueId());
-			if (nation == null)
+			NationMessageChannel channel = DataHandler.getSpyChannel();
+			if (channel.getMembers().contains(src))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
-				return CommandResult.success();
+				channel.removeMember(src);
+				src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.DW));
 			}
-			if (nation.isStaff(player.getUniqueId()))
+			else
 			{
-				clicker = Utils.CLICKER_DEFAULT;
+				channel.addMember(src);
+				src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.DV));
 			}
 		}
 		else
 		{
 			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
-			return CommandResult.success();
 		}
-		if (clicker == Utils.CLICKER_NONE && src.hasPermission("nations.command.nationadmin"))
-		{
-			clicker = Utils.CLICKER_ADMIN;
-		}
-		src.sendMessage(Utils.formatNationDescription(nation, clicker));
 		return CommandResult.success();
 	}
 }

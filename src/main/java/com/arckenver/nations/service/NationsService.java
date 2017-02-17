@@ -18,7 +18,7 @@ public class NationsService
 		{
 			return Optional.empty();
 		}
-		return Optional.of(nation.getName());
+		return Optional.of(nation.getRealName());
 	}
 	
 	public Optional<String> getNationNameAtLocation(Location<World> loc)
@@ -28,7 +28,7 @@ public class NationsService
 		{
 			return Optional.empty();
 		}
-		return Optional.of(nation.getName());
+		return Optional.of(nation.getRealName());
 	}
 	
 	public boolean hasNation(UUID uuid)

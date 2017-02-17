@@ -94,6 +94,11 @@ public class Nation
 
 	public String getName()
 	{
+		return name.replace("_", " ");
+	}
+
+	public String getRealName()
+	{
 		return name;
 	}
 	
@@ -293,18 +298,6 @@ public class Nation
 	public Hashtable<UUID, Zone> getZones()
 	{
 		return zones;
-	}
-	
-	public Zone getZone(String name)
-	{
-		for (Zone zone : zones.values())
-		{
-			if (zone.getName().equalsIgnoreCase(name))
-			{
-				return zone;
-			}
-		}
-		return null;
 	}
 	
 	public Zone getZone(Location<World> loc)

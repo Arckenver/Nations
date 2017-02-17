@@ -59,7 +59,7 @@ public class ZoneListExecutor implements CommandExecutor
 				nation.getZones().values().iterator(),
 				Text.builder(splited[0]).color(TextColors.AQUA), 
 				(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
-				(b, zone) -> b.append(Text.builder(zone.getName()).color(TextColors.YELLOW).onClick(TextActions.runCommand("/z info " + zone.getName())).build()),
+				(b, zone) -> b.append(Text.builder(zone.getName()).color(TextColors.YELLOW).onClick(TextActions.runCommand("/z info " + zone.getRealName())).build()),
 				(b) -> b.append(Text.of(TextColors.AQUA, ", "))).append(Text.of(TextColors.AQUA, (splited.length > 1) ? splited[1] : "")).build());
 		
 		return CommandResult.success();
