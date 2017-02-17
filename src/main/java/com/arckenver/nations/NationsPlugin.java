@@ -712,6 +712,7 @@ public class NationsPlugin
 		Sponge.getCommandManager().register(this, nationCmd, "nation", "n", "nations");
 		Sponge.getCommandManager().register(this, zoneCmd, "zone", "z");
 		Sponge.getCommandManager().register(this, nationworldCmd, "nationworld", "nw");
+		Sponge.getCommandManager().register(this, nationChatCmd, "nationchat", "nc");
 
 		Sponge.getEventManager().registerListeners(this, new PlayerConnectionListener());
 		Sponge.getEventManager().registerListeners(this, new PlayerMoveListener());
