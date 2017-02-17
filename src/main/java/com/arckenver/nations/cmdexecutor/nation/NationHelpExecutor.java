@@ -41,6 +41,7 @@ public class NationHelpExecutor implements CommandExecutor
 				TextColors.GOLD, "\n/n taxes <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AV,
 				TextColors.GOLD, "\n/n spawn [name]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AQ,
 				TextColors.GOLD, "\n/n home", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.HW,
+				TextColors.GOLD, "\n/n setname <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BN,
 				TextColors.GOLD, "\n/n visit <nation> [name]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AX,
 				TextColors.GOLD, "\n/n setspawn <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AR,
 				TextColors.GOLD, "\n/n delspawn <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AS,

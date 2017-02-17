@@ -49,6 +49,7 @@ import com.arckenver.nations.cmdexecutor.nation.NationListExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationMinisterExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationPermExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationResignExecutor;
+import com.arckenver.nations.cmdexecutor.nation.NationSetnameExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationSetspawnExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationSpawnExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationTaxesExecutor;
@@ -154,7 +155,7 @@ public class NationsPlugin
 		CommandSpec nationadminCreateCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nationadmin.create")
-				.arguments(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("name"))))
+				.arguments(GenericArguments.optional(GenericArguments.string(Text.of("name"))))
 				.executor(new NationadminCreateExecutor())
 				.build();
 		
@@ -179,7 +180,7 @@ public class NationsPlugin
 				.permission("nations.command.nationadmin.setname")
 				.arguments(
 						GenericArguments.optional(new NationNameElement(Text.of("oldname"))),
-						GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("newname"))))
+						GenericArguments.optional(GenericArguments.string(Text.of("newname"))))
 				.executor(new NationadminSetnameExecutor())
 				.build();
 
@@ -271,7 +272,7 @@ public class NationsPlugin
 				.child(nationadminCreateCmd, "create")
 				.child(nationadminClaimCmd, "claim")
 				.child(nationadminSetpresCmd, "setpres", "setpresident")
-				.child(nationadminSetnameCmd, "setname")
+				.child(nationadminSetnameCmd, "setname", "rename")
 				.child(nationadminForcejoinCmd, "forcejoin")
 				.child(nationadminForceleaveCmd, "forceleave")
 				.child(nationadminEcoCmd, "eco")
@@ -415,6 +416,13 @@ public class NationsPlugin
 				.executor(new NationHomeExecutor())
 				.build();
 
+		CommandSpec nationSetnameCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.setname")
+				.arguments(GenericArguments.optional(GenericArguments.string(Text.of("name"))))
+				.executor(new NationSetnameExecutor())
+				.build();
+		
 		CommandSpec nationSetspawnCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nation.setspawn")
@@ -526,6 +534,7 @@ public class NationsPlugin
 				.child(nationResignCmd, "resign")
 				.child(nationSpawnCmd, "spawn")
 				.child(nationHomeCmd, "home")
+				.child(nationSetnameCmd, "setname", "rename")
 				.child(nationSetspawnCmd, "setspawn")
 				.child(nationDelspawnCmd, "delspawn")
 				.child(nationBuyextraCmd, "buyextra")
