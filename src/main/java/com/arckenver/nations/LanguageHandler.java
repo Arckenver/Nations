@@ -340,7 +340,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("CF").setValue("Invalid zone name");
 		defaultLanguage.getNode("CG").setValue("You must specify nation name");
 		defaultLanguage.getNode("CH").setValue("You must specify player name");
-		defaultLanguage.getNode("CI").setValue("You must be in a nation to perform that command");
+		defaultLanguage.getNode("CI").setValue("You must be in a nation to perform that command, type /n ? for more help");
 		defaultLanguage.getNode("CJ").setValue("You must be president of your nation to perform that command");
 		defaultLanguage.getNode("CK").setValue("You must be president or minister of your nation to perform that command");
 		defaultLanguage.getNode("CL").setValue("A new day is here ! Nations will now have to pay their upkeeps");

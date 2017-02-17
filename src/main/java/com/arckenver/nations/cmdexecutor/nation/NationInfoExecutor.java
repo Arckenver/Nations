@@ -55,7 +55,7 @@ public class NationInfoExecutor implements CommandExecutor
 			}
 			else
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CG));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
 				return CommandResult.success();
 			}
 		}
