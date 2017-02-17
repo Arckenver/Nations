@@ -208,6 +208,7 @@ public class LanguageHandler
 	public static String HU;
 	public static String HV;
 	public static String HW;
+	public static String HX;
 	public static String IA;
 	public static String IB;
 	public static String IC;
@@ -478,6 +479,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("HU").setValue("Teleport will start in 10 seconds");
 		defaultLanguage.getNode("HV").setValue("No spawn named 'home' found. Make one with /n setspawn home");
 		defaultLanguage.getNode("HW").setValue("if you have a spawn named 'home', tp to it");
+		defaultLanguage.getNode("HX").setValue("Unnamed");
 
 		defaultLanguage.getNode("IA").setValue("Wilderness");
 		defaultLanguage.getNode("IB").setValue("Nation");
@@ -719,6 +721,7 @@ public class LanguageHandler
 		HU = getOrDefault("HU");
 		HV = getOrDefault("HV");
 		HW = getOrDefault("HW");
+		HX = getOrDefault("HX");
 		IA = getOrDefault("IA");
 		IB = getOrDefault("IB");
 		IC = getOrDefault("IC");

@@ -281,7 +281,7 @@ public class Utils
 			boolean ownNothing = true;
 			for (Zone zone : nation.getZones().values())
 			{
-				if (uuid.equals(zone.getOwner()))
+				if (uuid.equals(zone.getOwner()) && zone.isNamed())
 				{
 					if (ownNothing)
 					{

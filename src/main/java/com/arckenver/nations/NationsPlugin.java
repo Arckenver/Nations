@@ -27,7 +27,6 @@ import com.arckenver.nations.cmdelement.CitizenNameElement;
 import com.arckenver.nations.cmdelement.NationNameElement;
 import com.arckenver.nations.cmdelement.PlayerNameElement;
 import com.arckenver.nations.cmdelement.WorldNameElement;
-import com.arckenver.nations.cmdelement.ZoneNameElement;
 import com.arckenver.nations.cmdexecutor.nation.NationBuyextraExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationChatExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationCitizenExecutor;
@@ -539,7 +538,7 @@ public class NationsPlugin
 		CommandSpec zoneDeleteCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.zone.delete")
-				.arguments(GenericArguments.optional(new ZoneNameElement(Text.of("zone"))))
+				.arguments()
 				.executor(new ZoneDeleteExecutor())
 				.build();
 

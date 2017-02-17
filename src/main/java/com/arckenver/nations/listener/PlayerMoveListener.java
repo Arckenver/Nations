@@ -54,10 +54,13 @@ public class PlayerMoveListener
 		Text.Builder builder = Text.builder("~ ").color(TextColors.GRAY);
 		
 		builder.append((nation == null) ? Text.of(TextColors.DARK_GREEN, LanguageHandler.IA) : Utils.nationClickable(TextColors.DARK_AQUA, nation.getName()));
-		builder.append(Text.of(TextColors.GRAY, " - "));
 		if (zone != null)
 		{
-			builder.append(Utils.zoneClickable(TextColors.GREEN, zone.getName()));
+			if (zone.isNamed())
+			{
+				builder.append(Text.of(TextColors.GRAY, " - "));
+				builder.append(Utils.zoneClickable(TextColors.GREEN, zone.getName()));
+			}
 			if (zone.isOwned())
 			{
 				builder.append(Text.of(TextColors.GRAY, " - "));
@@ -72,14 +75,14 @@ public class PlayerMoveListener
 						Text.of(TextColors.YELLOW, "]")
 				);
 			}
-			builder.append(Text.of(TextColors.GRAY, " - "));
 		}
 		else
 		{
-			builder.append(Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident())));
 			builder.append(Text.of(TextColors.GRAY, " - "));
+			builder.append(Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident())));
 		}
-		
+
+		builder.append(Text.of(TextColors.GRAY, " - "));
 		builder.append((DataHandler.getFlag("pvp", loc)) ? Text.of(TextColors.DARK_RED, "(PvP)") : Text.of(TextColors.DARK_GREEN, "(No PvP)"));
 		builder.append(Text.of(TextColors.GRAY, " ~"));
 		

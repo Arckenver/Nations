@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.arckenver.nations.ConfigHandler;
+import com.arckenver.nations.LanguageHandler;
 
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
@@ -68,6 +69,8 @@ public class Zone
 
 	public String getName()
 	{
+      if (name == null)
+			return LanguageHandler.HX;
 		return name;
 	}
 
@@ -94,6 +97,11 @@ public class Zone
 	public boolean isOwned()
 	{
 		return owner != null;
+	}
+	
+	public boolean isNamed()
+	{
+		return name != null;
 	}
 
 	public ArrayList<UUID> getCoowners()

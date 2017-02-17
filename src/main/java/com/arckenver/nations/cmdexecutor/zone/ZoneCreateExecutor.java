@@ -38,13 +38,12 @@ public class ZoneCreateExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
 				return CommandResult.success();
 			}
-			if (!ctx.<String>getOne("name").isPresent())
+			String zoneName = null;
+			if (ctx.<String>getOne("name").isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.YELLOW, "/z create <name>"));
-				return CommandResult.success();
+				zoneName = ctx.<String>getOne("name").get();
 			}
-			String zoneName = ctx.<String>getOne("name").get();
-			if (!zoneName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]*{1,30}"))
+			if (zoneName != null && !zoneName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]*{1,30}"))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.FY
 						.replaceAll("\\{MIN\\}", "1")
@@ -76,7 +75,7 @@ public class ZoneCreateExecutor implements CommandExecutor
 			}
 			for (Zone zone : nation.getZones().values())
 			{
-				if (zone.getName().equalsIgnoreCase(zoneName))
+				if (zoneName != null && zone.isNamed() && zone.getName().equalsIgnoreCase(zoneName))
 				{
 					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GR));
 					return CommandResult.success();
@@ -94,9 +93,9 @@ public class ZoneCreateExecutor implements CommandExecutor
 			}
 			nation.addZone(zone);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.GT.replaceAll("\\{ZONE\\}", zoneName)));
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.GT.replaceAll("\\{ZONE\\}", zone.getName())));
 			Sponge.getServer().getPlayer(owner).ifPresent(
-					p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GU.replaceAll("\\{ZONE\\}", zoneName))));
+					p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GU.replaceAll("\\{ZONE\\}", zone.getName()))));
 		}
 		else
 		{

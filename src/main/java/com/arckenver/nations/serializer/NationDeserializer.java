@@ -58,7 +58,9 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 			{
 				JsonObject zoneObj = e.getAsJsonObject();
 				UUID zoneUUID = UUID.fromString(zoneObj.get("uuid").getAsString());
-				String zoneName = zoneObj.get("name").getAsString();
+				String zoneName = null;
+				if (zoneObj.has("name"))
+					zoneName = zoneObj.get("name").getAsString();
 				
 				JsonObject rectObj = zoneObj.get("rect").getAsJsonObject();
 				Rect rect = new Rect(

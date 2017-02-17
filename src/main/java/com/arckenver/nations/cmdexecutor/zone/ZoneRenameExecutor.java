@@ -25,8 +25,12 @@ public class ZoneRenameExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, "/z rename <name>"));
 				return CommandResult.success();
 			}
-			String zoneName = ctx.<String>getOne("name").get();
-			if (!zoneName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]*{1,30}"))
+			String zoneName = null;
+			if (ctx.<String>getOne("name").isPresent())
+			{
+				zoneName = ctx.<String>getOne("name").get();
+			}
+			if (zoneName != null && !zoneName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]*{1,30}"))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.FY
 						.replaceAll("\\{MIN\\}", "1")
@@ -51,12 +55,15 @@ public class ZoneRenameExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GV));
 				return CommandResult.success();
 			}
-			for (Zone zone : nation.getZones().values())
+			if (zoneName != null)
 			{
-				if (zone.getName().equalsIgnoreCase(zoneName))
+				for (Zone zone : nation.getZones().values())
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GR));
-					return CommandResult.success();
+					if (zone.isNamed() && zone.getName().equalsIgnoreCase(zoneName))
+					{
+						src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GR));
+						return CommandResult.success();
+					}
 				}
 			}
 			currentZone.setName(zoneName);

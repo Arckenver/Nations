@@ -67,7 +67,8 @@ public class NationSerializer implements JsonSerializer<Nation>
 			JsonObject zoneObj = new JsonObject();
 			
 			zoneObj.add("uuid", new JsonPrimitive(zone.getUUID().toString()));
-			zoneObj.add("name", new JsonPrimitive(zone.getName()));
+			if (zone.isNamed())
+				zoneObj.add("name", new JsonPrimitive(zone.getName()));
 			
 			JsonObject rectJson = new JsonObject();
 			rectJson.add("world", new JsonPrimitive(zone.getRect().getWorld().toString()));
