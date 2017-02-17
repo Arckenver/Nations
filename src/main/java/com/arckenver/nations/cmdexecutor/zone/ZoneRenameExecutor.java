@@ -20,11 +20,6 @@ public class ZoneRenameExecutor implements CommandExecutor
 	{
 		if (src instanceof Player)
 		{
-			if (!ctx.<String>getOne("name").isPresent())
-			{
-				src.sendMessage(Text.of(TextColors.RED, "/z rename <name>"));
-				return CommandResult.success();
-			}
 			String zoneName = null;
 			if (ctx.<String>getOne("name").isPresent())
 			{
