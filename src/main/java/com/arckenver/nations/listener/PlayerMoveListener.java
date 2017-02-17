@@ -12,6 +12,7 @@ import org.spongepowered.api.world.World;
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
+import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.Utils;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.object.Zone;
@@ -73,5 +74,6 @@ public class PlayerMoveListener
 		builder.append(Text.of(TextColors.GRAY, " ~"));
 		
 		player.sendMessage(builder.build());
+		NationsPlugin.getLogger().warn(Text.of(player.getName(), " entered area ", builder.build()).toPlain());
 	}
 }
