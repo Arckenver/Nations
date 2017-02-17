@@ -90,6 +90,11 @@ public class Zone
 	{
 		return owner != null && owner.equals(uuid);
 	}
+	
+	public boolean isOwned()
+	{
+		return owner != null;
+	}
 
 	public ArrayList<UUID> getCoowners()
 	{

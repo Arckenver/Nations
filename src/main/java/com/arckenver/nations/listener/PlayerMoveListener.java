@@ -58,6 +58,11 @@ public class PlayerMoveListener
 		if (zone != null)
 		{
 			builder.append(Utils.zoneClickable(TextColors.GREEN, zone.getName()));
+			if (zone.isOwned())
+			{
+				builder.append(Text.of(TextColors.GRAY, " - "));
+				builder.append(Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(zone.getOwner())));
+			}
 			if (zone.isForSale())
 			{
 				builder.append(
@@ -67,6 +72,11 @@ public class PlayerMoveListener
 						Text.of(TextColors.YELLOW, "]")
 				);
 			}
+			builder.append(Text.of(TextColors.GRAY, " - "));
+		}
+		else
+		{
+			builder.append(Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident())));
 			builder.append(Text.of(TextColors.GRAY, " - "));
 		}
 		
