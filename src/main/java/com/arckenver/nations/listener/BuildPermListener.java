@@ -78,7 +78,7 @@ public class BuildPermListener
 		{
 			return;
 		}
-		if (player.hasPermission("islands.admin.bypass.perm.build"))
+		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
 		}
