@@ -111,6 +111,7 @@ public class LanguageHandler
 	public static String DV;
 	public static String DW;
 	public static String DX;
+	public static String DY;
 	public static String EA;
 	public static String EB;
 	public static String EC;
@@ -247,6 +248,12 @@ public class LanguageHandler
 	public static String JH;
 	public static String KA;
 	public static String KB;
+	public static String LA;
+	public static String LB;
+	public static String LC;
+	public static String LD;
+	public static String LE;
+	public static String LF;
 	
 	private static File languageFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> languageManager;
@@ -384,6 +391,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("DV").setValue("You are now spying nations' private channels");
 		defaultLanguage.getNode("DW").setValue("You are no longer spying nations' private channels");
 		defaultLanguage.getNode("DX").setValue("spy on nations' private channels");
+		defaultLanguage.getNode("DY").setValue("display nation prices");
 		
 		defaultLanguage.getNode("EA").setValue("You must select a region with a golden axe first (right/left click)");
 		defaultLanguage.getNode("EB").setValue("Your selection must be adjacent to your region");
@@ -524,6 +532,13 @@ public class LanguageHandler
 
 		defaultLanguage.getNode("KA").setValue("First position set to {COORD}");
 		defaultLanguage.getNode("KB").setValue("Second position set to {COORD}");
+		
+		defaultLanguage.getNode("LA").setValue("Nation prices");
+		defaultLanguage.getNode("LB").setValue("Nation creation");
+		defaultLanguage.getNode("LC").setValue("Outpost creation");
+		defaultLanguage.getNode("LD").setValue("Upkeep per citizen");
+		defaultLanguage.getNode("LE").setValue("Price per block claimed");
+		defaultLanguage.getNode("LF").setValue("Price per extra block");
 	}
 	
 	public static void load()
@@ -630,6 +645,7 @@ public class LanguageHandler
 		DV = getOrDefault("DV");
 		DW = getOrDefault("DW");
 		DX = getOrDefault("DX");
+		DY = getOrDefault("DY");
 		EA = getOrDefault("EA");
 		EB = getOrDefault("EB");
 		EC = getOrDefault("EC");
@@ -766,6 +782,12 @@ public class LanguageHandler
 		JH = getOrDefault("JH");
 		KA = getOrDefault("KA");
 		KB = getOrDefault("KB");
+		LA = getOrDefault("LA");
+		LB = getOrDefault("LB");
+		LC = getOrDefault("LC");
+		LD = getOrDefault("LD");
+		LE = getOrDefault("LE");
+		LF = getOrDefault("LF");
 		
 		save();
 	}

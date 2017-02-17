@@ -32,6 +32,7 @@ import com.arckenver.nations.cmdexecutor.nation.NationChatExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationCitizenExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationClaimExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationClaimOutpostExecutor;
+import com.arckenver.nations.cmdexecutor.nation.NationCostExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationCreateExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationDelspawnExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationDepositExecutor;
@@ -301,6 +302,13 @@ public class NationsPlugin
 				.executor(new NationHelpExecutor())
 				.build();
 		
+		CommandSpec nationCostCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.cost")
+				.arguments()
+				.executor(new NationCostExecutor())
+				.build();
+		
 		CommandSpec nationListCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nation.list")
@@ -503,6 +511,7 @@ public class NationsPlugin
 				.child(nationInfoCmd, "info")
 				.child(nationHelpCmd, "help", "?")
 				.child(nationHereCmd, "here", "h")
+				.child(nationCostCmd, "cost", "costs", "price", "prices", "fare", "fares")
 				.child(nationListCmd, "list", "l")
 				.child(nationCitizenCmd, "citizen", "whois")
 				.child(nationCreateCmd, "create", "new")
