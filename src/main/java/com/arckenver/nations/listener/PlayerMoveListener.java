@@ -57,7 +57,7 @@ public class PlayerMoveListener
 		if (nation != null && !nation.isAdmin())
 		{
 			builder.append(Text.of(TextColors.GRAY, " - "));
-			builder.append(Text.of(DataHandler.getCitizenTitle(nation.getPresident()), " ", Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident()))));
+			builder.append(Text.of(TextColors.YELLOW, DataHandler.getCitizenTitle(nation.getPresident()), " ", Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident()))));
 		}
 		if (zone != null)
 		{
