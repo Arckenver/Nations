@@ -24,6 +24,7 @@ public class NationadminExecutor implements CommandExecutor
 		contents.add(Text.of(TextColors.GOLD, "/na forceupkeep", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.DZ));
 		contents.add(Text.of(TextColors.GOLD, "/na create <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BL));
 		contents.add(Text.of(TextColors.GOLD, "/na claim <nation>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AY));
+		contents.add(Text.of(TextColors.GOLD, "/na unclaim <nation>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.LI));
 		contents.add(Text.of(TextColors.GOLD, "/na delete <nation>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BM));
 		contents.add(Text.of(TextColors.GOLD, "/na setname <nation> <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BN));
 		contents.add(Text.of(TextColors.GOLD, "/na setpres <nation> <player>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BO));
