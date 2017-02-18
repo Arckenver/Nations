@@ -30,13 +30,13 @@ public class NationadminExecutor implements CommandExecutor
 		contents.add(Text.of(TextColors.GOLD, "/na forcejoin <nation> <player>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BP));
 		contents.add(Text.of(TextColors.GOLD, "/na forceleave <nation> <player>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BQ));
 		contents.add(Text.of(TextColors.GOLD, "/na eco <give|take|set> <nation> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BR));
+		contents.add(Text.of(TextColors.GOLD, "/na perm <nation> <type> <perm> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BS));
+		contents.add(Text.of(TextColors.GOLD, "/na flag <nation> <flag> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BT));
+		contents.add(Text.of(TextColors.GOLD, "/na spy", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.DX));
 		contents.add(Text.of(TextColors.GOLD, "/na extra <give|take|set> <nation> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.HY));
 		contents.add(Text.of(TextColors.GOLD, "/na extraplayer <give|take|set> <player> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.HZ));
 		contents.add(Text.of(TextColors.GOLD, "/na extraspawn <give|take|set> <nation> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.LG));
 		contents.add(Text.of(TextColors.GOLD, "/na extraspawnplayer <give|take|set> <player> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.LH));
-		contents.add(Text.of(TextColors.GOLD, "/na perm <nation> <type> <perm> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BS));
-		contents.add(Text.of(TextColors.GOLD, "/na flag <nation> <flag> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BT));
-		contents.add(Text.of(TextColors.GOLD, "/na spy", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.DX));
 
 		PaginationList.builder()
 		.title(Text.of(TextColors.GOLD, "{ ", TextColors.YELLOW, "/nationadmin", TextColors.GOLD, " }"))
