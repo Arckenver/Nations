@@ -30,13 +30,17 @@ public class TaxesCollectRunnable implements Runnable
 		{
 			return;
 		}
+		if (NationsPlugin.getEcoService() == null)
+		{
+			NationsPlugin.getLogger().error(LanguageHandler.DC);
+			return;
+		}
 		MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.CL));
 		ArrayList<UUID> nationsToRemove = new ArrayList<UUID>();
 		for (Nation nation : DataHandler.getNations().values())
 		{
-			if (NationsPlugin.getEcoService() == null)
+			if (nation.isAdmin())
 			{
-				NationsPlugin.getLogger().error(LanguageHandler.DC);
 				continue;
 			}
 			Optional<Account> optAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
@@ -56,7 +60,6 @@ public class TaxesCollectRunnable implements Runnable
 				Optional<User> user = userStorage.get(uuid);
 				if (user.isPresent() && user.get().hasPermission("nations.admin.nation.exempt"))
 				{
-
 					continue;
 				}
 				if (nation.isStaff(uuid))
