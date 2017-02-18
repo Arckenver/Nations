@@ -1,8 +1,5 @@
 package com.arckenver.nations.cmdexecutor.nationadmin;
 
-
-import java.math.BigDecimal;
-
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -13,7 +10,6 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
-import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.object.Nation;
 
 public class NationadminExtraExecutor implements CommandExecutor
