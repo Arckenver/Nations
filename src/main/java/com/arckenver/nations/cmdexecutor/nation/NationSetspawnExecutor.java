@@ -46,10 +46,10 @@ public class NationSetspawnExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.FX));
 				return CommandResult.success();
 			}
-			if (nation.getNumSpawns() + 1 > ConfigHandler.getNode("others", "maxNationSpawns").getInt())
+			if (nation.getNumSpawns() + 1 > nation.getMaxSpawns() && !nation.getSpawns().containsKey(spawnName))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HR
-						.replaceAll("\\{MAX\\}", ConfigHandler.getNode("others", "maxNationSpawns").getString())));
+						.replaceAll("\\{MAX\\}", String.valueOf(nation.getMaxSpawns()))));
 				return CommandResult.success();
 			}
 			if (!spawnName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]{1,30}"))

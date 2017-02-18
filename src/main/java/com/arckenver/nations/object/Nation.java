@@ -39,6 +39,7 @@ public class Nation
 	private Hashtable<String, Boolean> flags;
 	private Hashtable<UUID, Zone> zones;
 	private int extras;
+	private int extraspawns;
 	private double taxes;
 	
 	private NationMessageChannel channel = new NationMessageChannel();
@@ -79,6 +80,7 @@ public class Nation
 		}};
 		this.zones = new Hashtable<UUID, Zone>();
 		this.extras = 0;
+		this.extraspawns = 0;
 		this.taxes = ConfigHandler.getNode("nations", "defaultTaxes").getDouble();
 	}
 
@@ -151,7 +153,35 @@ public class Nation
 	{
 		return spawns.size();
 	}
+	
+	public int getMaxSpawns()
+	{
+		return ConfigHandler.getNode("others", "maxNationSpawns").getInt() + extraspawns;
+	}
 
+	public int getExtraSpawns() {
+		return extraspawns;
+	}
+	
+	public void setExtraSpawns(int extraspawns)
+	{
+		this.extraspawns = extraspawns;
+		if (this.extraspawns < 0)
+			this.extraspawns = 0;
+	}
+
+	public void addExtraSpawns(int extraspawns)
+	{
+		this.extraspawns += extraspawns;
+	}
+
+	public void removeExtraSpawns(int extraspawns)
+	{
+		this.extraspawns -= extraspawns;
+		if (this.extraspawns < 0)
+			this.extraspawns = 0;
+	}
+	
 	public Region getRegion()
 	{
 		return region;
@@ -356,4 +386,5 @@ public class Nation
 	{
 		return channel;
 	}
+
 }

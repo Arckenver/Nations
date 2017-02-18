@@ -31,6 +31,8 @@ public class NationadminExecutor implements CommandExecutor
 				TextColors.GOLD, "\n/na eco <give|take|set> <nation> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BR,
 				TextColors.GOLD, "\n/na extra <give|take|set> <nation> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.HY,
 				TextColors.GOLD, "\n/na extraplayer <give|take|set> <player> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.HZ,
+				TextColors.GOLD, "\n/na extraspawn <give|take|set> <nation> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.LG,
+				TextColors.GOLD, "\n/na extraspawnplayer <give|take|set> <player> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.LH,
 				TextColors.GOLD, "\n/na perm <nation> <type> <perm> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BS,
 				TextColors.GOLD, "\n/na flag <nation> <flag> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BT,
 				TextColors.GOLD, "\n/na spy", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AZ

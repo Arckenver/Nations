@@ -111,7 +111,7 @@ public class Utils
 					formatPrice(TextColors.YELLOW, BigDecimal.valueOf(nation.getTaxes())),
 					Text.of(TextColors.GOLD, "\n" + LanguageHandler.IW + ": "),
 					formatPrice(TextColors.YELLOW, BigDecimal.valueOf(nation.getUpkeep())),
-					Text.of(TextColors.GOLD, "\n" + LanguageHandler.IG + ": ", TextColors.YELLOW, formatNationSpawns(nation, TextColors.YELLOW, clicker)),
+					Text.of(TextColors.GOLD, "\n" + LanguageHandler.IG + "(", TextColors.YELLOW, + nation.getNumSpawns() + "/" + nation.getMaxSpawns(), TextColors.GOLD, "): ", TextColors.YELLOW, formatNationSpawns(nation, TextColors.YELLOW, clicker)),
 					Text.of(TextColors.GOLD, "\n" + LanguageHandler.IH + ": "),
 					citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident())),
 					Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));

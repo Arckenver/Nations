@@ -110,7 +110,10 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 			}
 			if (obj.has("taxes"))
 				nation.setTaxes(obj.get("taxes").getAsDouble());
-			nation.addExtras(obj.get("extras").getAsInt());
+			if (obj.has("extraspawns"))
+				nation.setExtras(obj.get("extras").getAsInt());
+			if (obj.has("extraspawns"))
+			 nation.setExtraSpawns(obj.get("extraspawns").getAsInt());
 			for (Entry<String, JsonElement> e : obj.get("spawns").getAsJsonObject().entrySet())
 			{
 				JsonObject spawnObj = e.getValue().getAsJsonObject();

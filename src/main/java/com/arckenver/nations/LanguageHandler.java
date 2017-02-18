@@ -257,6 +257,8 @@ public class LanguageHandler
 	public static String LD;
 	public static String LE;
 	public static String LF;
+	public static String LG;
+	public static String LH;
 	
 	private static File languageFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> languageManager;
@@ -545,6 +547,8 @@ public class LanguageHandler
 		defaultLanguage.getNode("LD").setValue("Upkeep per citizen");
 		defaultLanguage.getNode("LE").setValue("Price per block claimed");
 		defaultLanguage.getNode("LF").setValue("Price per extra block");
+		defaultLanguage.getNode("LG").setValue("manage extra spawns");
+		defaultLanguage.getNode("LH").setValue("manage extra spawns using player name");
 	}
 	
 	public static void load()
@@ -797,6 +801,8 @@ public class LanguageHandler
 		LD = getOrDefault("LD");
 		LE = getOrDefault("LE");
 		LF = getOrDefault("LF");
+		LG = getOrDefault("LG");
+		LH = getOrDefault("LH");
 		
 		save();
 	}
