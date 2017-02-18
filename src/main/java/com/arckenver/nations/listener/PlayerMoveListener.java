@@ -54,30 +54,38 @@ public class PlayerMoveListener
 		Text.Builder builder = Text.builder("~ ").color(TextColors.GRAY);
 
 		builder.append((nation == null) ? Text.of(TextColors.DARK_GREEN, LanguageHandler.IA) : Utils.nationClickable(TextColors.DARK_AQUA, nation.getName()));
-		if (zone != null)
-		{
-			builder.append(Text.of(TextColors.GRAY, " - "));
-			if (zone.isOwned())
-				builder.append(Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(zone.getOwner())));
-			else
-				builder.append(Utils.zoneClickable(TextColors.GREEN, zone.getName()));
-			if (zone.isForSale())
-			{
-				builder.append(
-						Text.of(TextColors.GRAY, " - "),
-						Text.of(TextColors.YELLOW, "["),
-						Utils.formatPrice(TextColors.YELLOW, zone.getPrice()),
-						Text.of(TextColors.YELLOW, "]")
-						);
-			}
-		}
-		else if (nation != null && !nation.isAdmin())
+		if (nation != null && !nation.isAdmin())
 		{
 			builder.append(Text.of(TextColors.GRAY, " - "));
 			builder.append(Text.of(DataHandler.getCitizenTitle(nation.getPresident()), " ", Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident()))));
 		}
-
-		builder.append(Text.of(TextColors.GRAY, " - "));
+		if (zone != null)
+		{
+			builder.append(Text.of(TextColors.GRAY, " ~ "));
+			if (zone.isNamed())
+			{
+				builder.append(Utils.zoneClickable(TextColors.GREEN, zone.getName()));
+				builder.append(Text.of(TextColors.GRAY, " - "));
+			}
+			if (zone.isOwned())
+			{
+				builder.append(Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(zone.getOwner())));
+				builder.append(Text.of(TextColors.GRAY, " - "));
+			}
+			if (zone.isForSale())
+			{
+				builder.append(
+						Text.of(TextColors.YELLOW, "["),
+						Utils.formatPrice(TextColors.YELLOW, zone.getPrice()),
+						Text.of(TextColors.YELLOW, "]"),
+						Text.of(TextColors.GRAY, " - ")
+						);
+			}
+		}
+		else
+		{
+			builder.append(Text.of(TextColors.GRAY, " - "));
+		}
 		builder.append((DataHandler.getFlag("pvp", loc)) ? Text.of(TextColors.DARK_RED, "(PvP)") : Text.of(TextColors.DARK_GREEN, "(No PvP)"));
 		builder.append(Text.of(TextColors.GRAY, " ~"));
 
