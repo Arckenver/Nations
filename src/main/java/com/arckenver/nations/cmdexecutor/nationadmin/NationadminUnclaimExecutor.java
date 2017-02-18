@@ -1,17 +1,11 @@
 package com.arckenver.nations.cmdexecutor.nationadmin;
 
-import java.math.BigDecimal;
-import java.util.Optional;
-
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.service.economy.account.Account;
-import org.spongepowered.api.service.economy.transaction.ResultType;
-import org.spongepowered.api.service.economy.transaction.TransactionResult;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
@@ -20,8 +14,6 @@ import org.spongepowered.api.world.World;
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
-import com.arckenver.nations.NationsPlugin;
-import com.arckenver.nations.Utils;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.object.Point;
 import com.arckenver.nations.object.Rect;
@@ -84,7 +76,6 @@ public class NationadminUnclaimExecutor implements CommandExecutor
 			}
 			Region claimed = nation.getRegion().copy();
 			claimed.removeRect(rect);
-			int toUnclaim = nation.getRegion().size() - claimed.size();	
 
 			nation.setRegion(claimed);
 			DataHandler.addToWorldChunks(nation);
