@@ -20,7 +20,7 @@ public class NationadminExecutor implements CommandExecutor
 				TextColors.YELLOW, "/nationadmin",
 				TextColors.GOLD, " }--------",
 				TextColors.GOLD, "\n/na reload", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AZ,
-				TextColors.GOLD, "\n/na forceupkeep", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AZ,
+				TextColors.GOLD, "\n/na forceupkeep", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.DZ,
 				TextColors.GOLD, "\n/na create <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BL,
 				TextColors.GOLD, "\n/na claim <nation>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AY,
 				TextColors.GOLD, "\n/na delete <nation>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BM,
@@ -35,7 +35,7 @@ public class NationadminExecutor implements CommandExecutor
 				TextColors.GOLD, "\n/na extraspawnplayer <give|take|set> <player> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.LH,
 				TextColors.GOLD, "\n/na perm <nation> <type> <perm> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BS,
 				TextColors.GOLD, "\n/na flag <nation> <flag> <true|false>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BT,
-				TextColors.GOLD, "\n/na spy", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AZ
+				TextColors.GOLD, "\n/na spy", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.DX
 		));
 		return CommandResult.success();
 	}
