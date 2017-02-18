@@ -214,6 +214,8 @@ public class LanguageHandler
 	public static String HV;
 	public static String HW;
 	public static String HX;
+	public static String HY;
+	public static String HZ;
 	public static String IA;
 	public static String IB;
 	public static String IC;
@@ -496,6 +498,8 @@ public class LanguageHandler
 		defaultLanguage.getNode("HV").setValue("No spawn named 'home' found. Make one with /n setspawn home");
 		defaultLanguage.getNode("HW").setValue("if you have a spawn named 'home', tp to it");
 		defaultLanguage.getNode("HX").setValue("Unnamed");
+		defaultLanguage.getNode("HY").setValue("manage extra blocks");
+		defaultLanguage.getNode("HZ").setValue("manage extra blocks using player name");
 
 		defaultLanguage.getNode("IA").setValue("Wilderness");
 		defaultLanguage.getNode("IB").setValue("Nation");
@@ -750,6 +754,8 @@ public class LanguageHandler
 		HV = getOrDefault("HV");
 		HW = getOrDefault("HW");
 		HX = getOrDefault("HX");
+		HY = getOrDefault("HY");
+		HZ = getOrDefault("HZ");
 		IA = getOrDefault("IA");
 		IB = getOrDefault("IB");
 		IC = getOrDefault("IC");

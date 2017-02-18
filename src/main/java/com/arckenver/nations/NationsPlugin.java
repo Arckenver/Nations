@@ -61,6 +61,8 @@ import com.arckenver.nations.cmdexecutor.nationadmin.NationadminCreateExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminDeleteExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminEcoExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminExecutor;
+import com.arckenver.nations.cmdexecutor.nationadmin.NationadminExtraExecutor;
+import com.arckenver.nations.cmdexecutor.nationadmin.NationadminExtraplayerExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminFlagExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminForcejoinExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminForceleaveExecutor;
@@ -223,6 +225,36 @@ public class NationsPlugin
 				.executor(new NationadminEcoExecutor())
 				.build();
 		
+		CommandSpec nationadminExtraCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.extra")
+				.arguments(
+						GenericArguments.optional(GenericArguments.choices(Text.of("give|take|set"),
+								ImmutableMap.<String, String> builder()
+										.put("give", "give")
+										.put("take", "take")
+										.put("set", "set")
+										.build())),
+						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
+						GenericArguments.optional(GenericArguments.integer(Text.of("amount"))))
+				.executor(new NationadminExtraExecutor())
+				.build();
+		
+		CommandSpec nationadminExtraplayerCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.extraplayer")
+				.arguments(
+						GenericArguments.optional(GenericArguments.choices(Text.of("give|take|set"),
+								ImmutableMap.<String, String> builder()
+										.put("give", "give")
+										.put("take", "take")
+										.put("set", "set")
+										.build())),
+						GenericArguments.optional(new PlayerNameElement(Text.of("player"))),
+						GenericArguments.optional(GenericArguments.integer(Text.of("amount"))))
+				.executor(new NationadminExtraplayerExecutor())
+				.build();
+		
 		CommandSpec nationadminDeleteCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nationadmin.delete")
@@ -289,6 +321,8 @@ public class NationsPlugin
 				.child(nationadminFlagCmd, "flag")
 				.child(nationadminPermCmd, "perm")
 				.child(nationadminSpyCmd, "spy", "spychat")
+				.child(nationadminExtraCmd, "extra")
+				.child(nationadminExtraplayerCmd, "extraplayer")
 				.build();
 
 		CommandSpec nationInfoCmd = CommandSpec.builder()

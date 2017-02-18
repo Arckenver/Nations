@@ -331,11 +331,20 @@ public class Nation
 	public void setExtras(int extras)
 	{
 		this.extras = extras;
+		if (this.extras < 0)
+			this.extras = 0;
 	}
 
 	public void addExtras(int extras)
 	{
 		this.extras += extras;
+	}
+
+	public void removeExtras(int extras)
+	{
+		this.extras -= extras;
+		if (this.extras < 0)
+			this.extras = 0;
 	}
 
 	public int maxBlockSize()
