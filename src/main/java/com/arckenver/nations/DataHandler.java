@@ -418,12 +418,10 @@ public class DataHandler
 	{
 		if (markJobs.containsKey(player.getUniqueId()))
 		{
-			NationsPlugin.getLogger().info("OFF");
 			Sponge.getScheduler().getTaskById(markJobs.get(player.getUniqueId())).ifPresent(task -> {task.cancel();});
 			markJobs.remove(player.getUniqueId());
 			return;
 		}
-		NationsPlugin.getLogger().info("ON");
 		ParticleEffect nationParticule = ParticleEffect.builder().type(ParticleTypes.DRAGON_BREATH).quantity(1).build();
 		ParticleEffect zoneParticule = ParticleEffect.builder().type(ParticleTypes.HAPPY_VILLAGER).quantity(1).build();
 		Task t = Sponge.getScheduler()
@@ -431,7 +429,6 @@ public class DataHandler
 				.execute(task -> {
 					if (!player.isOnline())
 					{
-						NationsPlugin.getLogger().info("OFFLINE");
 						task.cancel();
 						markJobs.remove(player.getUniqueId());
 						return;
@@ -446,11 +443,9 @@ public class DataHandler
 							if (nation != null)
 							{
 								Vector3d pos = loc.getPosition().sub(0, 4, 0);
-								NationsPlugin.getLogger().info("NATION");
 
 								if (nation.getZone(loc) != null)
 								{
-									NationsPlugin.getLogger().info("ZONE");
 									for (int h = 0; h < 10; h++)
 										player.spawnParticles(zoneParticule, pos.add(0, h, 0), 50);
 								}

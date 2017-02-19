@@ -23,6 +23,7 @@ public class NationHelpExecutor implements CommandExecutor
 		contents.add(Text.of(TextColors.GOLD, "/n info [nation]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AA));
 		contents.add(Text.of(TextColors.GOLD, "/n here", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AB));
 		contents.add(Text.of(TextColors.GOLD, "/n cost", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.DY));
+		contents.add(Text.of(TextColors.GOLD, "/n mark", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.DY));
 		contents.add(Text.of(TextColors.GOLD, "/n list", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AC));
 		contents.add(Text.of(TextColors.GOLD, "/n create <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AD));
 		contents.add(Text.of(TextColors.GOLD, "/n deposit <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AE));

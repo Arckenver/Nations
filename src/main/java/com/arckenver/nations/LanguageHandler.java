@@ -261,6 +261,7 @@ public class LanguageHandler
 	public static String LH;
 	public static String LI;
 	public static String LJ;
+	public static String LK;
 	
 	private static File languageFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> languageManager;
@@ -553,6 +554,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("LH").setValue("manage extra spawns using player name");
 		defaultLanguage.getNode("LI").setValue("unclaims for admin nation");
 		defaultLanguage.getNode("LJ").setValue("{PLAYER} made zone {ZONE} not for sale");
+		defaultLanguage.getNode("LK").setValue("display nations and zones");
 	}
 	
 	public static void load()
@@ -809,6 +811,7 @@ public class LanguageHandler
 		LH = getOrDefault("LH");
 		LI = getOrDefault("LI");
 		LJ = getOrDefault("LJ");
+		LK = getOrDefault("LK");
 		
 		save();
 	}
