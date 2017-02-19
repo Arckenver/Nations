@@ -46,6 +46,7 @@ import com.arckenver.nations.cmdexecutor.nation.NationJoinExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationKickExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationLeaveExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationListExecutor;
+import com.arckenver.nations.cmdexecutor.nation.NationMarkExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationMinisterExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationPermExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationResignExecutor;
@@ -598,6 +599,13 @@ public class NationsPlugin
 						GenericArguments.optional(GenericArguments.string(Text.of("name"))))
 				.executor(new NationVisitExecutor())
 				.build();
+		
+		CommandSpec nationMarkCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.mark")
+				.arguments()
+				.executor(new NationMarkExecutor())
+				.build();
 
 		CommandSpec nationCmd = CommandSpec.builder()
 				.description(Text.of(""))
@@ -631,6 +639,7 @@ public class NationsPlugin
 				.child(nationFlagCmd, "flag")
 				.child(nationChatCmd, "chat", "c")
 				.child(nationVisitCmd, "visit")
+				.child(nationMarkCmd, "mark", "limit", "show", "display", "see", "boundaries")
 				.build();
 
 		CommandSpec zoneInfoCmd = CommandSpec.builder()
