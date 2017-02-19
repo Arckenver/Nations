@@ -2,6 +2,7 @@ package com.arckenver.nations.listener;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.hanging.ItemFrame;
+import org.spongepowered.api.entity.living.ArmorStand;
 import org.spongepowered.api.entity.living.monster.Monster;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -54,7 +55,7 @@ public class InteractPermListener
 		{
 			return;
 		}
-		if (target instanceof ItemFrame)
+		if (target instanceof ItemFrame || target instanceof ArmorStand)
 		{
 			if (player.hasPermission("nations.admin.bypass.perm.build"))
 			{
