@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import java.util.Optional;
 import java.util.UUID;
@@ -141,20 +140,32 @@ public class DataHandler
 		{
 			return null;
 		}
-		for (Entry<Vector2i, ArrayList<Nation>> e : worldChunks.get(loc.getExtent().getUniqueId()).entrySet())
+		Vector2i area = new Vector2i(IntMath.divide(loc.getBlockX(), 16, RoundingMode.FLOOR), IntMath.divide(loc.getBlockZ(), 16, RoundingMode.FLOOR));
+		if (!worldChunks.get(loc.getExtent().getUniqueId()).containsKey(area))
 		{
-			if (e.getKey().equals(new Vector2i(IntMath.divide(loc.getBlockX(), 16, RoundingMode.FLOOR), IntMath.divide(loc.getBlockZ(), 16, RoundingMode.FLOOR))))
+			return null;
+		}
+		for (Nation nation : worldChunks.get(loc.getExtent().getUniqueId()).get(area))
+		{
+			if (nation.getRegion().isInside(loc))
 			{
-				for (Nation nation : e.getValue())
-				{
-					if (nation.getRegion().isInside(loc))
-					{
-						return nation;
-					}
-				}
-				return null;
+				return nation;
 			}
 		}
+//		for (Entry<Vector2i, ArrayList<Nation>> e : worldChunks.get(loc.getExtent().getUniqueId()).entrySet())
+//		{
+//			if (e.getKey().equals(new Vector2i(IntMath.divide(loc.getBlockX(), 16, RoundingMode.FLOOR), IntMath.divide(loc.getBlockZ(), 16, RoundingMode.FLOOR))))
+//			{
+//				for (Nation nation : e.getValue())
+//				{
+//					if (nation.getRegion().isInside(loc))
+//					{
+//						return nation;
+//					}
+//				}
+//				return null;
+//			}
+//		}
 		return null;
 	}
 
