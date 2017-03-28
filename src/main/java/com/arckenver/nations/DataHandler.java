@@ -14,12 +14,15 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
+import org.spongepowered.api.util.blockray.BlockRay;
+import org.spongepowered.api.util.blockray.BlockRayHit;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -330,7 +333,7 @@ public class DataHandler
 	{
 		for (Nation nation : nations.values())
 		{
-			if (!nation.getUUID().equals(toExclude) && nation.getRegion().distance2(loc) < Math.pow(ConfigHandler.getNode("others", "minNationDistance").getInt(), 2))
+			if (!nation.getUUID().equals(toExclude) && nation.getRegion().distance(loc) < ConfigHandler.getNode("others", "minNationDistance").getInt())
 			{
 				if (ignoreMinDistance)
 				{
@@ -341,10 +344,8 @@ public class DataHandler
 				}
 				else
 				{
-					if (nation.getRegion().distance2(loc) < Math.pow(ConfigHandler.getNode("others", "minNationDistance").getInt(), 2))
-					{
-						return false;
-					}
+					MessageChannel.TO_CONSOLE.send(Text.of("too close: ", loc, " nation: ", nation.getName()));
+					return false;
 				}
 			}
 		}
@@ -444,33 +445,33 @@ public class DataHandler
 						markJobs.remove(player.getUniqueId());
 						return;
 					}
-					Location<World> loc = player.getLocation();
-					loc = loc.sub(32, 0, 32);
-					for (int x = 0; x < 64; ++x)
+					Location<World> loc = player.getLocation().add(0, 2, 0);
+					loc = loc.sub(8, 0, 8);
+					for (int x = 0; x < 16; ++x)
 					{
-						for (int y = 0; y < 64; ++y)
+						for (int y = 0; y < 16; ++y)
 						{
 							Nation nation = DataHandler.getNation(loc);
 							if (nation != null)
 							{
-								Vector3d pos = loc.getPosition().sub(0, 4, 0);
-
-								if (nation.getZone(loc) != null)
+								BlockRay<World> blockRay = BlockRay.from(loc).direction(new Vector3d(0, -1, 0)).distanceLimit(50).stopFilter(BlockRay.blockTypeFilter(BlockTypes.AIR)).build();
+								Optional<BlockRayHit<World>> block = blockRay.end();
+								if (block.isPresent())
 								{
-									for (int h = 0; h < 10; h++)
-										player.spawnParticles(zoneParticule, pos.add(0, h, 0), 50);
+									if (nation.getZone(loc) != null)
+									{
+										player.spawnParticles(zoneParticule, block.get().getPosition(), 60);
+									}
+									else
+									{
+										player.spawnParticles(nationParticule, block.get().getPosition(), 60);
+									}
 								}
-								else
-								{
-									for (int h = 0; h < 10; h++)
-										player.spawnParticles(nationParticule, pos.add(0, h, 0), 50);
-								}
-
 							}
 							loc = loc.add(0,0,1);
 						}
 						loc = loc.add(1,0,0);
-						loc = loc.sub(0,0,64);
+						loc = loc.sub(0,0,16);
 					}
 				})
 				.delay(1, TimeUnit.SECONDS)
