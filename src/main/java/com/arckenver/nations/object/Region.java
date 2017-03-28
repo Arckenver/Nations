@@ -164,14 +164,14 @@ public class Region
 		return false;
 	}
 
-	public int distance2(Location<World> loc)
+	public float distance(Location<World> loc)
 	{
-		int dist = Integer.MAX_VALUE;
+		float dist = Float.MAX_VALUE;
 		for (Rect r : rects)
 		{
 			if (loc.getExtent().getUniqueId().equals(r.getWorld()))
 			{
-				dist = Math.min(dist, r.distance2(new Vector2i(loc.getBlockX(), loc.getBlockZ())));
+				dist = Math.min(dist, r.distance(new Vector2i(loc.getBlockX(), loc.getBlockZ())));
 			}
 		}
 		return dist;
