@@ -7,7 +7,6 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.message.MessageChannelEvent;
-import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.format.TextColors;
@@ -17,8 +16,6 @@ import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.channel.NationMessageChannel;
 import com.arckenver.nations.object.Nation;
 
-@Plugin(id = "spongenationtag", name = "Sponge Nation Chat Tag", version = "1.1",
-description = "Towny like chat formating", authors = {"Carrot"})
 public class ChatListener
 {
 

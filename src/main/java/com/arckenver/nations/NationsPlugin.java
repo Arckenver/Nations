@@ -98,6 +98,7 @@ import com.arckenver.nations.cmdexecutor.zone.ZoneSellExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneSetownerExecutor;
 import com.arckenver.nations.cmdexecutor.zone.ZoneUnsellExecutor;
 import com.arckenver.nations.listener.BuildPermListener;
+import com.arckenver.nations.listener.ChatListener;
 import com.arckenver.nations.listener.ExplosionListener;
 import com.arckenver.nations.listener.FireListener;
 import com.arckenver.nations.listener.GoldenAxeListener;
@@ -861,6 +862,7 @@ public class NationsPlugin
 		Sponge.getEventManager().registerListeners(this, new MobSpawningListener());
 		Sponge.getEventManager().registerListeners(this, new BuildPermListener());
 		Sponge.getEventManager().registerListeners(this, new InteractPermListener());
+		Sponge.getEventManager().registerListeners(this, new ChatListener());
 
 		LocalDateTime localNow = LocalDateTime.now();
 		ZonedDateTime zonedNow = ZonedDateTime.of(localNow, ZoneId.systemDefault());
