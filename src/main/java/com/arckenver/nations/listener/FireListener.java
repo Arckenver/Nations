@@ -17,7 +17,9 @@ public class FireListener
 	@Listener(order=Order.EARLY)
 	public void onFire(ChangeBlockEvent event)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
+		World world = event.getTransactions().get(0).getFinal().getLocation().get().getExtent();
+
+		if (!ConfigHandler.getNode("worlds").getNode(world.getName()).getNode("enabled").getBoolean())
 		{
 			return;
 		}
