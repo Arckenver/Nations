@@ -6,3 +6,6 @@ bin
 .project
 .idea
 /.nb-gradle/
+*.iml
+*.ipr
+*.iws

@@ -16,6 +16,7 @@ import org.spongepowered.api.text.format.TextColors;
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
+import org.spongepowered.api.world.World;
 
 public class BuildPermListener
 {
@@ -23,10 +24,7 @@ public class BuildPermListener
 	@Listener(order=Order.FIRST)
 	public void onPlayerPlacesBlock(ChangeBlockEvent.Place event, @First Player player)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
-		{
-			return;
-		}
+
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
@@ -36,7 +34,8 @@ public class BuildPermListener
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			if (!trans.getFinal().getState().getType().getId().equals(graveItem)) {
+			World world=trans.getFinal().getLocation().get().getExtent();
+			if (ConfigHandler.getNode("worlds").getNode(world.getName()).getNode("enabled").getBoolean()&&!trans.getFinal().getState().getType().getId().equals(graveItem)) {
 				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
 				{
 					trans.setValid(false);
@@ -51,10 +50,6 @@ public class BuildPermListener
 	@Listener(order=Order.FIRST)
 	public void onPlayerBreaksBlock(ChangeBlockEvent.Break event, @First Player player)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
-		{
-			return;
-		}
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
@@ -63,12 +58,15 @@ public class BuildPermListener
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
-			{
-				trans.setValid(false);
-				try {
-					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
-				} catch (Exception e) {}
+			World world=trans.getFinal().getLocation().get().getExtent();
+			if (ConfigHandler.getNode("worlds").getNode(world.getName()).getNode("enabled").getBoolean()) {
+				if (!DataHandler.getPerm("build", player.getUniqueId(), loc)) {
+					trans.setValid(false);
+					try {
+						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+					} catch (Exception e) {
+					}
+				}
 			}
 		}));
 	}
@@ -93,7 +91,7 @@ public class BuildPermListener
 	@Listener(order=Order.FIRST)
 	public void onEntitySpawn(SpawnEntityEvent event, @First Player player, @First EntitySpawnCause entitySpawnCause)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
+		if (!ConfigHandler.getNode("worlds").getNode(event.getEntities().get(0).getWorld().getName()).getNode("enabled").getBoolean())
 		{
 			return;
 		}
