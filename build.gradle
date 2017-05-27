@@ -1,9 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 
 targetCompatibility = "1.8"
 sourceCompatibility = "1.8"
-version = '2.4'
+version = '2.4-API6.1'
 jar {
     manifest {
         attributes 'Implementation-Title': 'Nations',
@@ -20,5 +21,5 @@ repositories {
 }
 
 dependencies {
-	compile 'org.spongepowered:spongeapi:5.0.0'
+	compile 'org.spongepowered:spongeapi:6.1.0-20170520.213754-2'
 }
