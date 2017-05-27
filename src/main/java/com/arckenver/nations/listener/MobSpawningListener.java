@@ -14,7 +14,7 @@ public class MobSpawningListener
 	@Listener
 	public void onEntitySpawn(SpawnEntityEvent event)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
+		if (!ConfigHandler.getNode("worlds").getNode(event.getEntities().get(0).getWorld().getName()).getNode("enabled").getBoolean())
 		{
 			return;
 		}
