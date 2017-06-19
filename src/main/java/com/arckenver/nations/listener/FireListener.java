@@ -17,12 +17,7 @@ public class FireListener
 	@Listener(order=Order.EARLY)
 	public void onFire(ChangeBlockEvent event)
 	{
-		World world = event.getTransactions().get(0).getFinal().getLocation().get().getExtent();
 
-		if (!ConfigHandler.getNode("worlds").getNode(world.getName()).getNode("enabled").getBoolean())
-		{
-			return;
-		}
 		event
 		.getTransactions()
 		.stream()
@@ -31,6 +26,9 @@ public class FireListener
 			Optional<Location<World>> optLoc = trans.getFinal().getLocation();
 			if (!optLoc.isPresent())
 				return false;
+			if(!ConfigHandler.getNode("worlds").getNode(optLoc.get().getExtent().getName()).getNode("enabled").getBoolean()){
+				return false;
+			}
 			return !DataHandler.getFlag("fire", optLoc.get());
 		})
 		.forEach(trans -> trans.setValid(false));
