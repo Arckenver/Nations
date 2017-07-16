@@ -36,6 +36,7 @@ import com.arckenver.nations.serializer.NationDeserializer;
 import com.arckenver.nations.serializer.NationSerializer;
 import com.flowpowered.math.vector.Vector2i;
 import com.flowpowered.math.vector.Vector3d;
+import com.flowpowered.math.vector.Vector3i;
 import com.google.common.math.IntMath;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -485,7 +486,17 @@ public class DataHandler
 
 	public static Point getFirstPoint(UUID uuid)
 	{
-		return firstPoints.get(uuid);
+		if (ConfigHandler.getNode("others", "enableGoldenAxe").getBoolean(true))
+		{
+			return firstPoints.get(uuid);
+		}
+		Optional<Player> player = Sponge.getServer().getPlayer(uuid);
+		if (!player.isPresent())
+		{
+			return null;
+		}
+		Vector3i chunk = player.get().getLocation().getChunkPosition();
+		return new Point(player.get().getWorld(), chunk.getX() * 16, chunk.getZ() * 16);
 	}
 
 	public static void setFirstPoint(UUID uuid, Point point)
@@ -500,7 +511,17 @@ public class DataHandler
 
 	public static Point getSecondPoint(UUID uuid)
 	{
-		return secondPoints.get(uuid);
+		if (ConfigHandler.getNode("others", "enableGoldenAxe").getBoolean(true))
+		{
+			return secondPoints.get(uuid);
+		}
+		Optional<Player> player = Sponge.getServer().getPlayer(uuid);
+		if (!player.isPresent())
+		{
+			return null;
+		}
+		Vector3i chunk = player.get().getLocation().getChunkPosition();
+		return new Point(player.get().getWorld(), chunk.getX() * 16 + 15, chunk.getZ() * 16 + 15);
 	}
 
 	public static void setSecondPoint(UUID uuid, Point point)

@@ -75,6 +75,7 @@ public class ConfigHandler
 		Utils.ensureBoolean(config.getNode("others", "enableNationRanks"), true);
 		Utils.ensureBoolean(config.getNode("others", "enableNationTag"), true);
 		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");	
+		Utils.ensureBoolean(config.getNode("others", "enableGoldenAxe"), true);
 		
 
 		Utils.ensureBoolean(config.getNode("nations", "canEditTaxes"), true);

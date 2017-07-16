@@ -13,6 +13,7 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.object.Point;
@@ -24,6 +25,10 @@ public class GoldenAxeListener
 	@Listener
 	public void onPlayerRightClick(InteractBlockEvent.Secondary.MainHand event, @First Player player)
 	{
+		if (ConfigHandler.getNode("others", "enableGoldenAxe").getBoolean(true) == false)
+		{
+			return ;
+		}
 		Optional<ItemStack> optItem = player.getItemInHand(HandTypes.MAIN_HAND);
 		if (!optItem.isPresent())
 		{
@@ -54,6 +59,10 @@ public class GoldenAxeListener
 	@Listener
 	public void onPlayerLeftClick(InteractBlockEvent.Primary.MainHand event, @First Player player)
 	{
+		if (ConfigHandler.getNode("others", "enableGoldenAxe").getBoolean(true) == false)
+		{
+			return ;
+		}
 		Optional<ItemStack> optItem = player.getItemInHand(HandTypes.MAIN_HAND);
 		if (!optItem.isPresent())
 		{
