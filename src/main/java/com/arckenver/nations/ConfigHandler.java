@@ -74,8 +74,10 @@ public class ConfigHandler
 		Utils.ensurePositiveNumber(config.getNode("others", "maxZoneNameLength"), 13);
 		Utils.ensureBoolean(config.getNode("others", "enableNationRanks"), true);
 		Utils.ensureBoolean(config.getNode("others", "enableNationTag"), true);
-		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");	
+		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");
 		Utils.ensureBoolean(config.getNode("others", "enableGoldenAxe"), true);
+		Utils.ensureString(config.getNode("others", "publicChatFormat"), " &r[&3{NATION}&r]");
+		Utils.ensureString(config.getNode("others", "nationChatFormat"), " &r{&e{NATION}&r}");
 		
 
 		Utils.ensureBoolean(config.getNode("nations", "canEditTaxes"), true);

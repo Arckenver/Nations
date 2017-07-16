@@ -10,6 +10,7 @@ import org.spongepowered.api.event.message.MessageChannelEvent;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
@@ -36,11 +37,11 @@ public class ChatListener
 		
 		if (chan.equals(MessageChannel.TO_ALL) && ConfigHandler.getNode("others", "enableNationTag").getBoolean(true))
 		{
-			e.setMessage(Text.of(TextColors.WHITE, " [", TextColors.DARK_PURPLE, nation.getName(), TextColors.WHITE,  "] "), e.getMessage());
+			e.setMessage(TextSerializers.FORMATTING_CODE.deserialize(ConfigHandler.getNode("others", "publicChatFormat").getString().replaceAll("\\{NATION\\}", nation.getName()).replaceAll("\\{TITLE\\}", DataHandler.getCitizenTitle(p.getUniqueId()))), e.getMessage());
 		}
 		else if (chan instanceof NationMessageChannel)
 		{
-			e.setMessage(Text.of(TextColors.WHITE, " {", TextColors.YELLOW, nation.getName(), TextColors.WHITE,  "} "), Text.of(TextColors.YELLOW, e.getMessage()));
+			e.setMessage(TextSerializers.FORMATTING_CODE.deserialize(ConfigHandler.getNode("others", "nationChatFormat").getString().replaceAll("\\{NATION\\}", nation.getName()).replaceAll("\\{TITLE\\}", DataHandler.getCitizenTitle(p.getUniqueId()))), Text.of(TextColors.YELLOW, e.getMessage()));
 			DataHandler.getSpyChannel().send(p, Text.of(TextColors.WHITE, " [", TextColors.RED, "SpyChat", TextColors.WHITE,  "]", TextColors.RESET, e.getMessage()));
 		}
 	}
