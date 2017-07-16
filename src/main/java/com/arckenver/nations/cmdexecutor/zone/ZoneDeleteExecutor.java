@@ -7,6 +7,7 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.DataHandler;
@@ -42,6 +43,7 @@ public class ZoneDeleteExecutor implements CommandExecutor
 			nation.removeZone(zone.getUUID());
 			DataHandler.saveNation(nation.getUUID());
 			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HM.replaceAll("\\{ZONE\\}", zoneName)));
+			MessageChannel.TO_CONSOLE.send(Text.of(player.getName(), " | ", nation.getName(), ": ", LanguageHandler.HM.replaceAll("\\{ZONE\\}", zoneName)));
 		}
 		else
 		{
