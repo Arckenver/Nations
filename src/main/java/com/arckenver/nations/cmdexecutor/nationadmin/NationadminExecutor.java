@@ -29,6 +29,8 @@ public class NationadminExecutor implements CommandExecutor
 		contents.add(Text.of(TextColors.GOLD, "/na setname <nation> <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BN));
 		contents.add(Text.of(TextColors.GOLD, "/na settag <nation> <tag>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.LP));
 		contents.add(Text.of(TextColors.GOLD, "/na setpres <nation> <player>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BO));
+		contents.add(Text.of(TextColors.GOLD, "/na setspawn <nation> <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AR));
+		contents.add(Text.of(TextColors.GOLD, "/na delspawn <nation> <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AS));
 		contents.add(Text.of(TextColors.GOLD, "/na forcejoin <nation> <player>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BP));
 		contents.add(Text.of(TextColors.GOLD, "/na forceleave <nation> <player>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BQ));
 		contents.add(Text.of(TextColors.GOLD, "/na eco <give|take|set> <nation> <amount>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BR));

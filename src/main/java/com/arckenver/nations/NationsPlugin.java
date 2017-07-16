@@ -58,6 +58,8 @@ import com.arckenver.nations.cmdexecutor.nation.NationTaxesExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationUnclaimExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationWithdrawExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationVisitExecutor;
+import com.arckenver.nations.cmdexecutor.nationadmin.NationAdminDelspawnExecutor;
+import com.arckenver.nations.cmdexecutor.nationadmin.NationAdminSetspawnExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminClaimExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminCreateExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminDeleteExecutor;
@@ -198,6 +200,26 @@ public class NationsPlugin
 						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
 						GenericArguments.optional(new PlayerNameElement(Text.of("president"))))
 				.executor(new NationadminSetpresExecutor())
+				.build();
+		
+		
+		CommandSpec nationadminSetspawnCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.setspawn")
+				.arguments(
+						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
+						GenericArguments.optional(GenericArguments.string(Text.of("name"))))
+				.executor(new NationAdminSetspawnExecutor())
+				.build();
+		
+		
+		CommandSpec nationadminDelspawnCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.delspawn")
+				.arguments(
+						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
+						GenericArguments.optional(GenericArguments.string(Text.of("name"))))
+				.executor(new NationAdminDelspawnExecutor())
 				.build();
 
 		CommandSpec nationadminSetnameCmd = CommandSpec.builder()
@@ -368,6 +390,8 @@ public class NationsPlugin
 				.child(nationadminClaimCmd, "claim")
 				.child(nationadminUnclaimCmd, "unclaim")
 				.child(nationadminSetpresCmd, "setpres", "setpresident")
+				.child(nationadminSetspawnCmd, "setspawn")
+				.child(nationadminDelspawnCmd, "delspawn")
 				.child(nationadminSetnameCmd, "setname", "rename")
 				.child(nationadminSettagCmd, "settag", "tag")
 				.child(nationadminForcejoinCmd, "forcejoin")
