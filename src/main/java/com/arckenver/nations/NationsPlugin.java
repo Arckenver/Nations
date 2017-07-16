@@ -113,7 +113,7 @@ import com.arckenver.nations.task.TaxesCollectRunnable;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 
-@Plugin(id = "nations", name = "Nations", version = "2.4", authors={"Arckenver"}, description = "A towny-like worldguard-like zone managment plugin.", url="https://github.com/Arckenver/Nations")
+@Plugin(id = "nations", name = "Nations", version = "2.5", authors={"Arckenver"}, description = "A towny-like worldguard-like zone managment plugin.", url="https://github.com/Arckenver/Nations")
 public class NationsPlugin
 {
 	private File rootDir;
