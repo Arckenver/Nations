@@ -121,6 +121,19 @@ public class NationSerializer implements JsonSerializer<Nation>
 		}
 		json.add("zones", zonesArray);
 		
+		JsonObject spawns = new JsonObject();
+		for (Entry<String, Location<World>> e : nation.getSpawns().entrySet())
+		{
+			JsonObject loc = new JsonObject();
+			loc.add("world", new JsonPrimitive(e.getValue().getExtent().getUniqueId().toString()));
+			loc.add("x", new JsonPrimitive(e.getValue().getX()));
+			loc.add("y", new JsonPrimitive(e.getValue().getY()));
+			loc.add("z", new JsonPrimitive(e.getValue().getZ()));
+			
+			spawns.add(e.getKey(), loc);
+		}
+		json.add("spawns", spawns);
+		
 		if (!nation.isAdmin())
 		{
 			json.add("president", new JsonPrimitive(nation.getPresident().toString()));
@@ -142,19 +155,6 @@ public class NationSerializer implements JsonSerializer<Nation>
 			json.add("taxes", new JsonPrimitive(nation.getTaxes()));
 			json.add("extras", new JsonPrimitive(nation.getExtras()));
 			json.add("extraspawns", new JsonPrimitive(nation.getExtraSpawns()));
-			
-			JsonObject spawns = new JsonObject();
-			for (Entry<String, Location<World>> e : nation.getSpawns().entrySet())
-			{
-				JsonObject loc = new JsonObject();
-				loc.add("world", new JsonPrimitive(e.getValue().getExtent().getUniqueId().toString()));
-				loc.add("x", new JsonPrimitive(e.getValue().getX()));
-				loc.add("y", new JsonPrimitive(e.getValue().getY()));
-				loc.add("z", new JsonPrimitive(e.getValue().getZ()));
-				
-				spawns.add(e.getKey(), loc);
-			}
-			json.add("spawns", spawns);
 			
 		}
 		return json;

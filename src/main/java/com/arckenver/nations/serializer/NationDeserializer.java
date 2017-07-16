@@ -54,7 +54,7 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 			region.addRect(rect);
 		}
 		nation.setRegion(region);
-		
+
 		if (obj.has("zones")) {
 			for (JsonElement e : obj.get("zones").getAsJsonArray())
 			{
@@ -63,7 +63,7 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 				String zoneName = null;
 				if (zoneObj.has("name"))
 					zoneName = zoneObj.get("name").getAsString();
-				
+
 				JsonObject rectObj = zoneObj.get("rect").getAsJsonObject();
 				Rect rect = new Rect(
 						UUID.fromString(rectObj.get("world").getAsString()),
@@ -98,7 +98,20 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 				nation.addZone(zone);
 			}
 		}
-		
+
+		if (obj.has("spawns"))
+		{
+			for (Entry<String, JsonElement> e : obj.get("spawns").getAsJsonObject().entrySet())
+			{
+				JsonObject spawnObj = e.getValue().getAsJsonObject();
+				Optional<World> optWorld = Sponge.getServer().getWorld(UUID.fromString(spawnObj.get("world").getAsString()));
+				if (optWorld.isPresent())
+				{
+					nation.addSpawn(e.getKey(), optWorld.get().getLocation(spawnObj.get("x").getAsDouble(), spawnObj.get("y").getAsDouble(), spawnObj.get("z").getAsDouble()));
+				}
+			}
+		}
+
 		if (!isAdmin)
 		{
 			nation.setPresident(UUID.fromString(obj.get("president").getAsString()));
@@ -115,16 +128,7 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 			if (obj.has("extras"))
 				nation.setExtras(obj.get("extras").getAsInt());
 			if (obj.has("extraspawns"))
-			 nation.setExtraSpawns(obj.get("extraspawns").getAsInt());
-			for (Entry<String, JsonElement> e : obj.get("spawns").getAsJsonObject().entrySet())
-			{
-				JsonObject spawnObj = e.getValue().getAsJsonObject();
-				Optional<World> optWorld = Sponge.getServer().getWorld(UUID.fromString(spawnObj.get("world").getAsString()));
-				if (optWorld.isPresent())
-				{
-					nation.addSpawn(e.getKey(), optWorld.get().getLocation(spawnObj.get("x").getAsDouble(), spawnObj.get("y").getAsDouble(), spawnObj.get("z").getAsDouble()));
-				}
-			}
+				nation.setExtraSpawns(obj.get("extraspawns").getAsInt());
 		}
 		return nation;
 	}

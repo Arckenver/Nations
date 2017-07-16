@@ -137,6 +137,10 @@ public class Utils
 		else
 		{
 			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IY + ": ", TextColors.GREEN, LanguageHandler.JG));
+			if (nation.getNumSpawns() > 0)
+			{
+				builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IG + ": ", TextColors.YELLOW, formatNationSpawns(nation, TextColors.YELLOW, clicker)));
+			}
 		}
 
 		if (clicker == CLICKER_NONE)
