@@ -56,7 +56,7 @@ public class NationClaimExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			Rect rect = new Rect(a, b);
-			if (!nation.getRegion().isAdjacent(rect))
+			if (nation.getRegion().size() > 0 && !nation.getRegion().isAdjacent(rect))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EB));
 				return CommandResult.success();

@@ -17,8 +17,6 @@ import org.spongepowered.api.service.economy.transaction.TransactionResult;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
 
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
@@ -26,7 +24,6 @@ import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.NationsPlugin;
 import com.arckenver.nations.Utils;
 import com.arckenver.nations.object.Nation;
-import com.arckenver.nations.object.Rect;
 
 public class NationCreateExecutor implements CommandExecutor
 {
@@ -69,13 +66,6 @@ public class NationCreateExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			
-			Location<World> loc = player.getLocation();
-			if (!DataHandler.canClaim(loc, false))
-			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EI));
-				return CommandResult.success();
-			}
-			
 			if (NationsPlugin.getEcoService() == null)
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DC));
@@ -104,10 +94,8 @@ public class NationCreateExecutor implements CommandExecutor
 			}
 			
 			Nation nation = new Nation(UUID.randomUUID(), nationName);
-			nation.addSpawn("home", loc);
 			nation.addCitizen(player.getUniqueId());
 			nation.setPresident(player.getUniqueId());
-			nation.getRegion().addRect(new Rect(player.getWorld().getUniqueId(), loc.getBlockX(), loc.getBlockX(), loc.getBlockZ(), loc.getBlockZ()));
 			Optional<Account> optNationAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
 			if (!optNationAccount.isPresent())
 			{
@@ -117,7 +105,6 @@ public class NationCreateExecutor implements CommandExecutor
 			}
 			optNationAccount.get().setBalance(NationsPlugin.getEcoService().getDefaultCurrency(), BigDecimal.ZERO, NationsPlugin.getCause());
 			DataHandler.addNation(nation);
-			DataHandler.addToWorldChunks(nation);
 			MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.EP.replaceAll("\\{PLAYER\\}", player.getName()).replaceAll("\\{NATION\\}", nation.getName())));
 			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.EQ.replaceAll("\\{NATION\\}", nation.getName())));
 		}

@@ -10,14 +10,11 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
 
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.object.Nation;
-import com.arckenver.nations.object.Rect;
 
 public class NationadminCreateExecutor implements CommandExecutor
 {
@@ -31,7 +28,6 @@ public class NationadminCreateExecutor implements CommandExecutor
 		}
 		if (src instanceof Player)
 		{
-			Player player = (Player) src;
 			String nationName = ctx.<String>getOne("name").get();
 			if (DataHandler.getNation(nationName) != null)
 			{
@@ -51,17 +47,8 @@ public class NationadminCreateExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			
-			Location<World> loc = player.getLocation();
-			if (!DataHandler.canClaim(loc, true))
-			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EI));
-				return CommandResult.success();
-			}
-			
 			Nation nation = new Nation(UUID.randomUUID(), nationName, true);
-			nation.getRegion().addRect(new Rect(loc.getExtent().getUniqueId(), loc.getBlockX(), loc.getBlockX(), loc.getBlockZ(), loc.getBlockZ()));
 			DataHandler.addNation(nation);
-			DataHandler.addToWorldChunks(nation);
 			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HL));
 		}
 		else
