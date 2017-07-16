@@ -43,7 +43,7 @@ public class ZoneDeleteExecutor implements CommandExecutor
 			nation.removeZone(zone.getUUID());
 			DataHandler.saveNation(nation.getUUID());
 			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HM.replaceAll("\\{ZONE\\}", zoneName)));
-			MessageChannel.TO_CONSOLE.send(Text.of(player.getName(), " | ", nation.getName(), ": ", LanguageHandler.HM.replaceAll("\\{ZONE\\}", zoneName)));
+			MessageChannel.TO_CONSOLE.send(Text.of(player.getName(), " > ", nation.getName(), ": ", LanguageHandler.HM.replaceAll("\\{ZONE\\}", zoneName)));
 		}
 		else
 		{
