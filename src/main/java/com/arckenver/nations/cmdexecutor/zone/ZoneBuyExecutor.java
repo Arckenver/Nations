@@ -45,7 +45,7 @@ public class ZoneBuyExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 			Nation playerNation = DataHandler.getNationOfPlayer(player.getUniqueId());
-			if (!nation.isAdmin() && !nation.getUUID().equals(playerNation.getUUID()) && !zone.getFlag("public"))
+			if (!nation.isAdmin() && !zone.getFlag("public") && (playerNation == null || !nation.getUUID().equals(playerNation.getUUID())))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DR));
 				return CommandResult.success();
