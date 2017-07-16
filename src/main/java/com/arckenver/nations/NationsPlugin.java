@@ -52,6 +52,7 @@ import com.arckenver.nations.cmdexecutor.nation.NationPermExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationResignExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationSetnameExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationSetspawnExecutor;
+import com.arckenver.nations.cmdexecutor.nation.NationSettagExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationSpawnExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationTaxesExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationUnclaimExecutor;
@@ -74,6 +75,7 @@ import com.arckenver.nations.cmdexecutor.nationadmin.NationadminPermExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminReloadExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSetnameExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSetpresExecutor;
+import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSettagExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminSpyExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminUnclaimExecutor;
 import com.arckenver.nations.cmdexecutor.nationworld.NationworldDisableExecutor;
@@ -205,6 +207,15 @@ public class NationsPlugin
 						GenericArguments.optional(new NationNameElement(Text.of("oldname"))),
 						GenericArguments.optional(GenericArguments.string(Text.of("newname"))))
 				.executor(new NationadminSetnameExecutor())
+				.build();
+
+		CommandSpec nationadminSettagCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationadmin.settag")
+				.arguments(
+						GenericArguments.optional(new NationNameElement(Text.of("nation"))),
+						GenericArguments.optional(GenericArguments.string(Text.of("tag"))))
+				.executor(new NationadminSettagExecutor())
 				.build();
 
 		CommandSpec nationadminForcejoinCmd = CommandSpec.builder()
@@ -358,6 +369,7 @@ public class NationsPlugin
 				.child(nationadminUnclaimCmd, "unclaim")
 				.child(nationadminSetpresCmd, "setpres", "setpresident")
 				.child(nationadminSetnameCmd, "setname", "rename")
+				.child(nationadminSettagCmd, "settag", "tag")
 				.child(nationadminForcejoinCmd, "forcejoin")
 				.child(nationadminForceleaveCmd, "forceleave")
 				.child(nationadminEcoCmd, "eco")
@@ -512,6 +524,13 @@ public class NationsPlugin
 				.executor(new NationSetnameExecutor())
 				.build();
 		
+		CommandSpec nationSettagCmd = CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.settag")
+				.arguments(GenericArguments.optional(GenericArguments.string(Text.of("tag"))))
+				.executor(new NationSettagExecutor())
+				.build();
+		
 		CommandSpec nationSetspawnCmd = CommandSpec.builder()
 				.description(Text.of(""))
 				.permission("nations.command.nation.setspawn")
@@ -631,6 +650,7 @@ public class NationsPlugin
 				.child(nationSpawnCmd, "spawn")
 				.child(nationHomeCmd, "home")
 				.child(nationSetnameCmd, "setname", "rename")
+				.child(nationSettagCmd, "settag", "tag")
 				.child(nationSetspawnCmd, "setspawn")
 				.child(nationDelspawnCmd, "delspawn")
 				.child(nationBuyextraCmd, "buyextra")

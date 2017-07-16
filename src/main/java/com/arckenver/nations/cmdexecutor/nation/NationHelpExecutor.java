@@ -44,6 +44,7 @@ public class NationHelpExecutor implements CommandExecutor
 		contents.add(Text.of(TextColors.GOLD, "/n spawn [name]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AQ));
 		contents.add(Text.of(TextColors.GOLD, "/n home", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.HW));
 		contents.add(Text.of(TextColors.GOLD, "/n setname <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.BN));
+		contents.add(Text.of(TextColors.GOLD, "/n settag [tag]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.LP));
 		contents.add(Text.of(TextColors.GOLD, "/n visit <nation> [name]", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AX));
 		contents.add(Text.of(TextColors.GOLD, "/n setspawn <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AR));
 		contents.add(Text.of(TextColors.GOLD, "/n delspawn <name>", TextColors.GRAY, " - ", TextColors.YELLOW, LanguageHandler.AS));

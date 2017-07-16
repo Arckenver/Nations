@@ -28,6 +28,8 @@ public class NationDeserializer implements JsonDeserializer<Nation>
 		String name = obj.get("name").getAsString();
 		boolean isAdmin = obj.get("admin").getAsBoolean();
 		Nation nation = new Nation(uuid, name, isAdmin);
+		if (obj.has("tag"))
+			nation.setTag(obj.get("tag").getAsString());
 		for (Entry<String, JsonElement> e : obj.get("flags").getAsJsonObject().entrySet())
 		{
 			nation.setFlag(e.getKey(), e.getValue().getAsBoolean());

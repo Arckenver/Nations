@@ -262,6 +262,11 @@ public class LanguageHandler
 	public static String LI;
 	public static String LJ;
 	public static String LK;
+	public static String LL;
+	public static String LM;
+	public static String LN;
+	public static String LO;
+	public static String LP;
 	
 	private static File languageFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> languageManager;
@@ -334,6 +339,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("AY").setValue("claims for admin nation");
 		defaultLanguage.getNode("BM").setValue("delete given nation");
 		defaultLanguage.getNode("BN").setValue("set nation's name");
+		defaultLanguage.getNode("LP").setValue("set nation's tag");
 		defaultLanguage.getNode("BO").setValue("set nation's president");
 		defaultLanguage.getNode("BP").setValue("make player join nation");
 		defaultLanguage.getNode("BQ").setValue("make player leave nation");
@@ -413,8 +419,11 @@ public class LanguageHandler
 		defaultLanguage.getNode("EJ").setValue("You successfully created an outpost here");
 		defaultLanguage.getNode("EK").setValue("You must leave your nation to perform that command");
 		defaultLanguage.getNode("EL").setValue("That name is already taken");
+		defaultLanguage.getNode("LL").setValue("That tag is already taken");
 		defaultLanguage.getNode("EM").setValue("Nation name must be alphanumeric");
 		defaultLanguage.getNode("EN").setValue("Nation name must contain at least {MIN} and at most {MAX} characters");
+		defaultLanguage.getNode("LM").setValue("Nation tag must be alphanumeric");
+		defaultLanguage.getNode("LN").setValue("Nation tag must contain at least {MIN} and at most {MAX} characters");
 		defaultLanguage.getNode("EO").setValue("Could not create nation's account, please contact a server administrator");
 		defaultLanguage.getNode("EP").setValue("{PLAYER} has created a new nation named {NATION}");
 		defaultLanguage.getNode("EQ").setValue("You successfully created nation {NATION}, don't forget to deposit money in the nation's bank with /n deposit");
@@ -450,6 +459,7 @@ public class LanguageHandler
 		defaultLanguage.getNode("FU").setValue("{PLAYER} removed you from the ministers of your nation");
 		defaultLanguage.getNode("FV").setValue("{SUCCESSOR} replaces now {PLAYER} as nation's president");
 		defaultLanguage.getNode("FW").setValue("Nation {OLDNAME} changed its name to {NEWNAME}");
+		defaultLanguage.getNode("LO").setValue("Nation {NAME} changed its tag from {OLDTAG} to {NEWTAG}");
 		defaultLanguage.getNode("FX").setValue("Nation spawn must be set inside your territory");
 		defaultLanguage.getNode("FY").setValue("Spawn name must be alphanumeric and must contain between {MIN} and {MAX} characters");
 		defaultLanguage.getNode("FZ").setValue("Successfully changed the nation spawn");
@@ -812,6 +822,11 @@ public class LanguageHandler
 		LI = getOrDefault("LI");
 		LJ = getOrDefault("LJ");
 		LK = getOrDefault("LK");
+		LL = getOrDefault("LL");
+		LM = getOrDefault("LM");
+		LN = getOrDefault("LN");
+		LO = getOrDefault("LO");
+		LP = getOrDefault("LP");
 		
 		save();
 	}

@@ -29,6 +29,9 @@ public class NationSerializer implements JsonSerializer<Nation>
 		json.add("name", new JsonPrimitive(nation.getRealName()));
 		json.add("admin", new JsonPrimitive(nation.isAdmin()));
 		
+		if (nation.hasTag())
+			json.add("tag", new JsonPrimitive(nation.getTag()));
+		
 		JsonObject flags = new JsonObject();
 		for (Entry<String, Boolean> e : nation.getFlags().entrySet())
 		{

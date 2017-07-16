@@ -138,6 +138,18 @@ public class DataHandler
 		return null;
 	}
 
+	public static Nation getNationByTag(String tag)
+	{
+		for (Nation nation : nations.values())
+		{
+			if (nation.getTag().equalsIgnoreCase(tag))
+			{
+				return nation;
+			}
+		}
+		return null;
+	}
+
 	public static Nation getNation(Location<World> loc)
 	{
 		if (!worldChunks.containsKey(loc.getExtent().getUniqueId()))
