@@ -18,9 +18,9 @@ public class NationadminFlagExecutor implements CommandExecutor
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
-		if (!ctx.<String>getOne("nation").isPresent() || !ctx.<String>getOne("flag").isPresent() || !ctx.<String>getOne("bool").isPresent())
+		if (!ctx.<String>getOne("nation").isPresent() || !ctx.<String>getOne("flag").isPresent())
 		{
-			src.sendMessage(Text.of(TextColors.YELLOW, "/na flag <nation> <flag> <true|false>"));
+			src.sendMessage(Text.of(TextColors.YELLOW, "/na flag <nation> <flag> [true|false]"));
 			return CommandResult.success();
 		}
 		String nationName = ctx.<String>getOne("nation").get();
@@ -34,7 +34,7 @@ public class NationadminFlagExecutor implements CommandExecutor
 		boolean bool = (ctx.<Boolean>getOne("bool").isPresent()) ? ctx.<Boolean>getOne("bool").get() : !nation.getFlag(flag);
 		nation.setFlag(flag, bool);
 		DataHandler.saveNation(nation.getUUID());
-		src.sendMessage(Utils.formatNationDescription(nation, Utils.CLICKER_NONE));
+		src.sendMessage(Utils.formatNationDescription(nation, Utils.CLICKER_ADMIN));
 		return CommandResult.success();
 	}
 }

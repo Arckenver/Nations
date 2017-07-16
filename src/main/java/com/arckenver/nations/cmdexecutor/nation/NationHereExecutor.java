@@ -33,7 +33,12 @@ public class NationHereExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EV));
 				return CommandResult.success();
 			}
-			src.sendMessage(Utils.formatNationDescription(nation, (nation.isStaff(player.getUniqueId())) ? Utils.CLICKER_DEFAULT : Utils.CLICKER_NONE));
+			int clicker = (nation.isStaff(player.getUniqueId())) ? Utils.CLICKER_DEFAULT : Utils.CLICKER_NONE;
+			if (src.hasPermission("nations.command.nationadmin"))
+			{
+				clicker = Utils.CLICKER_ADMIN;
+			}
+			src.sendMessage(Utils.formatNationDescription(nation, clicker));
 		}
 		else
 		{

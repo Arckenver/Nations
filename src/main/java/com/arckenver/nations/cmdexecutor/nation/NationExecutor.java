@@ -39,7 +39,7 @@ public class NationExecutor implements CommandExecutor
 			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
 			return CommandResult.success();
 		}
-		if (clicker == Utils.CLICKER_NONE && src.hasPermission("nations.command.nationadmin"))
+		if (src.hasPermission("nations.command.nationadmin"))
 		{
 			clicker = Utils.CLICKER_ADMIN;
 		}

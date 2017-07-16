@@ -59,7 +59,7 @@ public class NationInfoExecutor implements CommandExecutor
 				return CommandResult.success();
 			}
 		}
-		if (clicker == Utils.CLICKER_NONE && src.hasPermission("nations.command.nationadmin"))
+		if (src.hasPermission("nations.command.nationadmin"))
 		{
 			clicker = Utils.CLICKER_ADMIN;
 		}
