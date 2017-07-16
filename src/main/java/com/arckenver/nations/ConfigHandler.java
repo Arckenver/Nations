@@ -78,7 +78,7 @@ public class ConfigHandler
 		Utils.ensureBoolean(config.getNode("others", "enableNationTag"), true);
 		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");
 		Utils.ensureBoolean(config.getNode("others", "enableGoldenAxe"), true);
-		Utils.ensureString(config.getNode("others", "publicChatFormat"), " &r[&3{NATION}&r]");
+		Utils.ensureString(config.getNode("others", "publicChatFormat"), " &r[&3{NATION}&r] {TITLE}");
 		Utils.ensureString(config.getNode("others", "nationChatFormat"), " &r{&e{NATION}&r}");
 		
 

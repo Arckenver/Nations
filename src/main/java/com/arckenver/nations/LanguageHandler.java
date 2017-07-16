@@ -267,6 +267,8 @@ public class LanguageHandler
 	public static String LN;
 	public static String LO;
 	public static String LP;
+	public static String LQ;
+	public static String LR;
 	
 	private static File languageFile;
 	private static ConfigurationLoader<CommentedConfigurationNode> languageManager;
@@ -534,7 +536,9 @@ public class LanguageHandler
 		defaultLanguage.getNode("IP").setValue("None");
 		defaultLanguage.getNode("IQ").setValue("Unknown");
 		defaultLanguage.getNode("IR").setValue("Not for sale");
-		defaultLanguage.getNode("IS").setValue("Player");
+		defaultLanguage.getNode("IS").setValue("Citizen");
+		defaultLanguage.getNode("LQ").setValue("Minister");
+		defaultLanguage.getNode("LR").setValue("Hermit");
 		defaultLanguage.getNode("IT").setValue("ENABLED");
 		defaultLanguage.getNode("IU").setValue("DISABLED");
 		defaultLanguage.getNode("IV").setValue("Taxes");
@@ -827,6 +831,8 @@ public class LanguageHandler
 		LN = getOrDefault("LN");
 		LO = getOrDefault("LO");
 		LP = getOrDefault("LP");
+		LQ = getOrDefault("LQ");
+		LR = getOrDefault("LR");
 		
 		save();
 	}
