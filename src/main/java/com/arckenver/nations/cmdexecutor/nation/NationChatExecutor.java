@@ -9,7 +9,9 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
+import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.channel.NationMessageChannel;
@@ -43,9 +45,11 @@ public class NationChatExecutor implements CommandExecutor
 			}
 			else
 			{
-				Text msg = Text.of(TextColors.WHITE, " {", TextColors.YELLOW, nation.getName(), TextColors.WHITE,  "} ", player.getName(), ": ", TextColors.YELLOW, ctx.<String>getOne("msg").get());
+				Text header = TextSerializers.FORMATTING_CODE.deserialize(ConfigHandler.getNode("others", "nationChatFormat").getString().replaceAll("\\{NATION\\}", nation.getTag()).replaceAll("\\{TITLE\\}", DataHandler.getCitizenTitle(player.getUniqueId())));
+				
+				Text msg = Text.of(header, " ", TextColors.RESET, player.getName(), TextColors.WHITE, ": ", TextColors.YELLOW, ctx.<String>getOne("msg").get());
 				channel.send(player, msg);
-				DataHandler.getSpyChannel().send(Text.of(TextColors.WHITE, " [", TextColors.RED, "SpyChat", TextColors.WHITE,  "]", msg));
+				DataHandler.getSpyChannel().send(Text.of(TextColors.WHITE, " [", TextColors.RED, "SPY", TextColors.WHITE,  "]", msg));
 			}
 
 		}
