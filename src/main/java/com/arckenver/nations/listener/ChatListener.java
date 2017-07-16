@@ -36,7 +36,7 @@ public class ChatListener
 		
 		if (chan.equals(MessageChannel.TO_ALL) && ConfigHandler.getNode("others", "enableNationTag").getBoolean(true))
 		{
-			e.setMessage(Text.of(TextColors.WHITE, " [", TextColors.DARK_AQUA, nation.getName(), TextColors.WHITE,  "] "), e.getMessage());
+			e.setMessage(Text.of(TextColors.WHITE, " [", TextColors.DARK_PURPLE, nation.getName(), TextColors.WHITE,  "] "), e.getMessage());
 		}
 		else if (chan instanceof NationMessageChannel)
 		{

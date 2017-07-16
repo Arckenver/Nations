@@ -19,7 +19,7 @@ import com.arckenver.nations.LanguageHandler;
 
 public class InteractPermListener
 {
-	@Listener(order=Order.FIRST)
+	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onInteract(InteractBlockEvent event, @First Player player)
 	{
 		if (!ConfigHandler.getNode("worlds").getNode(player.getWorld().getName()).getNode("enabled").getBoolean())
@@ -39,7 +39,7 @@ public class InteractPermListener
 		});
 	}
 
-	@Listener(order=Order.FIRST)
+	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onInteract(InteractEntityEvent event, @First Player player)
 	{
 		if (!ConfigHandler.getNode("worlds").getNode(player.getWorld().getName()).getNode("enabled").getBoolean())

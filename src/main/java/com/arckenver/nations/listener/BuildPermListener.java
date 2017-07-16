@@ -20,7 +20,7 @@ import com.arckenver.nations.LanguageHandler;
 public class BuildPermListener
 {
 
-	@Listener(order=Order.FIRST)
+	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onPlayerPlacesBlock(ChangeBlockEvent.Place event, @First Player player)
 	{
 		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
@@ -48,7 +48,7 @@ public class BuildPermListener
 		}));
 	}
 
-	@Listener(order=Order.FIRST)
+	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onPlayerBreaksBlock(ChangeBlockEvent.Break event, @First Player player)
 	{
 		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
@@ -90,7 +90,7 @@ public class BuildPermListener
 		}
 	}
 
-	@Listener(order=Order.FIRST)
+	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onEntitySpawn(SpawnEntityEvent event, @First Player player, @First EntitySpawnCause entitySpawnCause)
 	{
 		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
