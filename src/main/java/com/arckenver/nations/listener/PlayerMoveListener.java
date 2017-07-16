@@ -6,6 +6,7 @@ import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
+import org.spongepowered.api.text.chat.ChatTypes;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -51,7 +52,7 @@ public class PlayerMoveListener
 		DataHandler.setLastNationWalkedOn(player.getUniqueId(), nation);
 		DataHandler.setLastZoneWalkedOn(player.getUniqueId(), zone);
 
-		Text.Builder builder = Text.builder("~ ").color(TextColors.GRAY);
+		Text.Builder builder = Text.builder();
 
 		builder.append((nation == null) ? Text.of(TextColors.DARK_GREEN, LanguageHandler.IA) : Utils.nationClickable(TextColors.DARK_PURPLE, nation.getName()));
 		if (nation != null && !nation.isAdmin())
@@ -87,9 +88,8 @@ public class PlayerMoveListener
 			builder.append(Text.of(TextColors.GRAY, " - "));
 		}
 		builder.append((DataHandler.getFlag("pvp", loc)) ? Text.of(TextColors.DARK_RED, "(PvP)") : Text.of(TextColors.DARK_GREEN, "(No PvP)"));
-		builder.append(Text.of(TextColors.GRAY, " ~"));
 
-		player.sendMessage(builder.build());
+		player.sendMessage(ChatTypes.ACTION_BAR, builder.build());
 		MessageChannel.TO_CONSOLE.send(Text.of(player.getName(), " entered area ", builder.build()));
 	}
 }
