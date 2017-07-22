@@ -326,13 +326,20 @@ public class LanguageHandler
 	{
 		Field fields[] = LanguageHandler.class.getFields();
 		for (int i = 0; i < fields.length; ++i) {
-			if (fields[i].getType() != String.class || language.getNode(fields[i].getName()).getString() == null)
+			if (fields[i].getType() != String.class)
 				continue ;
-			if (language.getNode(fields[i].getName()) != null) {
+			if (language.getNode(fields[i].getName()).getString() != null) {
 				try {
 					fields[i].set(String.class, language.getNode(fields[i].getName()).getString());
 				} catch (IllegalArgumentException|IllegalAccessException e) {
 					NationsPlugin.getLogger().error("Error whey loading language string " + fields[i].getName());
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					language.getNode(fields[i].getName()).setValue(fields[i].get(String.class));
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					NationsPlugin.getLogger().error("Error whey saving language string " + fields[i].getName());
 					e.printStackTrace();
 				}
 			}
