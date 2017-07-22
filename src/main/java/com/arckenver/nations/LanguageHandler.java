@@ -220,7 +220,6 @@ public class LanguageHandler
 	public static String ERROR_NOOWNER = "You must own this zone to perform that command";
 	public static String INFO_NOOWNER = "Zone {ZONE} has now no owner";
 	public static String ERROR_NEEDSTANDZONESELF = "You must be standing on your zone to perform that command";
-	public static String ERROR_NEEDOWNER = "You must own this zone to perform that command";
 	public static String ERROR_NEEDZONE = "You must specify zone name or stand on it";
 	public static String HEADER_ZONELIST = "{NATION}'s zones are {ZONELIST}";
 	public static String ERROR_ALREADYOWNER = "Player is already owner of the zone";
