@@ -28,30 +28,30 @@ public class NationAdminDelspawnExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNation(ctx.<String>getOne("nation").get());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CB));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADNATIONNAME));
 				return CommandResult.success();
 			}
 			if (!ctx.<String>getOne("name").isPresent())
 			{
 				src.sendMessage(Text.builder()
-						.append(Text.of(TextColors.AQUA, LanguageHandler.ER.split("\\{SPAWNLIST\\}")[0]))
+						.append(Text.of(TextColors.AQUA, LanguageHandler.INFO_CLICK_DELSPAWN.split("\\{SPAWNLIST\\}")[0]))
 						.append(Utils.formatNationSpawns(nation, TextColors.YELLOW, "delhome"))
-						.append(Text.of(TextColors.AQUA, LanguageHandler.ER.split("\\{SPAWNLIST\\}")[1])).build());
+						.append(Text.of(TextColors.AQUA, LanguageHandler.INFO_CLICK_DELSPAWN.split("\\{SPAWNLIST\\}")[1])).build());
 				return CommandResult.success();
 			}
 			String spawnName = ctx.<String>getOne("name").get();
 			if (nation.getSpawn(spawnName) == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ES));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADSPAWNNAME));
 				return CommandResult.success();
 			}
 			nation.removeSpawn(spawnName);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.ET));
+			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.SUCCESS_DELNATION));
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

@@ -24,17 +24,17 @@ public class NationadminSpyExecutor implements CommandExecutor
 			if (channel.getMembers().contains(src))
 			{
 				channel.removeMember(src);
-				src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.DW));
+				src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.INFO_NATIONSPY_OFF));
 			}
 			else
 			{
 				channel.addMember(src);
-				src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.DV));
+				src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.INFO_NATIONSPY_ON));
 			}
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

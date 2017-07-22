@@ -39,37 +39,37 @@ public class NationUnclaimExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			if (!nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONSTAFF));
 				return CommandResult.success();
 			}
 			Point a = DataHandler.getFirstPoint(player.getUniqueId());
 			Point b = DataHandler.getSecondPoint(player.getUniqueId());
 			if (a == null || b == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EA));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDAXESELECT));
 				return CommandResult.success();
 			}
 			if (!ConfigHandler.getNode("worlds").getNode(a.getWorld().getName()).getNode("enabled").getBoolean())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CS));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PLUGINDISABLEDINWORLD));
 				return CommandResult.success();
 			}
 			Rect rect = new Rect(a, b);
 			if (!nation.getRegion().intersects(rect))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EC));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDINTERSECT));
 				return CommandResult.success();
 			}
 			for (Location<World> spawn : nation.getSpawns().values())
 			{
 				if (rect.isInside(new Vector2i(spawn.getBlockX(), spawn.getBlockZ())))
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EF));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_AREACONTAINSPAWN));
 					return CommandResult.success();
 				}
 			}
@@ -77,7 +77,7 @@ public class NationUnclaimExecutor implements CommandExecutor
 			{
 				if (zone.getRect().intersects(rect))
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HF));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_SELECTIONCONTAINZONE));
 					return CommandResult.success();
 				}
 			}
@@ -90,20 +90,20 @@ public class NationUnclaimExecutor implements CommandExecutor
 			{
 				if (NationsPlugin.getEcoService() == null)
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DC));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOECO));
 					return CommandResult.success();
 				}
 				Optional<Account> optAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
 				if (!optAccount.isPresent())
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DD));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECONONATION));
 					return CommandResult.success();
 				}
 				refund = BigDecimal.valueOf(toUnclaim * ConfigHandler.getNode("prices", "blockClaimPrice").getInt() * (ConfigHandler.getNode("prices", "unclaimRefundPercentage").getInt() / 100));
 				TransactionResult result = optAccount.get().deposit(NationsPlugin.getEcoService().getDefaultCurrency(), refund, NationsPlugin.getCause());
 				if (result.getResult() != ResultType.SUCCESS)
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DN));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECOTRANSACTION));
 					return CommandResult.success();
 				}
 			}
@@ -114,7 +114,7 @@ public class NationUnclaimExecutor implements CommandExecutor
 			DataHandler.saveNation(nation.getUUID());
 			if (!refund.equals(BigDecimal.ZERO))
 			{
-				String str = LanguageHandler.DJ.replaceAll("\\{NUM\\}", Integer.toString(toUnclaim)).replaceAll("\\{PRECENT\\}", ConfigHandler.getNode("prices", "blockClaimPrice").getString());
+				String str = LanguageHandler.INFO_UNCLAIMREFUND.replaceAll("\\{NUM\\}", Integer.toString(toUnclaim)).replaceAll("\\{PRECENT\\}", ConfigHandler.getNode("prices", "blockClaimPrice").getString());
 				src.sendMessage(Text.builder()
 						.append(Text.of(TextColors.AQUA, str.split("\\{AMOUNT\\}")[0]))
 						.append(Utils.formatPrice(TextColors.AQUA, refund))
@@ -122,12 +122,12 @@ public class NationUnclaimExecutor implements CommandExecutor
 			}
 			else
 			{
-				src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.DK));
+				src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.SUCCESS_UNCLAIM));
 			}
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

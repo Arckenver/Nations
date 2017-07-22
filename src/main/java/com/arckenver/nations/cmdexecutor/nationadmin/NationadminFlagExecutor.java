@@ -27,7 +27,7 @@ public class NationadminFlagExecutor implements CommandExecutor
 		Nation nation = DataHandler.getNation(nationName);
 		if (nation == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CB));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADNATIONNAME));
 			return CommandResult.success();
 		}
 		String flag = ctx.<String>getOne("flag").get();

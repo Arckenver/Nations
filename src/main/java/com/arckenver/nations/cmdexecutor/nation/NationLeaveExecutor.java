@@ -27,34 +27,34 @@ public class NationLeaveExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			if (nation.isPresident(player.getUniqueId()))
 			{
 				if (nation.getNumCitizens() > 1)
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.FL));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDRESIGN));
 					return CommandResult.success();
 				}
 				nation.removeCitizen(player.getUniqueId());
-				src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.FM));
+				src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_LEAVENATION));
 				DataHandler.removeNation(nation.getUUID());
-				MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.CN.replaceAll("\\{NATION\\}", nation.getName())));
+				MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.INFO_NATIONFALL.replaceAll("\\{NATION\\}", nation.getName())));
 				return CommandResult.success();
 			}
 			nation.removeCitizen(player.getUniqueId());
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.FM));
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_LEAVENATION));
 			for (UUID citizen : nation.getCitizens())
 			{
 				Sponge.getServer().getPlayer(citizen).ifPresent(
-						p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.FN.replaceAll("\\{PLAYER\\}", player.getName()))));
+						p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_LEAVENATION.replaceAll("\\{PLAYER\\}", player.getName()))));
 			}
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

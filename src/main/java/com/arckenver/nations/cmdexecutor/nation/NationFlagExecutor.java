@@ -26,12 +26,12 @@ public class NationFlagExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			if (!nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONSTAFF));
 				return CommandResult.success();
 			}
 			String flag = ctx.<String>getOne("flag").get();
@@ -52,7 +52,7 @@ public class NationFlagExecutor implements CommandExecutor
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

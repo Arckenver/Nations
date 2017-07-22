@@ -29,29 +29,29 @@ public class NationadminSettagExecutor implements CommandExecutor
 		Nation nation = DataHandler.getNation(ctx.<String> getOne("nation").get());
 		if (nation == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 			return CommandResult.success();
 		}
 		if (newTag != null && DataHandler.getNation(newTag) != null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EL));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMETAKEN));
 			return CommandResult.success();
 		}
 		if (newTag != null && DataHandler.getNationByTag(newTag) != null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.LL));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_TAGTAKEN));
 			return CommandResult.success();
 		}
 		if (newTag != null && !newTag.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}\"_\"]*"))
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.LM));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_TAGALPHA));
 			return CommandResult.success();
 		}
 		if (newTag != null && (newTag.length() < ConfigHandler.getNode("others", "minNationTagLength").getInt()
 				|| newTag.length() > ConfigHandler.getNode("others", "maxNationTagLength").getInt()))
 		{
 			src.sendMessage(Text.of(TextColors.RED,
-					LanguageHandler.LN
+					LanguageHandler.ERROR_TAGLENGTH
 							.replaceAll("\\{MIN\\}",
 									ConfigHandler.getNode("others", "minNationTagLength").getString())
 							.replaceAll("\\{MAX\\}",
@@ -62,7 +62,7 @@ public class NationadminSettagExecutor implements CommandExecutor
 		nation.setTag(newTag);
 		DataHandler.saveNation(nation.getUUID());
 		MessageChannel.TO_ALL.send(Text.of(TextColors.RED,
-				LanguageHandler.LO.replaceAll("\\{NAME\\}", nation.getName()).replaceAll("\\{OLDTAG\\}", oldTag).replaceAll("\\{NEWTAG\\}", nation.getTag())));
+				LanguageHandler.INFO_TAG.replaceAll("\\{NAME\\}", nation.getName()).replaceAll("\\{OLDTAG\\}", oldTag).replaceAll("\\{NEWTAG\\}", nation.getTag())));
 		return CommandResult.success();
 	}
 }

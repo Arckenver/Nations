@@ -33,34 +33,34 @@ public class ZoneSetownerExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNation(player.getLocation());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DQ));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDSTANDNATION));
 				return CommandResult.success();
 			}
 			Zone zone = nation.getZone(player.getLocation());
 			if (zone == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GX));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDSTANDZONESELF));
 				return CommandResult.success();
 			}
 			if (!zone.isOwner(player.getUniqueId()) && !nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GV));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOOWNER));
 				return CommandResult.success();
 			}
 			UUID newOwner = DataHandler.getPlayerUUID(newOwnerName);
 			if (newOwner == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CC));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADPLAYERNAME));
 				return CommandResult.success();
 			}
 			if (newOwner.equals(zone.getOwner()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HB));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ALREADYOWNER));
 				return CommandResult.success();
 			}
 			if (!nation.isCitizen(newOwner))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HC));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_OWNERNEEDNATION));
 				return CommandResult.success();
 			}
 			zone.setOwner(newOwner);
@@ -68,18 +68,18 @@ public class ZoneSetownerExecutor implements CommandExecutor
 			final String zoneName = zone.getName();
 			if (newOwner.equals(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.GU.replaceAll("\\{ZONE\\}", zoneName)));
+				src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_SETOWNER.replaceAll("\\{ZONE\\}", zoneName)));
 			}
 			else
 			{
-				src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HD.replaceAll("\\{PLAYER\\}", newOwnerName).replaceAll("\\{ZONE\\}", zoneName)));
+				src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_CHANGEOWNER.replaceAll("\\{PLAYER\\}", newOwnerName).replaceAll("\\{ZONE\\}", zoneName)));
 				Sponge.getServer().getPlayer(newOwner).ifPresent(
-						p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.HE.replaceAll("\\{PLAYER\\}", player.getName()).replaceAll("\\{ZONE\\}", zoneName))));
+						p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_CHANGEOWNER.replaceAll("\\{PLAYER\\}", player.getName()).replaceAll("\\{ZONE\\}", zoneName))));
 			}
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

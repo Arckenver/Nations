@@ -24,7 +24,7 @@ public class NationworldInfoExecutor implements CommandExecutor
 			worldName = ctx.<String>getOne("world").get();
 			if (!Sponge.getServer().getWorld(worldName).isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CT));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADWORLDNAME));
 				return CommandResult.success();
 			}
 		}
@@ -37,7 +37,7 @@ public class NationworldInfoExecutor implements CommandExecutor
 			}
 			else
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CU));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDWORLDNAME));
 				return CommandResult.success();
 			}
 		}

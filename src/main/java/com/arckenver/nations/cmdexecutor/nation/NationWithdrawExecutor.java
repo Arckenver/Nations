@@ -39,46 +39,46 @@ public class NationWithdrawExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			if (!nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONSTAFF));
 				return CommandResult.success();
 			}
 			
 			if (NationsPlugin.getEcoService() == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DC));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOECO));
 				return CommandResult.success();
 			}
 			Optional<UniqueAccount> optAccount = NationsPlugin.getEcoService().getOrCreateAccount(player.getUniqueId());
 			if (!optAccount.isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DO));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECONOACCOUNT));
 				return CommandResult.success();
 			}
 			Optional<Account> optNationAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
 			if (!optNationAccount.isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DD));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECONONATION));
 				return CommandResult.success();
 			}
 			BigDecimal amount = BigDecimal.valueOf(ctx.<Double>getOne("amount").get());
 			TransactionResult result = optNationAccount.get().transfer(optAccount.get(), NationsPlugin.getEcoService().getDefaultCurrency(), amount, NationsPlugin.getCause());
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOENOUGHMONEYNATION));
 				return CommandResult.success();
 			}
 			else if (result.getResult() != ResultType.SUCCESS)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DN));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECOTRANSACTION));
 				return CommandResult.success();
 			}
 			
-			String[] s1 = LanguageHandler.DL.split("\\{AMOUNT\\}");
+			String[] s1 = LanguageHandler.SUCCESS_WITHDRAW.split("\\{AMOUNT\\}");
 			Builder builder = Text.builder();
 			if (s1[0].indexOf("\\{BALANCE\\}") >= 0)
 			{
@@ -99,7 +99,7 @@ public class NationWithdrawExecutor implements CommandExecutor
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

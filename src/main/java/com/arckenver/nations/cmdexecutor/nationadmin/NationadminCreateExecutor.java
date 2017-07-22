@@ -31,17 +31,17 @@ public class NationadminCreateExecutor implements CommandExecutor
 			String nationName = ctx.<String>getOne("name").get();
 			if (DataHandler.getNation(nationName) != null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EL));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMETAKEN));
 				return CommandResult.success();
 			}
 			if (!nationName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}\"_\"]*"))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EM));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMEALPHA));
 				return CommandResult.success();
 			}
 			if (nationName.length() < ConfigHandler.getNode("others", "minNationNameLength").getInt() || nationName.length() > ConfigHandler.getNode("others", "maxNationNameLength").getInt())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EN
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMELENGTH
 						.replaceAll("\\{MIN\\}", ConfigHandler.getNode("others", "minNationNameLength").getString())
 						.replaceAll("\\{MAX\\}", ConfigHandler.getNode("others", "maxNationNameLength").getString())));
 				return CommandResult.success();
@@ -49,11 +49,11 @@ public class NationadminCreateExecutor implements CommandExecutor
 			
 			Nation nation = new Nation(UUID.randomUUID(), nationName, true);
 			DataHandler.addNation(nation);
-			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HL));
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_GENERAL));
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

@@ -35,35 +35,35 @@ public class NationClaimExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			if (!nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONSTAFF));
 				return CommandResult.success();
 			}
 			Point a = DataHandler.getFirstPoint(player.getUniqueId());
 			Point b = DataHandler.getSecondPoint(player.getUniqueId());
 			if (a == null || b == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EA));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDAXESELECT));
 				return CommandResult.success();
 			}
 			if (!ConfigHandler.getNode("worlds").getNode(a.getWorld().getName()).getNode("enabled").getBoolean())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CS));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PLUGINDISABLEDINWORLD));
 				return CommandResult.success();
 			}
 			Rect rect = new Rect(a, b);
 			if (nation.getRegion().size() > 0 && !nation.getRegion().isAdjacent(rect))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EB));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDADJACENT));
 				return CommandResult.success();
 			}
 			if (!DataHandler.canClaim(rect, false, nation.getUUID()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_TOOCLOSE));
 				return CommandResult.success();
 			}
 			Region claimed = nation.getRegion().copy();
@@ -71,19 +71,19 @@ public class NationClaimExecutor implements CommandExecutor
 			
 			if (claimed.size() > nation.maxBlockSize())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EG));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOENOUGHBLOCKS));
 				return CommandResult.success();
 			}
 			
 			if (NationsPlugin.getEcoService() == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DC));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOECO));
 				return CommandResult.success();
 			}
 			Optional<Account> optAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
 			if (!optAccount.isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DD));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECONONATION));
 				return CommandResult.success();
 			}
 			BigDecimal price = BigDecimal.valueOf((claimed.size() - nation.getRegion().size()) * ConfigHandler.getNode("prices", "blockClaimPrice").getDouble());
@@ -91,25 +91,25 @@ public class NationClaimExecutor implements CommandExecutor
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{
 				src.sendMessage(Text.builder()
-						.append(Text.of(TextColors.RED, LanguageHandler.DF.split("\\{AMOUNT\\}")[0]))
+						.append(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDMONEYNATION.split("\\{AMOUNT\\}")[0]))
 						.append(Utils.formatPrice(TextColors.RED, price))
-						.append(Text.of(TextColors.RED, LanguageHandler.DF.split("\\{AMOUNT\\}")[1])).build());
+						.append(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDMONEYNATION.split("\\{AMOUNT\\}")[1])).build());
 				return CommandResult.success();
 			}
 			else if (result.getResult() != ResultType.SUCCESS)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DN));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECOTRANSACTION));
 				return CommandResult.success();
 			}
 			
 			nation.setRegion(claimed);
 			DataHandler.addToWorldChunks(nation);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.EH));
+			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.SUCCESS_CLAIM));
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

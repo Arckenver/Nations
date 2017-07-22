@@ -24,13 +24,13 @@ public class ZoneListExecutor implements CommandExecutor
 		{
 			if (!src.hasPermission("nations.admin.zone.listall"))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CP));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_LISTZONES));
 				return CommandResult.success();
 			}
 			nation = DataHandler.getNation(ctx.<String>getOne("nation").get());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CB));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADNATIONNAME));
 				return CommandResult.success();
 			}
 		}
@@ -42,23 +42,23 @@ public class ZoneListExecutor implements CommandExecutor
 				nation = DataHandler.getNation(player.getLocation());
 				if (nation == null)
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CG));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDNATIONNAME));
 					return CommandResult.success();
 				}
 			}
 			else
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CG));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDNATIONNAME));
 				return CommandResult.success();
 			}
 		}
 		
-		String str = LanguageHandler.HA.replaceAll("\\{NATION\\}", nation.getName());
+		String str = LanguageHandler.HEADER_ZONELIST.replaceAll("\\{NATION\\}", nation.getName());
 		String[] splited = str.split("\\{ZONELIST\\}");
 		src.sendMessage(Utils.structureX(
 				nation.getZones().values().iterator(),
 				Text.builder(splited[0]).color(TextColors.AQUA), 
-				(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
+				(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.FORMAT_NONE)),
 				(b, zone) -> b.append(Text.builder(zone.getName()).color(TextColors.YELLOW).onClick(TextActions.runCommand("/z info " + zone.getRealName())).build()),
 				(b) -> b.append(Text.of(TextColors.AQUA, ", "))).append(Text.of(TextColors.AQUA, (splited.length > 1) ? splited[1] : "")).build());
 		

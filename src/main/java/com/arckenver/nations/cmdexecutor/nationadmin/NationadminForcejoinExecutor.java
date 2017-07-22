@@ -31,13 +31,13 @@ public class NationadminForcejoinExecutor implements CommandExecutor
 		Nation nation = DataHandler.getNation(nationName);
 		if (nation == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CB));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADNATIONNAME));
 			return CommandResult.success();
 		}
 		UUID playerUUID = DataHandler.getPlayerUUID(playerName);
 		if (playerUUID == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CC));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADPLAYERNAME));
 			return CommandResult.success();
 		}
 		
@@ -48,20 +48,20 @@ public class NationadminForcejoinExecutor implements CommandExecutor
 			for (UUID uuid : playerNation.getCitizens())
 			{
 				Sponge.getServer().getPlayer(uuid).ifPresent(p -> 
-					p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.FN.replaceAll("\\{PLAYER\\}", playerName))));
+					p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_LEAVENATION.replaceAll("\\{PLAYER\\}", playerName))));
 			}
 		}
 		
 		for (UUID uuid : nation.getCitizens())
 		{
 			Sponge.getServer().getPlayer(uuid).ifPresent(p -> 
-				p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.EY.replaceAll("\\{PLAYER\\}", playerName))));
+				p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_JOINNATIONANNOUNCE.replaceAll("\\{PLAYER\\}", playerName))));
 		}
 		nation.addCitizen(playerUUID);
 		DataHandler.saveNation(nation.getUUID());
 		Sponge.getServer().getPlayer(playerUUID).ifPresent(p -> 
-			p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.EZ.replaceAll("\\{NATION\\}", nationName))));
-		src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HL));
+			p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_JOINNATION.replaceAll("\\{NATION\\}", nationName))));
+		src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_GENERAL));
 		return CommandResult.success();
 	}
 }

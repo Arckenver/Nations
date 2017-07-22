@@ -26,7 +26,7 @@ public class NationListExecutor implements CommandExecutor
 	Iterator<Nation> iter = DataHandler.getNations().values().iterator();
 	if (!iter.hasNext())
 	{
-		contents.add(Text.of(TextColors.YELLOW, LanguageHandler.CO));
+		contents.add(Text.of(TextColors.YELLOW, LanguageHandler.ERROR_NONATIONYET));
 	}
 	else
 	{
@@ -40,7 +40,7 @@ public class NationListExecutor implements CommandExecutor
 		}
 	}
 	PaginationList.builder()
-    .title(Text.of(TextColors.GOLD, "{ ", TextColors.YELLOW, LanguageHandler.JB, TextColors.GOLD, " }"))
+    .title(Text.of(TextColors.GOLD, "{ ", TextColors.YELLOW, LanguageHandler.HEADER_NATIONLIST, TextColors.GOLD, " }"))
     .contents(contents)
     .padding(Text.of("-"))
     .sendTo(src);

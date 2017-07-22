@@ -30,25 +30,25 @@ public class NationadminForceleaveExecutor implements CommandExecutor
 		UUID uuid = DataHandler.getPlayerUUID(playerName);
 		if (uuid == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CC));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADPLAYERNAME));
 			return CommandResult.success();
 		}
 		Nation nation = DataHandler.getNationOfPlayer(uuid);
 		if (nation == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HJ));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PLAYERNOTINNATION));
 			return CommandResult.success();
 		}
 		if (nation.isPresident(uuid))
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HK));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PLAYERISPRES));
 			return CommandResult.success();
 		}
 		nation.removeCitizen(uuid);
 		DataHandler.saveNation(nation.getUUID());
 		Sponge.getServer().getPlayer(uuid).ifPresent(p -> 
-			p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.FM)));
-		src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HL));
+			p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.SUCCESS_LEAVENATION)));
+		src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_GENERAL));
 		return CommandResult.success();
 	}
 }

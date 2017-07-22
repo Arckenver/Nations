@@ -17,7 +17,7 @@ public class NationCitizenExecutor implements CommandExecutor
 	{
 		if (!ctx.<String>getOne("player").isPresent())
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CH));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDPLAYERNAME));
 			return CommandResult.success();
 		}
 		String name = ctx.<String>getOne("player").get();

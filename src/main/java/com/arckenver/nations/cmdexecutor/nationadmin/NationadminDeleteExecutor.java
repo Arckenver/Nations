@@ -27,11 +27,11 @@ public class NationadminDeleteExecutor implements CommandExecutor
 		Nation nation = DataHandler.getNation(nationName);
 		if (nation == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CB));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADNATIONNAME));
 			return CommandResult.success();
 		}
 		DataHandler.removeNation(nation.getUUID());
-		MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.CN.replaceAll("\\{NATION\\}", nation.getName())));
+		MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.INFO_NATIONFALL.replaceAll("\\{NATION\\}", nation.getName())));
 		return CommandResult.success();
 	}
 }

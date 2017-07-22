@@ -41,7 +41,7 @@ public class BuildPermListener
 				{
 					trans.setValid(false);
 					try {
-						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
 					} catch (Exception e) {}
 				}
 			}
@@ -67,7 +67,7 @@ public class BuildPermListener
 			{
 				trans.setValid(false);
 				try {
-					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
 				} catch (Exception e) {}
 			}
 		}));

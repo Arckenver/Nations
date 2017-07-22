@@ -23,7 +23,7 @@ public class NationworldListExecutor implements CommandExecutor
 	{
 		Builder builder = Text.builder();
 		Iterator<World> iter = Sponge.getServer().getWorlds().iterator();
-		builder.append(Text.of(TextColors.GOLD, "--------{ ", TextColors.YELLOW, LanguageHandler.JC, TextColors.GOLD, " }--------\n"));
+		builder.append(Text.of(TextColors.GOLD, "--------{ ", TextColors.YELLOW, LanguageHandler.HEADER_WORLDLIST, TextColors.GOLD, " }--------\n"));
 		while (iter.hasNext())
 		{
 			World world = iter.next();

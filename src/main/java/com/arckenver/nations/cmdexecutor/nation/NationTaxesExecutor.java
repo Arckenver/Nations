@@ -24,12 +24,12 @@ public class NationTaxesExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			if (!nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONSTAFF));
 				return CommandResult.success();
 			}
 			if (!ctx.<Double>getOne("amount").isPresent())
@@ -40,21 +40,21 @@ public class NationTaxesExecutor implements CommandExecutor
 			double newTaxes = ctx.<Double>getOne("amount").get();
 			if (!ConfigHandler.getNode("nations", "canEditTaxes").getBoolean())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HN));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_TAXEDIT));
 				return CommandResult.success();
 			}
 			if (newTaxes > ConfigHandler.getNode("nations", "maxTaxes").getDouble())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HO.replaceAll("\\{AMOUNT\\}", String.valueOf(ConfigHandler.getNode("nations", "maxTaxes").getDouble()))));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_TAXMAX.replaceAll("\\{AMOUNT\\}", String.valueOf(ConfigHandler.getNode("nations", "maxTaxes").getDouble()))));
 				return CommandResult.success();
 			}
 			nation.setTaxes(newTaxes);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HP));
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_CHANGETAX));
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

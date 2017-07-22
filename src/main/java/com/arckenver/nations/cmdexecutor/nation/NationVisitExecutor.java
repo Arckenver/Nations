@@ -40,7 +40,7 @@ public class NationVisitExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNation(nationName);
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			int clicker = Utils.CLICKER_NONE;
@@ -56,17 +56,17 @@ public class NationVisitExecutor implements CommandExecutor
 			}
 			
 			if (clicker == Utils.CLICKER_NONE && !nation.getFlag("public")) {
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HT));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NATIONNOTPUBLIC));
 				return CommandResult.success();
 			}
 			
 			if (!ctx.<String>getOne("name").isPresent())
 			{
 				src.sendMessage(Text.builder()
-						.append(Text.of(TextColors.AQUA, LanguageHandler.GA.split("\\{SPAWNLIST\\}")[0]))
+						.append(Text.of(TextColors.AQUA, LanguageHandler.INFO_TELEPORTLIST.split("\\{SPAWNLIST\\}")[0]))
 						.append(Utils.formatNationSpawns(nation, TextColors.YELLOW, clicker))
-						.append(Text.of(TextColors.AQUA, LanguageHandler.GA.split("\\{SPAWNLIST\\}")[1]))
-						.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX)).build());
+						.append(Text.of(TextColors.AQUA, LanguageHandler.INFO_TELEPORTLIST.split("\\{SPAWNLIST\\}")[1]))
+						.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK)).build());
 				return CommandResult.success();
 			}
 
@@ -75,10 +75,10 @@ public class NationVisitExecutor implements CommandExecutor
 			if (spawn == null)
 			{
 				src.sendMessage(Text.builder()
-						.append(Text.of(TextColors.RED, LanguageHandler.GB.split("\\{SPAWNLIST\\}")[0]))
+						.append(Text.of(TextColors.RED, LanguageHandler.ERROR_SPAWNNAME.split("\\{SPAWNLIST\\}")[0]))
 						.append(Utils.formatNationSpawns(nation, TextColors.YELLOW, clicker))
-						.append(Text.of(TextColors.RED, LanguageHandler.GB.split("\\{SPAWNLIST\\}")[1]))
-						.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX)).build());
+						.append(Text.of(TextColors.RED, LanguageHandler.ERROR_SPAWNNAME.split("\\{SPAWNLIST\\}")[1]))
+						.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK)).build());
 				return CommandResult.success();
 			}
 			
@@ -88,12 +88,12 @@ public class NationVisitExecutor implements CommandExecutor
 				if (!event.isCancelled())
 				{
 					player.setLocation(spawn);
-					src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GC));
+					src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_TELEPORTED));
 				}
 				return CommandResult.success();
 			}
 			
-			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.HU));
+			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_TELEPORTCOOLDOWN));
 			
 			Scheduler scheduler = Sponge.getScheduler();
 			Task.Builder taskBuilder = scheduler.createTaskBuilder();
@@ -107,14 +107,14 @@ public class NationVisitExecutor implements CommandExecutor
 					if (!event.isCancelled())
 					{
 						player.setLocation(spawn);
-						src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GC));
+						src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_TELEPORTED));
 					}
 				}
 			}).delay(10, TimeUnit.SECONDS).submit(NationsPlugin.getInstance());
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

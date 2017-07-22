@@ -32,40 +32,40 @@ public class NationSetspawnExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			if (!nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONSTAFF));
 				return CommandResult.success();
 			}
 			Location<World> newSpawn = player.getLocation();
 			if (!nation.getRegion().isInside(newSpawn))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.FX));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADSPAWNLOCATION));
 				return CommandResult.success();
 			}
 			if (nation.getNumSpawns() + 1 > nation.getMaxSpawns() && !nation.getSpawns().containsKey(spawnName))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HR
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_MAXSPAWNREACH
 						.replaceAll("\\{MAX\\}", String.valueOf(nation.getMaxSpawns()))));
 				return CommandResult.success();
 			}
 			if (!spawnName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]{1,30}"))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.FY
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ALPHASPAWN
 						.replaceAll("\\{MIN\\}", ConfigHandler.getNode("others", "minZoneNameLength").getString())
 						.replaceAll("\\{MAX\\}", ConfigHandler.getNode("others", "maxZoneNameLength").getString())));
 				return CommandResult.success();
 			}
 			nation.addSpawn(spawnName, newSpawn);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.FZ));
+			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.SUCCESS_CHANGESPAWN));
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

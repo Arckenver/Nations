@@ -27,12 +27,12 @@ public class NationResignExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			if (!nation.isPresident(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CJ));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONPRES));
 				return CommandResult.success();
 			}
 			if (!ctx.<String>getOne("successor").isPresent())
@@ -44,12 +44,12 @@ public class NationResignExecutor implements CommandExecutor
 			UUID successor = DataHandler.getPlayerUUID(successorName);
 			if (successor == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CE));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADPRESNAME));
 				return CommandResult.success();
 			}
 			if (!nation.isCitizen(successor))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.FF));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOTINNATION));
 				return CommandResult.success();
 			}
 			nation.removeMinister(successor);
@@ -58,12 +58,12 @@ public class NationResignExecutor implements CommandExecutor
 			for (UUID citizen : nation.getCitizens())
 			{
 				Sponge.getServer().getPlayer(citizen).ifPresent(
-					p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.FV.replaceAll("\\{SUCCESSOR\\}", successorName).replaceAll("\\{PLAYER\\}", player.getName()))));
+					p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_SUCCESSOR.replaceAll("\\{SUCCESSOR\\}", successorName).replaceAll("\\{PLAYER\\}", player.getName()))));
 			}
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

@@ -32,37 +32,37 @@ public class NationadminClaimExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNation(nationName);
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CB));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADNATIONNAME));
 				return CommandResult.success();
 			}
 			Point a = DataHandler.getFirstPoint(player.getUniqueId());
 			Point b = DataHandler.getSecondPoint(player.getUniqueId());
 			if (a == null || b == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EA));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDAXESELECT));
 				return CommandResult.success();
 			}
 			if (!ConfigHandler.getNode("worlds").getNode(a.getWorld().getName()).getNode("enabled").getBoolean())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CS));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PLUGINDISABLEDINWORLD));
 				return CommandResult.success();
 			}
 			Rect rect = new Rect(a, b);
 			
 			if (!DataHandler.canClaim(rect, true, nation.getUUID()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_TOOCLOSE));
 				return CommandResult.success();
 			}
 			
 			nation.getRegion().addRect(rect);
 			DataHandler.addToWorldChunks(nation);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HL));
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_GENERAL));
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

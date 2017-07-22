@@ -35,37 +35,37 @@ public class ZoneBuyExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNation(player.getLocation());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DQ));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDSTANDNATION));
 				return CommandResult.success();
 			}
 			Zone zone = nation.getZone(player.getLocation());
 			if (zone == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GD));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDSTANDZONE));
 				return CommandResult.success();
 			}
 			Nation playerNation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (!nation.isAdmin() && !zone.getFlag("public") && (playerNation == null || !nation.getUUID().equals(playerNation.getUUID())))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DR));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_ZONEBUY));
 				return CommandResult.success();
 			}
 			if (!zone.isForSale())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GE));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ZONENFS));
 				return CommandResult.success();
 			}
 			UUID oldOwner = zone.getOwner();
 			
 			if (NationsPlugin.getEcoService() == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DC));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOECO));
 				return CommandResult.success();
 			}
 			Optional<UniqueAccount> optAccount = NationsPlugin.getEcoService().getOrCreateAccount(player.getUniqueId());
 			if (!optAccount.isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DO));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECONOACCOUNT));
 				return CommandResult.success();
 			}
 			Account receiver;
@@ -74,7 +74,7 @@ public class ZoneBuyExecutor implements CommandExecutor
 				Optional<Account> optReceiver = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID());
 				if (!optReceiver.isPresent())
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DD));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECONONATION));
 					return CommandResult.success();
 				}
 				receiver = optReceiver.get();
@@ -84,7 +84,7 @@ public class ZoneBuyExecutor implements CommandExecutor
 				Optional<UniqueAccount> optReceiver = NationsPlugin.getEcoService().getOrCreateAccount(oldOwner);
 				if (!optReceiver.isPresent())
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DP));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECONOOWNER));
 					return CommandResult.success();
 				}
 				receiver = optReceiver.get();
@@ -94,25 +94,25 @@ public class ZoneBuyExecutor implements CommandExecutor
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{
 				src.sendMessage(Text.builder()
-						.append(Text.of(TextColors.RED, LanguageHandler.DE.split("\\{AMOUNT\\}")[0]))
+						.append(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDMONEY.split("\\{AMOUNT\\}")[0]))
 						.append(Utils.formatPrice(TextColors.RED, price))
-						.append(Text.of(TextColors.RED, LanguageHandler.DE.split("\\{AMOUNT\\}")[1])).build());
+						.append(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDMONEY.split("\\{AMOUNT\\}")[1])).build());
 				return CommandResult.success();
 			}
 			else if (result.getResult() != ResultType.SUCCESS)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DN));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECOTRANSACTION));
 				return CommandResult.success();
 			}
 			zone.setOwner(player.getUniqueId());
 			zone.setPrice(null);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.GU.replaceAll("\\{ZONE\\}", zone.getName())));
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_SETOWNER.replaceAll("\\{ZONE\\}", zone.getName())));
 			if (oldOwner != null)
 			{
 				Sponge.getServer().getPlayer(oldOwner).ifPresent(
 						p -> {
-							String str = LanguageHandler.GH.replaceAll("\\{PLAYER\\}",  player.getName()).replaceAll("\\{ZONE\\}", zone.getName());
+							String str = LanguageHandler.INFO_ZONEBUY.replaceAll("\\{PLAYER\\}",  player.getName()).replaceAll("\\{ZONE\\}", zone.getName());
 							String[] splited = str.split("\\{AMOUNT\\}");
 							src.sendMessage(Text.builder()
 									.append(Text.of(TextColors.AQUA, (splited.length > 0) ? splited[0] : ""))
@@ -123,7 +123,7 @@ public class ZoneBuyExecutor implements CommandExecutor
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

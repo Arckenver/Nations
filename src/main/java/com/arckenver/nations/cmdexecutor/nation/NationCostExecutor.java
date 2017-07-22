@@ -18,13 +18,13 @@ public class NationCostExecutor implements CommandExecutor
 	{
 		src.sendMessage(Text.of(
 				TextColors.GOLD, ((src instanceof Player) ? "" : "\n") + "--------{ ",
-				TextColors.YELLOW, LanguageHandler.LA,
+				TextColors.YELLOW, LanguageHandler.HEADER_NATIONCOST,
 				TextColors.GOLD, " }--------",
-				TextColors.GOLD, "\n", LanguageHandler.LB, TextColors.GRAY, " - ", TextColors.YELLOW, ConfigHandler.getNode("prices", "nationCreationPrice").getDouble(),
-				TextColors.GOLD, "\n", LanguageHandler.LC, TextColors.GRAY, " - ", TextColors.YELLOW, ConfigHandler.getNode("prices", "outpostCreationPrice").getDouble(),
-				TextColors.GOLD, "\n", LanguageHandler.LD, TextColors.GRAY, " - ", TextColors.YELLOW, ConfigHandler.getNode("prices", "upkeepPerCitizen").getDouble(),
-				TextColors.GOLD, "\n", LanguageHandler.LE, TextColors.GRAY, " - ", TextColors.YELLOW, ConfigHandler.getNode("prices", "blockClaimPrice").getDouble(),
-				TextColors.GOLD, "\n", LanguageHandler.LF, TextColors.GRAY, " - ", TextColors.YELLOW, ConfigHandler.getNode("prices", "extraPrice").getDouble()));
+				TextColors.GOLD, "\n", LanguageHandler.COST_MSG_NATIONCREATE, TextColors.GRAY, " - ", TextColors.YELLOW, ConfigHandler.getNode("prices", "nationCreationPrice").getDouble(),
+				TextColors.GOLD, "\n", LanguageHandler.COST_MSG_OUTPOSTCREATE, TextColors.GRAY, " - ", TextColors.YELLOW, ConfigHandler.getNode("prices", "outpostCreationPrice").getDouble(),
+				TextColors.GOLD, "\n", LanguageHandler.COST_MSG_UPKEEP, TextColors.GRAY, " - ", TextColors.YELLOW, ConfigHandler.getNode("prices", "upkeepPerCitizen").getDouble(),
+				TextColors.GOLD, "\n", LanguageHandler.COST_MSG_CLAIMPRICE, TextColors.GRAY, " - ", TextColors.YELLOW, ConfigHandler.getNode("prices", "blockClaimPrice").getDouble(),
+				TextColors.GOLD, "\n", LanguageHandler.COST_MSG_EXTRAPRICE, TextColors.GRAY, " - ", TextColors.YELLOW, ConfigHandler.getNode("prices", "extraPrice").getDouble()));
 		return CommandResult.success();
 	}
 }

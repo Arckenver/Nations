@@ -25,7 +25,7 @@ public class ZoneInfoExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNation(player.getLocation());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DQ));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDSTANDNATION));
 				return CommandResult.success();
 			}
 			Zone zone = null;
@@ -34,7 +34,7 @@ public class ZoneInfoExecutor implements CommandExecutor
 				zone = nation.getZone(player.getLocation());
 				if (zone == null)
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GZ));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDZONE));
 					return CommandResult.success();
 				}
 			}
@@ -50,7 +50,7 @@ public class ZoneInfoExecutor implements CommandExecutor
 				}
 				if (zone == null)
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CF));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADZONENAME));
 					return CommandResult.success();
 				}
 			}
@@ -63,7 +63,7 @@ public class ZoneInfoExecutor implements CommandExecutor
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

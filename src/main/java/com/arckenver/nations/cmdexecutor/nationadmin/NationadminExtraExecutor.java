@@ -28,7 +28,7 @@ public class NationadminExtraExecutor implements CommandExecutor
 		Nation nation = DataHandler.getNation(nationName);
 		if (nation == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CB));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADNATIONNAME));
 			return CommandResult.success();
 		}
 		if (operation.equalsIgnoreCase("give"))
@@ -45,11 +45,11 @@ public class NationadminExtraExecutor implements CommandExecutor
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CX));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADARG_GTS));
 			return CommandResult.success();
 		}
 		DataHandler.saveNation(nation.getUUID());
-		src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HL));
+		src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_GENERAL));
 		return CommandResult.success();
 	}
 }

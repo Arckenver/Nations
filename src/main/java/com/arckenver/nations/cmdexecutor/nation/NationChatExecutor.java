@@ -28,7 +28,7 @@ public class NationChatExecutor implements CommandExecutor
 			if (nation == null)
 			{
 				player.setMessageChannel(MessageChannel.TO_ALL);
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			NationMessageChannel channel = nation.getMessageChannel();
@@ -37,10 +37,10 @@ public class NationChatExecutor implements CommandExecutor
 			{
 				if (player.getMessageChannel().equals(channel)) {
 					player.setMessageChannel(MessageChannel.TO_ALL);
-					src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.DU));
+					src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.INFO_NATIONCHAT_OFF));
 				} else {
 					player.setMessageChannel(channel);
-					src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.DT));
+					src.sendMessage(Text.of(TextColors.YELLOW, LanguageHandler.INFO_NATIONCHATON_ON));
 				}
 			}
 			else
@@ -55,7 +55,7 @@ public class NationChatExecutor implements CommandExecutor
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

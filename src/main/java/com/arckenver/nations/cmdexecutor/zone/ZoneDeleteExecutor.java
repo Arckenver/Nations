@@ -25,29 +25,29 @@ public class ZoneDeleteExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNation(player.getLocation());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DQ));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDSTANDNATION));
 				return CommandResult.success();
 			}
 			Zone zone = nation.getZone(player.getLocation());
 			if (zone == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CF));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADZONENAME));
 				return CommandResult.success();
 			}
 			String zoneName = zone.getName();
 			if (!nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONSTAFF));
 				return CommandResult.success();
 			}
 			nation.removeZone(zone.getUUID());
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HM.replaceAll("\\{ZONE\\}", zoneName)));
-			MessageChannel.TO_CONSOLE.send(Text.of(player.getName(), " > ", nation.getName(), ": ", LanguageHandler.HM.replaceAll("\\{ZONE\\}", zoneName)));
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_DELZONE.replaceAll("\\{ZONE\\}", zoneName)));
+			MessageChannel.TO_CONSOLE.send(Text.of(player.getName(), " > ", nation.getName(), ": ", LanguageHandler.SUCCESS_DELZONE.replaceAll("\\{ZONE\\}", zoneName)));
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

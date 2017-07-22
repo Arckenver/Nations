@@ -25,7 +25,7 @@ public class NationInfoExecutor implements CommandExecutor
 			nation = DataHandler.getNation(ctx.<String>getOne("nation").get());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CB));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADNATIONNAME));
 				return CommandResult.success();
 			}
 			if (src instanceof Player)
@@ -45,7 +45,7 @@ public class NationInfoExecutor implements CommandExecutor
 				nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 				if (nation == null)
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CG));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDNATIONNAME));
 					return CommandResult.success();
 				}
 				if (nation.isStaff(player.getUniqueId()))
@@ -55,7 +55,7 @@ public class NationInfoExecutor implements CommandExecutor
 			}
 			else
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 				return CommandResult.success();
 			}
 		}

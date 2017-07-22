@@ -36,18 +36,18 @@ public class NationadminEcoExecutor implements CommandExecutor
 		Nation nation = DataHandler.getNation(nationName);
 		if (nation == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CB));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADNATIONNAME));
 			return CommandResult.success();
 		}
 		if (NationsPlugin.getEcoService() == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DC));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOECO));
 			return CommandResult.success();
 		}
 		Optional<Account> optAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
 		if (!optAccount.isPresent())
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DO));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECONOACCOUNT));
 			return CommandResult.success();
 		}
 		TransactionResult result;
@@ -65,15 +65,15 @@ public class NationadminEcoExecutor implements CommandExecutor
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CX));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADARG_GTS));
 			return CommandResult.success();
 		}
 		if (result.getResult() != ResultType.SUCCESS)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DN));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECOTRANSACTION));
 			return CommandResult.success();
 		}
-		src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HL));
+		src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_GENERAL));
 		return CommandResult.success();
 	}
 }

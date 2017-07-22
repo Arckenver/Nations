@@ -332,7 +332,7 @@ public class DataHandler
 		Nation nation = getNationOfPlayer(uuid);
 		if (nation == null)
 		{
-			return LanguageHandler.LR;
+			return LanguageHandler.FORMAT_HERMIT;
 		}
 		if (nation.isPresident(uuid))
 		{
@@ -340,9 +340,9 @@ public class DataHandler
 		}
 		if (nation.isMinister(uuid))
 		{
-			return LanguageHandler.LQ;
+			return LanguageHandler.FORMAT_MINISTER;
 		}
-		return LanguageHandler.IS;
+		return LanguageHandler.FORMAT_CITIZEN;
 	}
 
 	public static boolean canClaim(Location<World> loc, boolean ignoreMinDistance)

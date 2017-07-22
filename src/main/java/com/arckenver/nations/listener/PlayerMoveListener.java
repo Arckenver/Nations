@@ -54,7 +54,7 @@ public class PlayerMoveListener
 
 		Text.Builder builder = Text.builder();
 
-		builder.append((nation == null) ? Text.of(TextColors.DARK_GREEN, LanguageHandler.IA) : Utils.nationClickable(TextColors.DARK_PURPLE, nation.getName()));
+		builder.append((nation == null) ? Text.of(TextColors.DARK_GREEN, LanguageHandler.WILDNAME) : Utils.nationClickable(TextColors.DARK_PURPLE, nation.getName()));
 		if (nation != null && !nation.isAdmin())
 		{
 			builder.append(Text.of(TextColors.GRAY, " - "));

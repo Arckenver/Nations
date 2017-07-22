@@ -24,13 +24,13 @@ public class NationHereExecutor implements CommandExecutor
 			Player player = (Player) src;
 			if (!ConfigHandler.getNode("worlds").getNode(player.getWorld().getName()).getNode("enabled").getBoolean())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CS));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PLUGINDISABLEDINWORLD));
 				return CommandResult.success();
 			}
 			Nation nation = DataHandler.getNation(player.getLocation());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EV));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_HERE));
 				return CommandResult.success();
 			}
 			int clicker = (nation.isStaff(player.getUniqueId())) ? Utils.CLICKER_DEFAULT : Utils.CLICKER_NONE;
@@ -42,7 +42,7 @@ public class NationHereExecutor implements CommandExecutor
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

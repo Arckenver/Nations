@@ -30,14 +30,14 @@ public class NationadminExtraplayerExecutor implements CommandExecutor
 		UUID playerUUID = DataHandler.getPlayerUUID(playerName);
 		if (playerUUID == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CC));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADPLAYERNAME));
 			return CommandResult.success();
 		}
 		
 		Nation nation = DataHandler.getNationOfPlayer(playerUUID);
 		if (nation == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HJ));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PLAYERNOTINNATION));
 			return CommandResult.success();
 		}
 		if (operation.equalsIgnoreCase("give"))
@@ -54,11 +54,11 @@ public class NationadminExtraplayerExecutor implements CommandExecutor
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CX));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADARG_GTS));
 			return CommandResult.success();
 		}
 		DataHandler.saveNation(nation.getUUID());
-		src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.HL));
+		src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_GENERAL));
 		return CommandResult.success();
 	}
 }

@@ -30,12 +30,12 @@ public class ZoneCreateExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNation(player.getLocation());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DQ));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDSTANDNATION));
 				return CommandResult.success();
 			}
 			if (!nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONSTAFF));
 				return CommandResult.success();
 			}
 			String zoneName = null;
@@ -45,7 +45,7 @@ public class ZoneCreateExecutor implements CommandExecutor
 			}
 			if (zoneName != null && !zoneName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}\"_\"]*{1,30}"))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.FY
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ALPHASPAWN
 						.replaceAll("\\{MIN\\}", "1")
 						.replaceAll("\\{MAX\\}", "30")));
 				return CommandResult.success();
@@ -56,7 +56,7 @@ public class ZoneCreateExecutor implements CommandExecutor
 				owner = DataHandler.getPlayerUUID(ctx.<String>getOne("owner").get());
 				if (owner == null)
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CC));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADPLAYERNAME));
 					return CommandResult.success();
 				}
 			}
@@ -64,25 +64,25 @@ public class ZoneCreateExecutor implements CommandExecutor
 			Point b = DataHandler.getSecondPoint(player.getUniqueId());
 			if (a == null || b == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EA));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDAXESELECT));
 				return CommandResult.success();
 			}
 			Rect rect = new Rect(a, b);
 			if (!nation.getRegion().isInside(rect))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HG));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ZONENOTINNATION));
 				return CommandResult.success();
 			}
 			for (Zone zone : nation.getZones().values())
 			{
 				if (zoneName != null && zone.isNamed() && zone.getName().equalsIgnoreCase(zoneName))
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GR));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ZONENAME));
 					return CommandResult.success();
 				}
 				if (rect.intersects(zone.getRect()))
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GS));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ZONEINTERSECT));
 					return CommandResult.success();
 				}
 			}
@@ -93,13 +93,13 @@ public class ZoneCreateExecutor implements CommandExecutor
 			}
 			nation.addZone(zone);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.GT.replaceAll("\\{ZONE\\}", zone.getName())));
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.SUCCESS_ZONECREATE.replaceAll("\\{ZONE\\}", zone.getName())));
 			Sponge.getServer().getPlayer(owner).ifPresent(
-					p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GU.replaceAll("\\{ZONE\\}", zone.getName()))));
+					p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.SUCCESS_SETOWNER.replaceAll("\\{ZONE\\}", zone.getName()))));
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

@@ -25,12 +25,12 @@ public class NationSettagExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			if (!nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONSTAFF));
 				return CommandResult.success();
 			}
 			String newTag = null;
@@ -38,22 +38,22 @@ public class NationSettagExecutor implements CommandExecutor
 				newTag = ctx.<String>getOne("tag").get();
 			if (newTag != null && DataHandler.getNation(newTag) != null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EL));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMETAKEN));
 				return CommandResult.success();
 			}
 			if (newTag != null && DataHandler.getNationByTag(newTag) != null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.LL));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_TAGTAKEN));
 				return CommandResult.success();
 			}
 			if (newTag != null && !newTag.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}\"_\"]*"))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.LM));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_TAGALPHA));
 				return CommandResult.success();
 			}
 			if (newTag != null && (newTag.length() < ConfigHandler.getNode("others", "minNationTagLength").getInt() || newTag.length() > ConfigHandler.getNode("others", "maxNationTagLength").getInt()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.LN
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_TAGLENGTH
 						.replaceAll("\\{MIN\\}", ConfigHandler.getNode("others", "minNationTagLength").getString())
 						.replaceAll("\\{MAX\\}", ConfigHandler.getNode("others", "maxNationTagLength").getString())));
 				return CommandResult.success();
@@ -61,14 +61,14 @@ public class NationSettagExecutor implements CommandExecutor
 			String oldName = nation.getTag();
 			nation.setTag(newTag);
 			DataHandler.saveNation(nation.getUUID());
-			MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.LO
+			MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.INFO_TAG
 					.replaceAll("\\{NAME\\}", nation.getName())
 					.replaceAll("\\{OLDTAG\\}", oldName)
 					.replaceAll("\\{NEWTAG\\}", nation.getTag())));
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

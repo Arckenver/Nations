@@ -27,7 +27,7 @@ public class NationworldDisableExecutor implements CommandExecutor
 			worldName = ctx.<String>getOne("world").get();
 			if (!Sponge.getServer().getWorld(worldName).isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CT));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADWORLDNAME));
 				return CommandResult.success();
 			}
 		}
@@ -40,14 +40,14 @@ public class NationworldDisableExecutor implements CommandExecutor
 			}
 			else
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CU));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDWORLDNAME));
 				return CommandResult.success();
 			}
 		}
 		CommentedConfigurationNode node = ConfigHandler.getNode("worlds").getNode(worldName);
 		if (!node.getNode("enabled").getBoolean())
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CW));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PLUGINALREADYDISABLE));
 			return CommandResult.success();
 		}
 		

@@ -32,12 +32,12 @@ public class NationBuyextraExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			if (!nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CJ));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONPRES));
 				return CommandResult.success();
 			}
 			if (!ctx.<String>getOne("amount").isPresent())
@@ -49,26 +49,26 @@ public class NationBuyextraExecutor implements CommandExecutor
 			int maxToBuy = ConfigHandler.getNode("others", "maxExtra").getInt() - nation.getExtras();
 			if (n > maxToBuy)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DB.replaceAll("\\{NUM\\}", Integer.toString(maxToBuy))));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOMOREBLOCK.replaceAll("\\{NUM\\}", Integer.toString(maxToBuy))));
 				return CommandResult.success();
 			}
 			
 			if (NationsPlugin.getEcoService() == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DC));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOECO));
 				return CommandResult.success();
 			}
 			Optional<Account> optAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
 			if (!optAccount.isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DD));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECONONATION));
 				return CommandResult.success();
 			}
 			BigDecimal price = BigDecimal.valueOf(n * ConfigHandler.getNode("prices", "extraPrice").getDouble());
 			TransactionResult result = optAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), price, NationsPlugin.getCause());
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{
-				String[] splited = LanguageHandler.DE.split("\\{AMOUNT\\}");
+				String[] splited = LanguageHandler.ERROR_NEEDMONEY.split("\\{AMOUNT\\}");
 				src.sendMessage(Text.builder()
 						.append(Text.of(TextColors.RED, (splited.length > 0) ? splited[0] : ""))
 						.append(Utils.formatPrice(TextColors.RED, price))
@@ -77,13 +77,13 @@ public class NationBuyextraExecutor implements CommandExecutor
 			}
 			else if (result.getResult() != ResultType.SUCCESS)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DN));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECOTRANSACTION));
 				return CommandResult.success();
 			}
 			
 			nation.addExtras(n);
 			DataHandler.saveNation(nation.getUUID());
-			String[] splited2 = LanguageHandler.DG.replaceAll("\\{NUM\\}", Integer.toString(n)).split("\\{AMOUNT\\}");
+			String[] splited2 = LanguageHandler.SUCCESS_ADDBLOCKS.replaceAll("\\{NUM\\}", Integer.toString(n)).split("\\{AMOUNT\\}");
 			src.sendMessage(Text.builder()
 					.append(Text.of(TextColors.AQUA, (splited2.length > 0) ? splited2[0] : ""))
 					.append(Utils.formatPrice(TextColors.AQUA, price))
@@ -91,7 +91,7 @@ public class NationBuyextraExecutor implements CommandExecutor
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

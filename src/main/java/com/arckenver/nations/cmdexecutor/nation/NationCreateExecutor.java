@@ -39,28 +39,28 @@ public class NationCreateExecutor implements CommandExecutor
 			Player player = (Player) src;
 			if (!ConfigHandler.getNode("worlds").getNode(player.getWorld().getName()).getNode("enabled").getBoolean())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CS));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PLUGINDISABLEDINWORLD));
 				return CommandResult.success();
 			}
 			if (DataHandler.getNationOfPlayer(player.getUniqueId()) != null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EK));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDLEAVE));
 				return CommandResult.success();
 			}
 			String nationName = ctx.<String>getOne("name").get();
 			if (DataHandler.getNation(nationName) != null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EL));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMETAKEN));
 				return CommandResult.success();
 			}
 			if (!nationName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}\"_\"]*"))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EM));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMEALPHA));
 				return CommandResult.success();
 			}
 			if (nationName.length() < ConfigHandler.getNode("others", "minNationNameLength").getInt() || nationName.length() > ConfigHandler.getNode("others", "maxNationNameLength").getInt())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EN
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMELENGTH
 						.replaceAll("\\{MIN\\}", ConfigHandler.getNode("others", "minNationNameLength").getString())
 						.replaceAll("\\{MAX\\}", ConfigHandler.getNode("others", "maxNationNameLength").getString())));
 				return CommandResult.success();
@@ -68,13 +68,13 @@ public class NationCreateExecutor implements CommandExecutor
 			
 			if (NationsPlugin.getEcoService() == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DC));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOECO));
 				return CommandResult.success();
 			}
 			Optional<UniqueAccount> optAccount = NationsPlugin.getEcoService().getOrCreateAccount(player.getUniqueId());
 			if (!optAccount.isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DO));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECONOACCOUNT));
 				return CommandResult.success();
 			}
 			BigDecimal price = BigDecimal.valueOf(ConfigHandler.getNode("prices", "nationCreationPrice").getDouble());
@@ -82,14 +82,14 @@ public class NationCreateExecutor implements CommandExecutor
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{
 				src.sendMessage(Text.builder()
-						.append(Text.of(TextColors.RED, LanguageHandler.DE.split("\\{AMOUNT\\}")[0]))
+						.append(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDMONEY.split("\\{AMOUNT\\}")[0]))
 						.append(Utils.formatPrice(TextColors.RED, price))
-						.append(Text.of(TextColors.RED, LanguageHandler.DE.split("\\{AMOUNT\\}")[1])).build());
+						.append(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDMONEY.split("\\{AMOUNT\\}")[1])).build());
 				return CommandResult.success();
 			}
 			else if (result.getResult() != ResultType.SUCCESS)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DN));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECOTRANSACTION));
 				return CommandResult.success();
 			}
 			
@@ -99,18 +99,18 @@ public class NationCreateExecutor implements CommandExecutor
 			Optional<Account> optNationAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
 			if (!optNationAccount.isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EO));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_CREATEECONATION));
 				NationsPlugin.getLogger().error("Could not create nation's account on the economy service !");
 				return CommandResult.success();
 			}
 			optNationAccount.get().setBalance(NationsPlugin.getEcoService().getDefaultCurrency(), BigDecimal.ZERO, NationsPlugin.getCause());
 			DataHandler.addNation(nation);
-			MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.EP.replaceAll("\\{PLAYER\\}", player.getName()).replaceAll("\\{NATION\\}", nation.getName())));
-			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.EQ.replaceAll("\\{NATION\\}", nation.getName())));
+			MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.INFO_NEWNATIONANNOUNCE.replaceAll("\\{PLAYER\\}", player.getName()).replaceAll("\\{NATION\\}", nation.getName())));
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.INFO_NEWNATION.replaceAll("\\{NATION\\}", nation.getName())));
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

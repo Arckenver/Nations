@@ -48,11 +48,11 @@ public class ConfigHandler
 		}
 		catch (IOException e)
 		{
-			NationsPlugin.getLogger().error(LanguageHandler.CY);
+			NationsPlugin.getLogger().error(LanguageHandler.ERROR_CONFIGFILE);
 			e.printStackTrace();
 			if (src != null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CY));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_CONFIGFILE));
 			}
 		}
 		
@@ -177,7 +177,7 @@ public class ConfigHandler
 		save();
 		if (src != null)
 		{
-			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.CZ));
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.INFO_CONFIGRELOADED));
 		}
 	}
 

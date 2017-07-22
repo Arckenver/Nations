@@ -30,28 +30,28 @@ public class NationSetnameExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			if (!nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONSTAFF));
 				return CommandResult.success();
 			}
 			String newName = ctx.<String>getOne("name").get();
 			if (DataHandler.getNation(newName) != null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EL));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMETAKEN));
 				return CommandResult.success();
 			}
 			if (!newName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}\"_\"]*"))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EM));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMEALPHA));
 				return CommandResult.success();
 			}
 			if (newName.length() < ConfigHandler.getNode("others", "minNationNameLength").getInt() || newName.length() > ConfigHandler.getNode("others", "maxNationNameLength").getInt())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EN
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMELENGTH
 						.replaceAll("\\{MIN\\}", ConfigHandler.getNode("others", "minNationNameLength").getString())
 						.replaceAll("\\{MAX\\}", ConfigHandler.getNode("others", "maxNationNameLength").getString())));
 				return CommandResult.success();
@@ -59,13 +59,13 @@ public class NationSetnameExecutor implements CommandExecutor
 			String oldName = nation.getName();
 			nation.setName(newName);
 			DataHandler.saveNation(nation.getUUID());
-			MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.FW
+			MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.INFO_RENAME
 					.replaceAll("\\{OLDNAME\\}", oldName)
 					.replaceAll("\\{NEWNAME\\}", nation.getName())));
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

@@ -33,14 +33,14 @@ public class NationHomeExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 
 			Location<World> spawn = nation.getSpawn("home");
 			if (spawn == null)
 			{
-				src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.HV));
+				src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.ERROR_NOHOME));
 				return CommandResult.success();
 			}
 			if (player.hasPermission("nations.bypass.teleport.warmup")) {
@@ -49,12 +49,12 @@ public class NationHomeExecutor implements CommandExecutor
 				if (!event.isCancelled())
 				{
 					player.setLocation(spawn);
-					src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GC));
+					src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_TELEPORTED));
 				}
 				return CommandResult.success();
 			}
 			
-			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.HU));
+			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_TELEPORTCOOLDOWN));
 			
 			Scheduler scheduler = Sponge.getScheduler();
 			Task.Builder taskBuilder = scheduler.createTaskBuilder();
@@ -68,14 +68,14 @@ public class NationHomeExecutor implements CommandExecutor
 					if (!event.isCancelled())
 					{
 						player.setLocation(spawn);
-						src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.GC));
+						src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_TELEPORTED));
 					}
 				}
 			}).delay(10, TimeUnit.SECONDS).submit(NationsPlugin.getInstance());
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

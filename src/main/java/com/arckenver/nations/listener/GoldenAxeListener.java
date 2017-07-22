@@ -52,7 +52,7 @@ public class GoldenAxeListener
 			}
 			
 			String coord = secondPoint.getX() + " " + secondPoint.getY() + ")" + ((firstPoint != null) ? " (" + new Rect(firstPoint, secondPoint).size() + ")" : "");
-			player.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.KB.replaceAll("\\{COORD\\}", coord)));
+			player.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.AXE_SECOND.replaceAll("\\{COORD\\}", coord)));
 		}
 	}
 	
@@ -86,7 +86,7 @@ public class GoldenAxeListener
 			}
 			
 			String coord = firstPoint.getX() + " " + firstPoint.getY() + ")" + ((secondPoint != null) ? " (" + new Rect(secondPoint, firstPoint).size() + ")" : "");
-			player.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.KA.replaceAll("\\{COORD\\}", coord)));
+			player.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.AXE_FIRST.replaceAll("\\{COORD\\}", coord)));
 		}
 	}
 }

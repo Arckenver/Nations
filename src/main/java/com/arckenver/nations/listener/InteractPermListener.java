@@ -34,7 +34,7 @@ public class InteractPermListener
 			if (!DataHandler.getPerm("interact", player.getUniqueId(), loc))
 			{
 				event.setCancelled(true);
-				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HI));
+				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_INTERACT));
 			}
 		});
 	}
@@ -64,14 +64,14 @@ public class InteractPermListener
 			if (!DataHandler.getPerm("build", player.getUniqueId(), event.getTargetEntity().getLocation()))
 			{
 				event.setCancelled(true);
-				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
 			}
 			return;
 		}
 		if (!DataHandler.getPerm("interact", player.getUniqueId(), event.getTargetEntity().getLocation()))
 		{
 			event.setCancelled(true);
-			player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HI));
+			player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_INTERACT));
 		}
 	}
 }

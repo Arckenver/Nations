@@ -28,24 +28,24 @@ public class NationadminSetpresExecutor implements CommandExecutor
 		Nation nation = DataHandler.getNation(nationName);
 		if (nation == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CB));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADNATIONNAME));
 			return CommandResult.success();
 		}
 		String presidentName = ctx.<String>getOne("president").get();
 		UUID presidentUUID = DataHandler.getPlayerUUID(presidentName);
 		if (presidentUUID == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CC));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADPLAYERNAME));
 			return CommandResult.success();
 		}
 		if (nation.isPresident(presidentUUID))
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CQ));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PLAYERALREADYPRES));
 			return CommandResult.success();
 		}
 		if (!nation.isCitizen(presidentUUID))
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CR));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PLAYERNOTPARTOFNATION));
 			return CommandResult.success();
 		}
 		UUID oldPresidentUUID = nation.getPresident();
@@ -56,9 +56,9 @@ public class NationadminSetpresExecutor implements CommandExecutor
 		for (UUID citizen : nation.getCitizens())
 		{
 			Sponge.getServer().getPlayer(citizen).ifPresent(
-					p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.FV
+					p -> p.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.INFO_SUCCESSOR
 							.replaceAll("\\{SUCCESSOR\\}", presidentName)
-							.replaceAll("\\{PLAYER\\}", (oldPresidentName == null) ? LanguageHandler.IQ : oldPresidentName))));
+							.replaceAll("\\{PLAYER\\}", (oldPresidentName == null) ? LanguageHandler.FORMAT_UNKNOWN : oldPresidentName))));
 		}
 		
 		return CommandResult.success();

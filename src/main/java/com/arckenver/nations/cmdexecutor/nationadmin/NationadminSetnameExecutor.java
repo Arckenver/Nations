@@ -28,24 +28,24 @@ public class NationadminSetnameExecutor implements CommandExecutor
 		Nation nation = DataHandler.getNation(oldName);
 		if (nation == null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 			return CommandResult.success();
 		}
 		if (DataHandler.getNation(newName) != null)
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EL));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMETAKEN));
 			return CommandResult.success();
 		}
 		if (!newName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}\"_\"]*"))
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EM));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMEALPHA));
 			return CommandResult.success();
 		}
 		if (newName.length() < ConfigHandler.getNode("others", "minNationNameLength").getInt()
 				|| newName.length() > ConfigHandler.getNode("others", "maxNationNameLength").getInt())
 		{
 			src.sendMessage(Text.of(TextColors.RED,
-					LanguageHandler.EN
+					LanguageHandler.ERROR_NAMELENGTH
 							.replaceAll("\\{MIN\\}",
 									ConfigHandler.getNode("others", "minNationNameLength").getString())
 							.replaceAll("\\{MAX\\}",
@@ -55,7 +55,7 @@ public class NationadminSetnameExecutor implements CommandExecutor
 		nation.setName(newName);
 		DataHandler.saveNation(nation.getUUID());
 		MessageChannel.TO_ALL.send(Text.of(TextColors.RED,
-				LanguageHandler.FW.replaceAll("\\{OLDNAME\\}", oldName).replaceAll("\\{NEWNAME\\}", nation.getName())));
+				LanguageHandler.INFO_RENAME.replaceAll("\\{OLDNAME\\}", oldName).replaceAll("\\{NEWNAME\\}", nation.getName())));
 		return CommandResult.success();
 	}
 }

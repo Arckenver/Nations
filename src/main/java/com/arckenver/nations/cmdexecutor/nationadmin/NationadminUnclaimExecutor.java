@@ -37,32 +37,32 @@ public class NationadminUnclaimExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNation(nationName);
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CB));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADNATIONNAME));
 				return CommandResult.success();
 			}
 			Point a = DataHandler.getFirstPoint(player.getUniqueId());
 			Point b = DataHandler.getSecondPoint(player.getUniqueId());
 			if (a == null || b == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EA));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDAXESELECT));
 				return CommandResult.success();
 			}
 			if (!ConfigHandler.getNode("worlds").getNode(a.getWorld().getName()).getNode("enabled").getBoolean())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CS));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PLUGINDISABLEDINWORLD));
 				return CommandResult.success();
 			}
 			Rect rect = new Rect(a, b);
 			if (!nation.getRegion().intersects(rect))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EC));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDINTERSECT));
 				return CommandResult.success();
 			}
 			for (Location<World> spawn : nation.getSpawns().values())
 			{
 				if (rect.isInside(new Vector2i(spawn.getBlockX(), spawn.getBlockZ())))
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.EF));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_AREACONTAINSPAWN));
 					return CommandResult.success();
 				}
 			}
@@ -70,7 +70,7 @@ public class NationadminUnclaimExecutor implements CommandExecutor
 			{
 				if (zone.getRect().intersects(rect))
 				{
-					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.HF));
+					src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_SELECTIONCONTAINZONE));
 					return CommandResult.success();
 				}
 			}
@@ -80,11 +80,11 @@ public class NationadminUnclaimExecutor implements CommandExecutor
 			nation.setRegion(claimed);
 			DataHandler.addToWorldChunks(nation);
 			DataHandler.saveNation(nation.getUUID());
-			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.HL));
+			src.sendMessage(Text.of(TextColors.AQUA, LanguageHandler.SUCCESS_GENERAL));
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}
