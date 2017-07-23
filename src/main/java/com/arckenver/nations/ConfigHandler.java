@@ -80,6 +80,7 @@ public class ConfigHandler
 		Utils.ensureBoolean(config.getNode("others", "enableGoldenAxe"), true);
 		Utils.ensureString(config.getNode("others", "publicChatFormat"), " &r[&3{NATION}&r] &5{TITLE}&r");
 		Utils.ensureString(config.getNode("others", "nationChatFormat"), " &r{&e{NATION}&r}");
+		Utils.ensureString(config.getNode("others", "nationSpyChatTag"), " &r[&cSPY&r]");
 		
 
 		Utils.ensureBoolean(config.getNode("nations", "canEditTaxes"), true);

@@ -49,7 +49,7 @@ public class NationChatExecutor implements CommandExecutor
 				
 				Text msg = Text.of(header, " ", TextColors.RESET, player.getName(), TextColors.WHITE, ": ", TextColors.YELLOW, ctx.<String>getOne("msg").get());
 				channel.send(player, msg);
-				DataHandler.getSpyChannel().send(Text.of(TextColors.WHITE, " [", TextColors.RED, "SPY", TextColors.WHITE,  "]", msg));
+				DataHandler.getSpyChannel().send(Text.of(TextSerializers.FORMATTING_CODE.deserialize(ConfigHandler.getNode("others", "nationSpyChatTag").getString()), TextColors.RESET, msg));
 			}
 
 		}
