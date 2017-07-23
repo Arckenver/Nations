@@ -78,8 +78,8 @@ public class ConfigHandler
 		Utils.ensureBoolean(config.getNode("others", "enableNationTag"), true);
 		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");
 		Utils.ensureBoolean(config.getNode("others", "enableGoldenAxe"), true);
-		Utils.ensureString(config.getNode("others", "publicChatFormat"), " &r[&3{NATION}&r] &5{TITLE}&r");
-		Utils.ensureString(config.getNode("others", "nationChatFormat"), " &r{&e{NATION}&r}");
+		Utils.ensureString(config.getNode("others", "publicChatFormat"), " &r[&3{NATION}&r] &5{TITLE} &r");
+		Utils.ensureString(config.getNode("others", "nationChatFormat"), " &r{&eNC&r} ");
 		Utils.ensureString(config.getNode("others", "nationSpyChatTag"), " &r[&cSPY&r]");
 		
 		
@@ -87,7 +87,7 @@ public class ConfigHandler
 		Utils.ensureString(config.getNode("toast", "nation"), "&3{NATION}{FORMATPRESIDENT} &7- {FORMATPVP}");
 		Utils.ensureString(config.getNode("toast", "zone"), "&3{NATION}{FORMATPRESIDENT} &7~ {FORMATZONENAME}{FORMATZONEOWNER}{FORMATZONEPRICE}{FORMATPVP}");
 		
-		Utils.ensureString(config.getNode("toast", "formatPresident"), "&7 - &e{TITLE}{NAME}");
+		Utils.ensureString(config.getNode("toast", "formatPresident"), "&7 - &e{TITLE} {NAME}");
 		Utils.ensureString(config.getNode("toast", "formatZoneName"), "&a{ARG} &7-");
 		Utils.ensureString(config.getNode("toast", "formatZoneOwner"), "&e{ARG} &7-");
 		Utils.ensureString(config.getNode("toast", "formatZonePrice"), "&e[{ARG}] &7-");

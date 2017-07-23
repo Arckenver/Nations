@@ -47,7 +47,7 @@ public class NationChatExecutor implements CommandExecutor
 			{
 				Text header = TextSerializers.FORMATTING_CODE.deserialize(ConfigHandler.getNode("others", "nationChatFormat").getString().replaceAll("\\{NATION\\}", nation.getTag()).replaceAll("\\{TITLE\\}", DataHandler.getCitizenTitle(player.getUniqueId())));
 				
-				Text msg = Text.of(header, " ", TextColors.RESET, player.getName(), TextColors.WHITE, ": ", TextColors.YELLOW, ctx.<String>getOne("msg").get());
+				Text msg = Text.of(header, TextColors.RESET, player.getName(), TextColors.WHITE, ": ", TextColors.YELLOW, ctx.<String>getOne("msg").get());
 				channel.send(player, msg);
 				DataHandler.getSpyChannel().send(Text.of(TextSerializers.FORMATTING_CODE.deserialize(ConfigHandler.getNode("others", "nationSpyChatTag").getString()), TextColors.RESET, msg));
 			}
