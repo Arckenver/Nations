@@ -20,6 +20,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.serializer.TextSerializers;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -464,6 +465,11 @@ public class Utils
 	public static Text formatPrice(TextColor color, BigDecimal amount)
 	{
 		return Text.of(color, NationsPlugin.getEcoService().getDefaultCurrency().format(amount));
+	}
+
+	public static String formatPricePlain(BigDecimal amount)
+	{
+		return TextSerializers.FORMATTING_CODE.serialize(NationsPlugin.getEcoService().getDefaultCurrency().format(amount));
 	}
 
 	public static Text formatNationSpawns(Nation nation, TextColor color)

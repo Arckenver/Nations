@@ -245,7 +245,9 @@ public class LanguageHandler
 	public static String ERROR_NOHOME = "No spawn named 'home' found. Make one with /n setspawn home";
 	public static String DEFAULT_ZONENAME = "Unnamed";
 
-	public static String WILDNAME = "Wilderness";
+	public static String TOAST_WILDNAME = "Wilderness";
+	public static String TOAST_PVP = "PvP";
+	public static String TOAST_NOPVP = "No PvP";
 	public static String FORMAT_NATION = "Nation";
 	public static String FORMAT_ZONE = "Zone";
 	public static String FORMAT_SIZE = "Size";
