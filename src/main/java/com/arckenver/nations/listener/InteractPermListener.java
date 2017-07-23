@@ -1,5 +1,6 @@
 package com.arckenver.nations.listener;
 
+import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.hanging.ItemFrame;
 import org.spongepowered.api.entity.living.ArmorStand;
@@ -34,7 +35,8 @@ public class InteractPermListener
 			if (!DataHandler.getPerm("interact", player.getUniqueId(), loc))
 			{
 				event.setCancelled(true);
-				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_INTERACT));
+				if (loc.getBlockType() != BlockTypes.STANDING_SIGN && loc.getBlockType() != BlockTypes.WALL_SIGN)
+					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_INTERACT));
 			}
 		});
 	}
