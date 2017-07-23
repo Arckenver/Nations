@@ -1,27 +1,7 @@
 package com.arckenver.nations;
 
-import java.io.File;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.args.GenericArguments;
-import org.spongepowered.api.command.spec.CommandSpec;
-import org.spongepowered.api.config.ConfigDir;
-import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStartedServerEvent;
-import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
-import org.spongepowered.api.event.service.ChangeServiceProviderEvent;
-import org.spongepowered.api.plugin.Plugin;
-import org.spongepowered.api.service.economy.EconomyService;
-import org.spongepowered.api.text.Text;
+import com.google.common.collect.ImmutableMap;
+import com.google.inject.Inject;
 
 import com.arckenver.nations.cmdelement.CitizenNameElement;
 import com.arckenver.nations.cmdelement.NationNameElement;
@@ -36,8 +16,8 @@ import com.arckenver.nations.cmdexecutor.nation.NationCostExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationCreateExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationDelspawnExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationDepositExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationHelpExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationFlagExecutor;
+import com.arckenver.nations.cmdexecutor.nation.NationHelpExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationHereExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationHomeExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationInfoExecutor;
@@ -56,8 +36,8 @@ import com.arckenver.nations.cmdexecutor.nation.NationSettagExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationSpawnExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationTaxesExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationUnclaimExecutor;
-import com.arckenver.nations.cmdexecutor.nation.NationWithdrawExecutor;
 import com.arckenver.nations.cmdexecutor.nation.NationVisitExecutor;
+import com.arckenver.nations.cmdexecutor.nation.NationWithdrawExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationAdminDelspawnExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationAdminSetspawnExecutor;
 import com.arckenver.nations.cmdexecutor.nationadmin.NationadminClaimExecutor;
@@ -114,10 +94,31 @@ import com.arckenver.nations.listener.PvpListener;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.service.NationsService;
 import com.arckenver.nations.task.TaxesCollectRunnable;
-import com.google.common.collect.ImmutableMap;
-import com.google.inject.Inject;
 
-@Plugin(id = "nations", name = "Nations", version = "2.6", authors={"Arckenver", "Carrot"}, description = "A towny-like worldguard-like zone managment plugin.", url="https://github.com/Arckenver/Nations")
+import org.slf4j.Logger;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.config.ConfigDir;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GameStartedServerEvent;
+import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
+import org.spongepowered.api.event.service.ChangeServiceProviderEvent;
+import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.service.economy.EconomyService;
+import org.spongepowered.api.text.Text;
+
+import java.io.File;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+@Plugin(id = "nations", name = "Nations", version = "2.6", authors={"Arckenver", "Carrot", "RandomByte"}, description = "A towny-like worldguard-like zone managment plugin.", url="https://github.com/Arckenver/Nations")
 public class NationsPlugin
 {
 	private File rootDir;
