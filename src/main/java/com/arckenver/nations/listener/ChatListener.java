@@ -41,8 +41,8 @@ public class ChatListener
 		}
 		else if (chan instanceof NationMessageChannel)
 		{
-			e.setMessage(TextSerializers.FORMATTING_CODE.deserialize(ConfigHandler.getNode("others", "nationChatFormat").getString().replaceAll("\\{NATION\\}", nation.getTag()).replaceAll("\\{TITLE\\}", DataHandler.getCitizenTitle(p.getUniqueId()))), Text.of(TextColors.YELLOW, e.getMessage()));
-			DataHandler.getSpyChannel().send(p, Text.of(TextColors.WHITE, " [", TextColors.RED, "SPY", TextColors.WHITE,  "]", TextColors.RESET, e.getMessage()));
+			e.setMessage(Text.of(TextSerializers.FORMATTING_CODE.deserialize(ConfigHandler.getNode("others", "nationChatFormat").getString().replaceAll("\\{NATION\\}", nation.getTag()).replaceAll("\\{TITLE\\}", DataHandler.getCitizenTitle(p.getUniqueId()))), TextColors.YELLOW, e.getMessage()));
+			DataHandler.getSpyChannel().send(p, Text.of(TextSerializers.FORMATTING_CODE.deserialize(ConfigHandler.getNode("others", "nationSpyChatTag").getString()), TextColors.RESET, e.getMessage()));
 		}
 	}
 }

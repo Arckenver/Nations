@@ -7,7 +7,7 @@ import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.chat.ChatTypes;
-import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.serializer.TextSerializers;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -52,44 +52,58 @@ public class PlayerMoveListener
 		DataHandler.setLastNationWalkedOn(player.getUniqueId(), nation);
 		DataHandler.setLastZoneWalkedOn(player.getUniqueId(), zone);
 
-		Text.Builder builder = Text.builder();
+		String toast;
 
-		builder.append((nation == null) ? Text.of(TextColors.DARK_GREEN, LanguageHandler.WILDNAME) : Utils.nationClickable(TextColors.DARK_PURPLE, nation.getName()));
-		if (nation != null && !nation.isAdmin())
-		{
-			builder.append(Text.of(TextColors.GRAY, " - "));
-			builder.append(Text.of(TextColors.YELLOW, DataHandler.getCitizenTitle(nation.getPresident()), " ", Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident()))));
+		if (nation == null) {
+			toast = ConfigHandler.getNode("toast", "wild").getString();
+		} else {
+			toast = (zone == null ? ConfigHandler.getNode("toast", "nation").getString() : ConfigHandler.getNode("toast", "zone").getString());
 		}
-		if (zone != null)
-		{
-			builder.append(Text.of(TextColors.GRAY, " ~ "));
+		
+		String formatPresident = "";
+		
+		if (nation != null && !nation.isAdmin()) {
+			formatPresident = ConfigHandler.getNode("toast", "formatPresident").getString()
+					.replaceAll("\\{TITLE\\}", DataHandler.getCitizenTitle(nation.getPresident()))
+					.replaceAll("\\{NAME\\}", DataHandler.getPlayerName(nation.getPresident()));
+		}
+		
+		String formatZoneName = "";
+		String formatZoneOwner = "";
+		String formatZonePrice = "";
+		
+		if (zone != null) {
 			if (zone.isNamed())
-			{
-				builder.append(Utils.zoneClickable(TextColors.GREEN, zone.getName()));
-				builder.append(Text.of(TextColors.GRAY, " - "));
-			}
+				formatZoneName = ConfigHandler.getNode("toast", "formatZoneName").getString().replaceAll("\\{ARG\\}", zone.getName()) + " ";
 			if (zone.isOwned())
-			{
-				builder.append(Utils.citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(zone.getOwner())));
-				builder.append(Text.of(TextColors.GRAY, " - "));
-			}
+				formatZoneOwner = ConfigHandler.getNode("toast", "formatZoneOwner").getString().replaceAll("\\{ARG\\}", DataHandler.getPlayerName(zone.getOwner())) + " ";
 			if (zone.isForSale())
-			{
-				builder.append(
-						Text.of(TextColors.YELLOW, "["),
-						Utils.formatPrice(TextColors.YELLOW, zone.getPrice()),
-						Text.of(TextColors.YELLOW, "]"),
-						Text.of(TextColors.GRAY, " - ")
-						);
-			}
+				formatZonePrice = ConfigHandler.getNode("toast", "formatZonePrice").getString().replaceAll("\\{ARG\\}", Utils.formatPricePlain(zone.getPrice())) + " ";
 		}
-		else
-		{
-			builder.append(Text.of(TextColors.GRAY, " - "));
+		
+		String formatPvp;
+		
+		if (DataHandler.getFlag("pvp", loc)) {
+			formatPvp = ConfigHandler.getNode("toast", "formatPvp").getString().replaceAll("\\{ARG\\}", LanguageHandler.TOAST_PVP);
+		} else {
+			formatPvp = ConfigHandler.getNode("toast", "formatNoPvp").getString().replaceAll("\\{ARG\\}", LanguageHandler.TOAST_NOPVP);
 		}
-		builder.append((DataHandler.getFlag("pvp", loc)) ? Text.of(TextColors.DARK_RED, "(PvP)") : Text.of(TextColors.DARK_GREEN, "(No PvP)"));
+		
+		if (nation != null) {
+			toast = toast.replaceAll("\\{NATION\\}", nation.getName());
+		} else {
+			toast = toast.replaceAll("\\{WILD\\}", LanguageHandler.TOAST_WILDNAME);
+		}
 
-		player.sendMessage(ChatTypes.ACTION_BAR, builder.build());
-		MessageChannel.TO_CONSOLE.send(Text.of(player.getName(), " entered area ", builder.build()));
+
+		Text finalToast = TextSerializers.FORMATTING_CODE.deserialize(toast
+				.replaceAll("\\{FORMATPRESIDENT\\}", formatPresident)
+				.replaceAll("\\{FORMATZONENAME\\}", formatZoneName)
+				.replaceAll("\\{FORMATZONEOWNER\\}", formatZoneOwner)
+				.replaceAll("\\{FORMATZONEPRICE\\}", formatZonePrice)
+				.replaceAll("\\{FORMATPVP\\}", formatPvp));
+
+		player.sendMessage(ChatTypes.ACTION_BAR, finalToast);
+		MessageChannel.TO_CONSOLE.send(Text.of(player.getName(), " entered area ", finalToast));
 	}
 }
