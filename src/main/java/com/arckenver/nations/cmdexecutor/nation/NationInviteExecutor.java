@@ -82,7 +82,7 @@ public class NationInviteExecutor implements CommandExecutor
 							.build())
 					.append(Text.of(TextColors.AQUA, str.split("\\{CLICKHERE\\}")[1])).build());
 
-			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.INFO_INVITSEND.replaceAll("\\{RECEIVER\\}", guestPlayer.getName())));
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.INFO_INVITESENT.replaceAll("\\{RECEIVER\\}", guestPlayer.getName())));
 		}
 		else
 		{
