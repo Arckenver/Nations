@@ -2,6 +2,7 @@ package com.arckenver.nations.listener;
 
 import java.util.Optional;
 
+import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.InteractBlockEvent;
@@ -18,7 +19,6 @@ import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
 import com.arckenver.nations.object.Point;
 import com.arckenver.nations.object.Rect;
-import org.spongepowered.api.data.type.HandTypes;
 
 public class GoldenAxeListener
 {
