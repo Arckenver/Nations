@@ -22,28 +22,28 @@ public class NationListExecutor implements CommandExecutor
 {
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
-	List<Text> contents = new ArrayList<>();
-	Iterator<Nation> iter = DataHandler.getNations().values().iterator();
-	if (!iter.hasNext())
-	{
-		contents.add(Text.of(TextColors.YELLOW, LanguageHandler.ERROR_NONATIONYET));
-	}
-	else
-	{
-		while (iter.hasNext())
+		List<Text> contents = new ArrayList<>();
+		Iterator<Nation> iter = DataHandler.getNations().values().iterator();
+		if (!iter.hasNext())
 		{
-			Nation nation = iter.next();
-			if (!nation.isAdmin() || src.hasPermission("nations.admin.nation.listall"))
+			contents.add(Text.of(TextColors.YELLOW, LanguageHandler.ERROR_NONATIONYET));
+		}
+		else
+		{
+			while (iter.hasNext())
 			{
-				contents.add(Text.of(Utils.nationClickable(TextColors.YELLOW, nation.getRealName()), TextColors.GOLD, " [" + nation.getNumCitizens() + "]"));
+				Nation nation = iter.next();
+				if (!nation.isAdmin() || src.hasPermission("nations.admin.nation.listall"))
+				{
+					contents.add(Text.of(Utils.nationClickable(TextColors.YELLOW, nation.getRealName()), TextColors.GOLD, " [" + nation.getNumCitizens() + "]"));
+				}
 			}
 		}
-	}
-	PaginationList.builder()
-    .title(Text.of(TextColors.GOLD, "{ ", TextColors.YELLOW, LanguageHandler.HEADER_NATIONLIST, TextColors.GOLD, " }"))
-    .contents(contents)
-    .padding(Text.of("-"))
-    .sendTo(src);
-	return CommandResult.success();
+		PaginationList.builder()
+		.title(Text.of(TextColors.GOLD, "{ ", TextColors.YELLOW, LanguageHandler.HEADER_NATIONLIST, TextColors.GOLD, " }"))
+		.contents(contents)
+		.padding(Text.of("-"))
+		.sendTo(src);
+		return CommandResult.success();
 	}
 }
