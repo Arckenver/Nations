@@ -55,6 +55,7 @@ public class Nation
 	{
 		this.uuid = uuid;
 		this.name = name;
+		this.tag = null;
 		this.isAdmin = isAdmin;
 		this.spawns = new Hashtable<String, Location<World>>();
 		this.region = new Region();
