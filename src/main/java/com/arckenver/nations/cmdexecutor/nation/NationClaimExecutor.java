@@ -8,6 +8,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.economy.account.Account;
 import org.spongepowered.api.service.economy.transaction.ResultType;
@@ -27,6 +28,23 @@ import com.arckenver.nations.object.Region;
 
 public class NationClaimExecutor implements CommandExecutor
 {
+	public static void create(CommandSpec.Builder cmd) {
+		CommandSpec subCmd = CommandSpec.builder()
+		.description(Text.of(""))
+		.permission("nations.command.nation.claim.outpost")
+		.arguments()
+		.executor(new NationClaimOutpostExecutor())
+		.build();
+		
+		cmd.child(CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.claim")
+				.arguments()
+				.executor(new NationClaimExecutor())
+				.child(subCmd, "outpost", "o")
+				.build(), "claim");
+	}
+
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
 		if (src instanceof Player)

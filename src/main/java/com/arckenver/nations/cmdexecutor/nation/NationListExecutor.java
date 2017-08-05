@@ -9,6 +9,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -20,6 +21,15 @@ import com.arckenver.nations.object.Nation;
 
 public class NationListExecutor implements CommandExecutor
 {
+	public static void create(CommandSpec.Builder cmd) {
+		cmd.child(CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.list")
+				.arguments()
+				.executor(new NationListExecutor())
+				.build(), "list", "l");
+	}
+
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
 		List<Text> contents = new ArrayList<>();

@@ -7,18 +7,37 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
+import com.arckenver.nations.cmdelement.PlayerNameElement;
 import com.arckenver.nations.object.Nation;
 import com.arckenver.nations.object.Zone;
+import com.google.common.collect.ImmutableMap;
 
 public class ZoneCoownerExecutor implements CommandExecutor
 {
+	public static void create(CommandSpec.Builder cmd) {
+		cmd.child(CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.zone.coowner")
+				.arguments(
+						GenericArguments.optional(GenericArguments.choices(Text.of("add|remove"),
+								ImmutableMap.<String, String> builder()
+										.put("add", "add")
+										.put("remove", "remove")
+										.build())),
+						GenericArguments.optional(new PlayerNameElement(Text.of("citizen"))))
+				.executor(new ZoneCoownerExecutor())
+				.build(), "coowner");
+	}
+
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
 		if (src instanceof Player)

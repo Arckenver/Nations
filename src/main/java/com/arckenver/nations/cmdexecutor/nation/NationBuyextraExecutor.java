@@ -7,7 +7,9 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.economy.account.Account;
 import org.spongepowered.api.service.economy.transaction.ResultType;
@@ -24,6 +26,15 @@ import com.arckenver.nations.object.Nation;
 
 public class NationBuyextraExecutor implements CommandExecutor
 {
+	public static void create(CommandSpec.Builder cmd) {
+		cmd.child(CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.buyextra")
+				.arguments(GenericArguments.optional(GenericArguments.integer(Text.of("amount"))))
+				.executor(new NationBuyextraExecutor())
+				.build(), "buyextra");
+	}
+
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
 		if (src instanceof Player)
@@ -52,7 +63,7 @@ public class NationBuyextraExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOMOREBLOCK.replaceAll("\\{NUM\\}", Integer.toString(maxToBuy))));
 				return CommandResult.success();
 			}
-			
+
 			if (NationsPlugin.getEcoService() == null)
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOECO));
@@ -80,7 +91,7 @@ public class NationBuyextraExecutor implements CommandExecutor
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECOTRANSACTION));
 				return CommandResult.success();
 			}
-			
+
 			nation.addExtras(n);
 			DataHandler.saveNation(nation.getUUID());
 			String[] splited2 = LanguageHandler.SUCCESS_ADDBLOCKS.replaceAll("\\{NUM\\}", Integer.toString(n)).split("\\{AMOUNT\\}");
