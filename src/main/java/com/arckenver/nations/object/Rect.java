@@ -139,7 +139,7 @@ public class Rect
 		return points;
 	}
 
-	public int distance2(Vector2i point)
+	public float distance(Vector2i point)
 	{
 		if (isInside(point))
 		{
@@ -147,11 +147,11 @@ public class Rect
 		}
 		return Math.min(
 				Math.min(
-						point.distanceSquared(new Vector2i(minX, minY)),
-						point.distanceSquared(new Vector2i(minX, maxY))),
+						point.distance(new Vector2i(minX, minY)),
+						point.distance(new Vector2i(minX, maxY))),
 				Math.min(
-						point.distanceSquared(new Vector2i(maxX, minY)),
-						point.distanceSquared(new Vector2i(maxX, maxY))));
+						point.distance(new Vector2i(maxX, minY)),
+						point.distance(new Vector2i(maxX, maxY))));
 	}
 
 	public boolean isAdjacent(Rect rect)

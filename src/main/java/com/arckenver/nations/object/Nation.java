@@ -29,6 +29,7 @@ public class Nation
 	
 	private UUID uuid;
 	private String name;
+	private String tag;
 	private boolean isAdmin;
 	private Hashtable<String, Location<World>> spawns;
 	private Region region;
@@ -39,6 +40,7 @@ public class Nation
 	private Hashtable<String, Boolean> flags;
 	private Hashtable<UUID, Zone> zones;
 	private int extras;
+	private int extraspawns;
 	private double taxes;
 	
 	private NationMessageChannel channel = new NationMessageChannel();
@@ -53,6 +55,7 @@ public class Nation
 	{
 		this.uuid = uuid;
 		this.name = name;
+		this.tag = null;
 		this.isAdmin = isAdmin;
 		this.spawns = new Hashtable<String, Location<World>>();
 		this.region = new Region();
@@ -79,6 +82,7 @@ public class Nation
 		}};
 		this.zones = new Hashtable<UUID, Zone>();
 		this.extras = 0;
+		this.extraspawns = 0;
 		this.taxes = ConfigHandler.getNode("nations", "defaultTaxes").getDouble();
 	}
 
@@ -105,6 +109,23 @@ public class Nation
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	
+	public boolean hasTag()
+	{
+		return tag != null;
+	}
+
+	public String getTag()
+	{
+		if (tag == null)
+			return getName();
+		return tag;
+	}
+	
+	public void setTag(String tag)
+	{
+		this.tag = tag;
 	}
 
 	public boolean isAdmin()
@@ -151,7 +172,35 @@ public class Nation
 	{
 		return spawns.size();
 	}
+	
+	public int getMaxSpawns()
+	{
+		return ConfigHandler.getNode("others", "maxNationSpawns").getInt() + extraspawns;
+	}
 
+	public int getExtraSpawns() {
+		return extraspawns;
+	}
+	
+	public void setExtraSpawns(int extraspawns)
+	{
+		this.extraspawns = extraspawns;
+		if (this.extraspawns < 0)
+			this.extraspawns = 0;
+	}
+
+	public void addExtraSpawns(int extraspawns)
+	{
+		this.extraspawns += extraspawns;
+	}
+
+	public void removeExtraSpawns(int extraspawns)
+	{
+		this.extraspawns -= extraspawns;
+		if (this.extraspawns < 0)
+			this.extraspawns = 0;
+	}
+	
 	public Region getRegion()
 	{
 		return region;
@@ -331,11 +380,20 @@ public class Nation
 	public void setExtras(int extras)
 	{
 		this.extras = extras;
+		if (this.extras < 0)
+			this.extras = 0;
 	}
 
 	public void addExtras(int extras)
 	{
 		this.extras += extras;
+	}
+
+	public void removeExtras(int extras)
+	{
+		this.extras -= extras;
+		if (this.extras < 0)
+			this.extras = 0;
 	}
 
 	public int maxBlockSize()
@@ -347,4 +405,5 @@ public class Nation
 	{
 		return channel;
 	}
+
 }

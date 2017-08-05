@@ -20,6 +20,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.serializer.TextSerializers;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -87,7 +88,7 @@ public class Utils
 				Text.of(TextColors.YELLOW,
 						((ConfigHandler.getNode("others", "enableNationRanks").getBoolean()) 
 								? ConfigHandler.getNationRank(nation.getNumCitizens()).getNode("nationTitle").getString()
-										: LanguageHandler.IB)
+										: LanguageHandler.FORMAT_NATION)
 						+ " - " + nation.getName()),
 				Text.of(TextColors.GOLD, " }----------\n"));
 
@@ -103,126 +104,130 @@ public class Utils
 				}
 			}
 			builder.append(
-					Text.of(TextColors.GOLD, LanguageHandler.ID + ": "),
+					Text.of(TextColors.GOLD, LanguageHandler.FORMAT_SIZE + ": "),
 					Text.of(TextColors.YELLOW, nation.getRegion().size() + "/" + nation.maxBlockSize()),
-					Text.of(TextColors.GOLD, "\n" + LanguageHandler.IE + ": "),
-					((balance == null) ? Text.of(TextColors.GRAY, LanguageHandler.IQ) : formatPrice(TextColors.YELLOW, balance)),
-					Text.of(TextColors.GOLD, "\n" + LanguageHandler.IV + ": "),
+					Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_MONEY + ": "),
+					((balance == null) ? Text.of(TextColors.GRAY, LanguageHandler.FORMAT_UNKNOWN) : formatPrice(TextColors.YELLOW, balance)),
+					Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_TAXES + ": "),
 					formatPrice(TextColors.YELLOW, BigDecimal.valueOf(nation.getTaxes())),
-					Text.of(TextColors.GOLD, "\n" + LanguageHandler.IW + ": "),
+					Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_UPKEEP + ": "),
 					formatPrice(TextColors.YELLOW, BigDecimal.valueOf(nation.getUpkeep())),
-					Text.of(TextColors.GOLD, "\n" + LanguageHandler.IG + ": ", TextColors.YELLOW, formatNationSpawns(nation, TextColors.YELLOW, clicker)),
-					Text.of(TextColors.GOLD, "\n" + LanguageHandler.IH + ": "),
+					Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_SPAWN + "(", TextColors.YELLOW, + nation.getNumSpawns() + "/" + nation.getMaxSpawns(), TextColors.GOLD, "): ", TextColors.YELLOW, formatNationSpawns(nation, TextColors.YELLOW, clicker)),
+					Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_PRESIDENT + ": "),
 					citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(nation.getPresident())),
-					Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+					Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.II + ": "));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_MINISTERS + ": "));
 			structureX(
 					nation.getMinisters().iterator(),
 					builder,
-					(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
+					(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.FORMAT_NONE)),
 					(b, uuid) -> b.append(citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(uuid))),
 					(b) -> b.append(Text.of(TextColors.YELLOW, ", ")));
-			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IJ + ": "));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_CITIZENS + ": "));
 			structureX(
 					nation.getCitizens().iterator(),
 					builder,
-					(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
+					(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.FORMAT_NONE)),
 					(b, uuid) -> b.append(citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(uuid))),
 					(b) -> b.append(Text.of(TextColors.YELLOW, ", ")));
-			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 		}
 		else
 		{
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IY + ": ", TextColors.GREEN, LanguageHandler.JG));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_ADMIN + ": ", TextColors.GREEN, LanguageHandler.VALUE_TRUE));
+			if (nation.getNumSpawns() > 0)
+			{
+				builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_SPAWN + ": ", TextColors.YELLOW, formatNationSpawns(nation, TextColors.YELLOW, clicker)));
+			}
 		}
 
 		if (clicker == CLICKER_NONE)
 		{
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IK + ":\n    " + LanguageHandler.IL + ": "));
-			builder.append(Text.of((nation.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.JD));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_PERMISSIONS + ":\n    " + LanguageHandler.FORMAT_OUTSIDERS + ": "));
+			builder.append(Text.of((nation.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.TYPE_BUILD));
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.of((nation.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.JE));
-			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.IJ + ": "));
-			builder.append(Text.of((nation.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.JD));
+			builder.append(Text.of((nation.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.TYPE_INTERACT));
+			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.FORMAT_CITIZENS + ": "));
+			builder.append(Text.of((nation.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.TYPE_BUILD));
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.of((nation.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.JE));
+			builder.append(Text.of((nation.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.TYPE_INTERACT));
 
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IM + ":"));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_FLAGS + ":"));
 			for (Entry<String, Boolean> e : nation.getFlags().entrySet())
 			{
 				builder.append(Text.of(TextColors.GOLD, "\n    " + StringUtils.capitalize(e.getKey().toLowerCase()) + ": "));
-				builder.append(Text.of((e.getValue()) ? TextColors.YELLOW : TextColors.DARK_GRAY, LanguageHandler.IT));
+				builder.append(Text.of((e.getValue()) ? TextColors.YELLOW : TextColors.DARK_GRAY, LanguageHandler.FLAG_ENABLED));
 				builder.append(Text.of(TextColors.GOLD, "/"));
-				builder.append(Text.of((e.getValue()) ? TextColors.DARK_GRAY : TextColors.YELLOW, LanguageHandler.IU));
+				builder.append(Text.of((e.getValue()) ? TextColors.DARK_GRAY : TextColors.YELLOW, LanguageHandler.FLAG_DISABLED));
 			}
 		}
 		else if (clicker == CLICKER_DEFAULT)
 		{
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IK + ":"));
-			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.IL + ": "));
-			builder.append(Text.builder(LanguageHandler.JD)
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_PERMISSIONS + ":"));
+			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.FORMAT_OUTSIDERS + ": "));
+			builder.append(Text.builder(LanguageHandler.TYPE_BUILD)
 					.color((nation.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/n perm " + Nation.TYPE_OUTSIDER + " " + Nation.PERM_BUILD)).build());
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.builder(LanguageHandler.JE)
+			builder.append(Text.builder(LanguageHandler.TYPE_INTERACT)
 					.color((nation.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/n perm " + Nation.TYPE_OUTSIDER + " " + Nation.PERM_INTERACT)).build());
-			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 
-			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.IJ + ": "));
-			builder.append(Text.builder(LanguageHandler.JD)
+			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.FORMAT_CITIZENS + ": "));
+			builder.append(Text.builder(LanguageHandler.TYPE_BUILD)
 					.color((nation.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/n perm " + Nation.TYPE_CITIZEN + " " + Nation.PERM_BUILD)).build());
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.builder(LanguageHandler.JE)
+			builder.append(Text.builder(LanguageHandler.TYPE_INTERACT)
 					.color((nation.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/n perm " + Nation.TYPE_CITIZEN + " " + Nation.PERM_INTERACT)).build());
-			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IM + ":"));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_FLAGS + ":"));
 			for (Entry<String, Boolean> e : nation.getFlags().entrySet())
 			{
 				builder.append(Text.of(TextColors.GOLD, "\n    " + StringUtils.capitalize(e.getKey().toLowerCase()) + ": "));
-				builder.append(Text.builder(LanguageHandler.IT).color((e.getValue()) ? TextColors.YELLOW : TextColors.DARK_GRAY).onClick(TextActions.runCommand("/n flag " + e.getKey() + " true")).build());
+				builder.append(Text.builder(LanguageHandler.FLAG_ENABLED).color((e.getValue()) ? TextColors.YELLOW : TextColors.DARK_GRAY).onClick(TextActions.runCommand("/n flag " + e.getKey() + " true")).build());
 				builder.append(Text.of(TextColors.GOLD, "/"));
-				builder.append(Text.builder(LanguageHandler.IU).color((e.getValue()) ? TextColors.DARK_GRAY : TextColors.YELLOW).onClick(TextActions.runCommand("/n flag " + e.getKey() + " false")).build());
-				builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+				builder.append(Text.builder(LanguageHandler.FLAG_DISABLED).color((e.getValue()) ? TextColors.DARK_GRAY : TextColors.YELLOW).onClick(TextActions.runCommand("/n flag " + e.getKey() + " false")).build());
+				builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 			}
 		}
 		else if (clicker == CLICKER_ADMIN)
 		{
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IK + ":"));
-			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.IL + ": "));
-			builder.append(Text.builder(LanguageHandler.JD)
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_PERMISSIONS + ":"));
+			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.FORMAT_OUTSIDERS + ": "));
+			builder.append(Text.builder(LanguageHandler.TYPE_BUILD)
 					.color((nation.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/na perm " + nation.getRealName() + " " + Nation.TYPE_OUTSIDER + " " + Nation.PERM_BUILD)).build());
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.builder(LanguageHandler.JE)
+			builder.append(Text.builder(LanguageHandler.TYPE_INTERACT)
 					.color((nation.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/na perm " + nation.getRealName() + " " + Nation.TYPE_OUTSIDER + " " + Nation.PERM_INTERACT)).build());
-			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 
-			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.IJ + ": "));
-			builder.append(Text.builder(LanguageHandler.JD)
+			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.FORMAT_CITIZENS + ": "));
+			builder.append(Text.builder(LanguageHandler.TYPE_BUILD)
 					.color((nation.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/na perm " + nation.getRealName() + " " + Nation.TYPE_CITIZEN + " " + Nation.PERM_BUILD)).build());
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.builder(LanguageHandler.JE)
+			builder.append(Text.builder(LanguageHandler.TYPE_INTERACT)
 					.color((nation.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/na perm " + nation.getRealName() + " " + Nation.TYPE_CITIZEN + " " + Nation.PERM_INTERACT)).build());
-			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IM + ":"));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_FLAGS + ":"));
 			for (Entry<String, Boolean> e : nation.getFlags().entrySet())
 			{
 				builder.append(Text.of(TextColors.GOLD, "\n    " + StringUtils.capitalize(e.getKey().toLowerCase()) + ": "));
-				builder.append(Text.builder(LanguageHandler.IT).color((e.getValue()) ? TextColors.YELLOW : TextColors.DARK_GRAY).onClick(TextActions.runCommand("/na flag " + nation.getRealName() + " " + e.getKey() + " true")).build());
+				builder.append(Text.builder(LanguageHandler.FLAG_ENABLED).color((e.getValue()) ? TextColors.YELLOW : TextColors.DARK_GRAY).onClick(TextActions.runCommand("/na flag " + nation.getRealName() + " " + e.getKey() + " true")).build());
 				builder.append(Text.of(TextColors.GOLD, "/"));
-				builder.append(Text.builder(LanguageHandler.IU).color((e.getValue()) ? TextColors.DARK_GRAY : TextColors.YELLOW).onClick(TextActions.runCommand("/na flag " + nation.getRealName() + " " + e.getKey() + " false")).build());
-				builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+				builder.append(Text.builder(LanguageHandler.FLAG_DISABLED).color((e.getValue()) ? TextColors.DARK_GRAY : TextColors.YELLOW).onClick(TextActions.runCommand("/na flag " + nation.getRealName() + " " + e.getKey() + " false")).build());
+				builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 			}
 		}
 
@@ -234,7 +239,7 @@ public class Utils
 		UUID uuid = DataHandler.getPlayerUUID(name);
 		if (uuid == null)
 		{
-			return Text.of(TextColors.RED, LanguageHandler.IQ);
+			return Text.of(TextColors.RED, LanguageHandler.FORMAT_UNKNOWN);
 		}
 
 		Builder builder = Text.builder("");
@@ -256,28 +261,28 @@ public class Utils
 			}
 		}
 		builder.append(
-				Text.of(TextColors.GOLD, "\n" + LanguageHandler.IE + ": "),
-				((balance == null) ? Text.of(TextColors.GRAY, LanguageHandler.IQ) : Text.builder()
+				Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_MONEY + ": "),
+				((balance == null) ? Text.of(TextColors.GRAY, LanguageHandler.FORMAT_UNKNOWN) : Text.builder()
 						.append(Text.of(TextColors.YELLOW, NationsPlugin.getEcoService().getDefaultCurrency().format(balance)))
 						.append(Text.of(TextColors.YELLOW, NationsPlugin.getEcoService().getDefaultCurrency().getSymbol()))
 						.build())
 				);
 
-		builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IB + ": "));
+		builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_NATION + ": "));
 		Nation nation = DataHandler.getNationOfPlayer(uuid);
 		if (nation != null)
 		{
 			builder.append(nationClickable(TextColors.YELLOW, nation.getRealName()));
 			if (nation.isPresident(uuid))
 			{
-				builder.append(Text.of(TextColors.YELLOW, " (" + LanguageHandler.IH + ")"));
+				builder.append(Text.of(TextColors.YELLOW, " (" + LanguageHandler.FORMAT_PRESIDENT + ")"));
 			}
 			else if (nation.isMinister(uuid))
 			{
-				builder.append(Text.of(TextColors.YELLOW, " (" + LanguageHandler.II + ")"));
+				builder.append(Text.of(TextColors.YELLOW, " (" + LanguageHandler.FORMAT_MINISTERS + ")"));
 			}
 
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IZ + ": "));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_ZONES + ": "));
 			boolean ownNothing = true;
 			for (Zone zone : nation.getZones().values())
 			{
@@ -296,12 +301,12 @@ public class Utils
 			}
 			if (ownNothing)
 			{
-				builder.append(Text.of(TextColors.GRAY, LanguageHandler.IP));
+				builder.append(Text.of(TextColors.GRAY, LanguageHandler.FORMAT_NONE));
 			}
 		}
 		else
 		{
-			builder.append(Text.of(TextColors.GRAY, LanguageHandler.IP));
+			builder.append(Text.of(TextColors.GRAY, LanguageHandler.FORMAT_NONE));
 		}
 
 		return builder.build();
@@ -313,92 +318,92 @@ public class Utils
 		UUID owner = zone.getOwner();
 		builder.append(
 				Text.of(TextColors.GOLD, "----------{ "),
-				Text.of(TextColors.YELLOW, "" + LanguageHandler.IC + " - " + zone.getName()),
+				Text.of(TextColors.YELLOW, "" + LanguageHandler.FORMAT_ZONE + " - " + zone.getName()),
 				Text.of(TextColors.GOLD, " }----------"),
-				Text.of(TextColors.GOLD, "\n" + LanguageHandler.IB + ": "),
+				Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_NATION + ": "),
 				Text.of(TextColors.YELLOW, nation.getName()),
-				Text.of(TextColors.GOLD, "\n" + LanguageHandler.IN + ": "),
-				(owner == null) ? Text.of(TextColors.GRAY, LanguageHandler.IP) : citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(owner)),
-						Text.of(TextColors.GOLD, "\n" + LanguageHandler.IO + ": ")
+				Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_OWNER + ": "),
+				(owner == null) ? Text.of(TextColors.GRAY, LanguageHandler.FORMAT_NONE) : citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(owner)),
+						Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_COOWNER + ": ")
 				);
 		structureX(
 				zone.getCoowners().iterator(),
 				builder,
-				(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
+				(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.FORMAT_NONE)),
 				(b, uuid) -> b.append(citizenClickable(TextColors.YELLOW, DataHandler.getPlayerName(uuid))),
 				(b) -> b.append(Text.of(TextColors.YELLOW, ", ")));
 
 		builder.append(
-				Text.of(TextColors.GOLD, "\n" + LanguageHandler.IF + ": "),
-				(zone.isForSale()) ? formatPrice(TextColors.YELLOW, zone.getPrice()) : Text.of(TextColors.GRAY, LanguageHandler.IR)
+				Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_PRICE + ": "),
+				(zone.isForSale()) ? formatPrice(TextColors.YELLOW, zone.getPrice()) : Text.of(TextColors.GRAY, LanguageHandler.FORMAT_NFS)
 				);
 
 		if (clicker == CLICKER_NONE)
 		{
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IK + ":\n    " + LanguageHandler.IL + ": "));
-			builder.append(Text.of((zone.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.JD));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_PERMISSIONS + ":\n    " + LanguageHandler.FORMAT_OUTSIDERS + ": "));
+			builder.append(Text.of((zone.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.TYPE_BUILD));
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.of((zone.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.JE));
-			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.IJ + ": "));
-			builder.append(Text.of((zone.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.JD));
+			builder.append(Text.of((zone.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.TYPE_INTERACT));
+			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.FORMAT_CITIZENS + ": "));
+			builder.append(Text.of((zone.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.TYPE_BUILD));
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.of((zone.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.JE));
-			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.IO + ": "));
-			builder.append(Text.of((zone.getPerm(Nation.TYPE_COOWNER, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.JD));
+			builder.append(Text.of((zone.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.TYPE_INTERACT));
+			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.FORMAT_COOWNER + ": "));
+			builder.append(Text.of((zone.getPerm(Nation.TYPE_COOWNER, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.TYPE_BUILD));
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.of((zone.getPerm(Nation.TYPE_COOWNER, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.JE));
+			builder.append(Text.of((zone.getPerm(Nation.TYPE_COOWNER, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED, LanguageHandler.TYPE_INTERACT));
 
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IM + ":"));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_FLAGS + ":"));
 			for (Entry<String, Boolean> e : zone.getFlags().entrySet())
 			{
 				builder.append(Text.of(TextColors.GOLD, "\n    " + StringUtils.capitalize(e.getKey().toLowerCase()) + ": "));
-				builder.append(Text.of((e.getValue()) ? TextColors.YELLOW : TextColors.DARK_GRAY, LanguageHandler.IT));
+				builder.append(Text.of((e.getValue()) ? TextColors.YELLOW : TextColors.DARK_GRAY, LanguageHandler.FLAG_ENABLED));
 				builder.append(Text.of(TextColors.GOLD, "/"));
-				builder.append(Text.of((e.getValue()) ? TextColors.DARK_GRAY : TextColors.YELLOW, LanguageHandler.IU));
+				builder.append(Text.of((e.getValue()) ? TextColors.DARK_GRAY : TextColors.YELLOW, LanguageHandler.FLAG_DISABLED));
 			}
 		}
 		else if (clicker == CLICKER_DEFAULT)
 		{
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IK + ":"));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_PERMISSIONS + ":"));
 
-			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.IL + ": "));
-			builder.append(Text.builder(LanguageHandler.JD)
+			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.FORMAT_OUTSIDERS + ": "));
+			builder.append(Text.builder(LanguageHandler.TYPE_BUILD)
 					.color((zone.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/z perm " + Nation.TYPE_OUTSIDER + " " + Nation.PERM_BUILD)).build());
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.builder(LanguageHandler.JE)
+			builder.append(Text.builder(LanguageHandler.TYPE_INTERACT)
 					.color((zone.getPerm(Nation.TYPE_OUTSIDER, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/z perm " + Nation.TYPE_OUTSIDER + " " + Nation.PERM_INTERACT)).build());
-			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 
-			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.IJ + ": "));
-			builder.append(Text.builder(LanguageHandler.JD)
+			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.FORMAT_CITIZENS + ": "));
+			builder.append(Text.builder(LanguageHandler.TYPE_BUILD)
 					.color((zone.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/z perm " + Nation.TYPE_CITIZEN + " " + Nation.PERM_BUILD)).build());
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.builder(LanguageHandler.JE)
+			builder.append(Text.builder(LanguageHandler.TYPE_INTERACT)
 					.color((zone.getPerm(Nation.TYPE_CITIZEN, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/z perm " + Nation.TYPE_CITIZEN + " " + Nation.PERM_INTERACT)).build());
-			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 
-			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.IO + ": "));
-			builder.append(Text.builder(LanguageHandler.JD)
+			builder.append(Text.of(TextColors.GOLD, "\n    " + LanguageHandler.FORMAT_COOWNER + ": "));
+			builder.append(Text.builder(LanguageHandler.TYPE_BUILD)
 					.color((zone.getPerm(Nation.TYPE_COOWNER, Nation.PERM_BUILD)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/z perm " + Nation.TYPE_COOWNER + " " + Nation.PERM_BUILD)).build());
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.builder(LanguageHandler.JE)
+			builder.append(Text.builder(LanguageHandler.TYPE_INTERACT)
 					.color((zone.getPerm(Nation.TYPE_COOWNER, Nation.PERM_INTERACT)) ? TextColors.GREEN : TextColors.RED)
 					.onClick(TextActions.runCommand("/z perm " + Nation.TYPE_COOWNER + " " + Nation.PERM_INTERACT)).build());
-			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 
-			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IM + ":"));
+			builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_FLAGS + ":"));
 			for (Entry<String, Boolean> e : zone.getFlags().entrySet())
 			{
 				builder.append(Text.of(TextColors.GOLD, "\n    " + StringUtils.capitalize(e.getKey().toLowerCase()) + ": "));
-				builder.append(Text.builder(LanguageHandler.IT).color((e.getValue()) ? TextColors.YELLOW : TextColors.DARK_GRAY).onClick(TextActions.runCommand("/z flag " + e.getKey() + " true")).build());
+				builder.append(Text.builder(LanguageHandler.FLAG_ENABLED).color((e.getValue()) ? TextColors.YELLOW : TextColors.DARK_GRAY).onClick(TextActions.runCommand("/z flag " + e.getKey() + " true")).build());
 				builder.append(Text.of(TextColors.GOLD, "/"));
-				builder.append(Text.builder(LanguageHandler.IU).color((e.getValue()) ? TextColors.DARK_GRAY : TextColors.YELLOW).onClick(TextActions.runCommand("/z flag " + e.getKey() + " false")).build());
-				builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+				builder.append(Text.builder(LanguageHandler.FLAG_DISABLED).color((e.getValue()) ? TextColors.DARK_GRAY : TextColors.YELLOW).onClick(TextActions.runCommand("/z flag " + e.getKey() + " false")).build());
+				builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 			}
 		}
 
@@ -417,11 +422,11 @@ public class Utils
 		boolean enabled = ConfigHandler.getNode("worlds").getNode(name).getNode("enabled").getBoolean();
 
 		builder.append(Text.of(TextColors.GOLD, "\nEnabled: "));
-		builder.append(Text.builder(LanguageHandler.IT)
+		builder.append(Text.builder(LanguageHandler.FLAG_ENABLED)
 				.color((enabled) ? TextColors.YELLOW : TextColors.DARK_GRAY)
 				.onClick(TextActions.runCommand("/nw enable " + name)).build());
 		builder.append(Text.of(TextColors.GOLD, "/"));
-		builder.append(Text.builder(LanguageHandler.IU)
+		builder.append(Text.builder(LanguageHandler.FLAG_DISABLED)
 				.color((enabled) ? TextColors.DARK_GRAY : TextColors.YELLOW)
 				.onClick(TextActions.runCommand("/nw disable " + name)).build());
 
@@ -430,28 +435,28 @@ public class Utils
 			return builder.build();
 		}
 
-		builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IK + ": "));
+		builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_PERMISSIONS + ": "));
 
 		boolean canBuild = ConfigHandler.getNode("worlds").getNode(name).getNode("perms", "build").getBoolean();
-		builder.append(Text.builder(LanguageHandler.JD).color((canBuild) ? TextColors.GREEN : TextColors.RED).onClick(TextActions.runCommand("/nw perm " + Nation.PERM_BUILD)).build());
+		builder.append(Text.builder(LanguageHandler.TYPE_BUILD).color((canBuild) ? TextColors.GREEN : TextColors.RED).onClick(TextActions.runCommand("/nw perm " + Nation.PERM_BUILD)).build());
 
 		builder.append(Text.of(TextColors.GOLD, "/"));
 
 		boolean canInteract = ConfigHandler.getNode("worlds").getNode(name).getNode("perms", "interact").getBoolean();
-		builder.append(Text.builder(LanguageHandler.JE).color((canInteract) ? TextColors.GREEN : TextColors.RED).onClick(TextActions.runCommand("/nw perm " + Nation.PERM_INTERACT)).build());
+		builder.append(Text.builder(LanguageHandler.TYPE_INTERACT).color((canInteract) ? TextColors.GREEN : TextColors.RED).onClick(TextActions.runCommand("/nw perm " + Nation.PERM_INTERACT)).build());
 
-		builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+		builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 
-		builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.IM + ":"));
+		builder.append(Text.of(TextColors.GOLD, "\n" + LanguageHandler.FORMAT_FLAGS + ":"));
 		for (Entry<Object, ? extends CommentedConfigurationNode> e : ConfigHandler.getNode("worlds").getNode(name).getNode("flags").getChildrenMap().entrySet())
 		{
 			String flag = e.getKey().toString();
 			boolean b = e.getValue().getBoolean();
 			builder.append(Text.of(TextColors.GOLD, "\n    " + StringUtils.capitalize(flag.toLowerCase()) + ": "));
-			builder.append(Text.builder(LanguageHandler.IT).color((b) ? TextColors.YELLOW : TextColors.DARK_GRAY).onClick(TextActions.runCommand("/nw flag " + flag + " true")).build());
+			builder.append(Text.builder(LanguageHandler.FLAG_ENABLED).color((b) ? TextColors.YELLOW : TextColors.DARK_GRAY).onClick(TextActions.runCommand("/nw flag " + flag + " true")).build());
 			builder.append(Text.of(TextColors.GOLD, "/"));
-			builder.append(Text.builder(LanguageHandler.IU).color((b) ? TextColors.DARK_GRAY : TextColors.YELLOW).onClick(TextActions.runCommand("/nw flag " + flag + " false")).build());
-			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.IX));
+			builder.append(Text.builder(LanguageHandler.FLAG_DISABLED).color((b) ? TextColors.DARK_GRAY : TextColors.YELLOW).onClick(TextActions.runCommand("/nw flag " + flag + " false")).build());
+			builder.append(Text.of(TextColors.DARK_GRAY, " <- " + LanguageHandler.CLICK));
 		}
 
 		return builder.build();
@@ -460,6 +465,11 @@ public class Utils
 	public static Text formatPrice(TextColor color, BigDecimal amount)
 	{
 		return Text.of(color, NationsPlugin.getEcoService().getDefaultCurrency().format(amount));
+	}
+
+	public static String formatPricePlain(BigDecimal amount)
+	{
+		return TextSerializers.FORMATTING_CODE.serialize(NationsPlugin.getEcoService().getDefaultCurrency().format(amount));
 	}
 
 	public static Text formatNationSpawns(Nation nation, TextColor color)
@@ -484,7 +494,7 @@ public class Utils
 			return structureX(
 					nation.getSpawns().keySet().iterator(),
 					Text.builder(),
-					(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
+					(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.FORMAT_NONE)),
 					(b, spawnName) -> b.append(Text.builder(spawnName).color(color).onClick(TextActions.runCommand("/n " + cmd + " " + spawnName)).build()),
 					(b) -> b.append(Text.of(color, ", "))).build();
 		}
@@ -493,14 +503,14 @@ public class Utils
 			return structureX(
 					nation.getSpawns().keySet().iterator(),
 					Text.builder(),
-					(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
+					(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.FORMAT_NONE)),
 					(b, spawnName) -> b.append(Text.builder(spawnName).color(color).onClick(TextActions.runCommand("/n visit " + nation.getRealName() + " " + spawnName)).build()),
 					(b) -> b.append(Text.of(color, ", "))).build();
 		}
 		return structureX(
 				nation.getSpawns().keySet().iterator(),
 				Text.builder(),
-				(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.IP)),
+				(b) -> b.append(Text.of(TextColors.GRAY, LanguageHandler.FORMAT_NONE)),
 				(b, spawnName) -> b.append(Text.builder(spawnName).color(color).build()),
 				(b) -> b.append(Text.of(color, ", "))).build();
 
@@ -512,7 +522,7 @@ public class Utils
 	{
 		if (name == null)
 		{
-			return Text.of(color, LanguageHandler.IQ);
+			return Text.of(color, LanguageHandler.FORMAT_UNKNOWN);
 		}
 		return Text.builder(name.replace("_", " ")).color(color).onClick(TextActions.runCommand("/n info " + name)).build();
 	}
@@ -521,7 +531,7 @@ public class Utils
 	{
 		if (name == null)
 		{
-			return Text.of(color, LanguageHandler.IQ);
+			return Text.of(color, LanguageHandler.FORMAT_UNKNOWN);
 		}
 		return Text.builder(name).color(color).onClick(TextActions.runCommand("/n citizen " + name)).build();
 	}
@@ -530,7 +540,7 @@ public class Utils
 	{
 		if (name == null)
 		{
-			return Text.of(color, LanguageHandler.IQ);
+			return Text.of(color, LanguageHandler.FORMAT_UNKNOWN);
 		}
 		return Text.builder(name.replace("_", " ")).color(color).onClick(TextActions.runCommand("/z info " + name)).build();
 	}
@@ -539,7 +549,7 @@ public class Utils
 	{
 		if (name == null)
 		{
-			return Text.of(color, LanguageHandler.IQ);
+			return Text.of(color, LanguageHandler.FORMAT_UNKNOWN);
 		}
 		return Text.builder(name).color(color).onClick(TextActions.runCommand("/nw info " + name)).build();
 	}

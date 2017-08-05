@@ -7,7 +7,9 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -20,6 +22,15 @@ import com.arckenver.nations.object.Zone;
 
 public class ZoneSellExecutor implements CommandExecutor
 {
+	public static void create(CommandSpec.Builder cmd) {
+		cmd.child(CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.zone.sell")
+				.arguments(GenericArguments.optional(GenericArguments.doubleNum(Text.of("price"))))
+				.executor(new ZoneSellExecutor())
+				.build(), "sell", "forsale", "fs");
+	}
+
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
 		if (src instanceof Player)
@@ -28,18 +39,18 @@ public class ZoneSellExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNation(player.getLocation());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DQ));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDSTANDNATION));
 				return CommandResult.success();
 			}
 			Zone zone = nation.getZone(player.getLocation());
 			if (zone == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GX));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NEEDSTANDZONESELF));
 				return CommandResult.success();
 			}
 			if ((!zone.isOwner(player.getUniqueId()) || nation.isAdmin()) && !nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.GV));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOOWNER));
 				return CommandResult.success();
 			}
 			if (!ctx.<Double>getOne("price").isPresent())
@@ -50,7 +61,7 @@ public class ZoneSellExecutor implements CommandExecutor
 			BigDecimal price = BigDecimal.valueOf(ctx.<Double>getOne("price").get());
 			if (price.compareTo(BigDecimal.ZERO) == -1)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DA));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_BADARG_P));
 				return CommandResult.success();
 			}
 			zone.setPrice(price);
@@ -58,7 +69,7 @@ public class ZoneSellExecutor implements CommandExecutor
 			nation.getCitizens().forEach(
 				uuid -> Sponge.getServer().getPlayer(uuid).ifPresent(
 						p -> {
-							String str = LanguageHandler.DM.replaceAll("\\{PLAYER\\}",  player.getName()).replaceAll("\\{ZONE\\}", zone.getName());
+							String str = LanguageHandler.INFO_ZONEFORSALE.replaceAll("\\{PLAYER\\}",  player.getName()).replaceAll("\\{ZONE\\}", zone.getName());
 							String[] splited = str.split("\\{AMOUNT\\}");
 							src.sendMessage(Text.builder()
 									.append(Text.of(TextColors.AQUA, (splited.length > 0) ? splited[0] : ""))
@@ -68,7 +79,7 @@ public class ZoneSellExecutor implements CommandExecutor
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}
