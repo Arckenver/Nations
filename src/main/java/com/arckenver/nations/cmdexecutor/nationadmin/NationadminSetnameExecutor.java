@@ -36,6 +36,11 @@ public class NationadminSetnameExecutor implements CommandExecutor
 			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMETAKEN));
 			return CommandResult.success();
 		}
+		if (DataHandler.getNationByTag(newName) != null)
+		{
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_TAGTAKEN));
+			return CommandResult.success();
+		}
 		if (!newName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}\"_\"]*"))
 		{
 			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NAMEALPHA));
