@@ -141,8 +141,9 @@ public class NationSerializer implements JsonSerializer<Nation>
 			spawns.add(e.getKey(), loc);
 		}
 		json.add("spawns", spawns);
-
-		json.add("president", new JsonPrimitive(nation.getPresident().toString()));
+		
+		if (nation.getPresident() != null)
+			json.add("president", new JsonPrimitive(nation.getPresident().toString()));
 
 		JsonArray ministersArray = new JsonArray();
 		for (UUID minister : nation.getMinisters())
