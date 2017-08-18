@@ -1,5 +1,6 @@
 package com.arckenver.nations.listener;
 
+import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.hanging.ItemFrame;
 import org.spongepowered.api.entity.living.ArmorStand;
@@ -19,7 +20,7 @@ import com.arckenver.nations.LanguageHandler;
 
 public class InteractPermListener
 {
-	@Listener(order=Order.FIRST)
+	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onInteract(InteractBlockEvent event, @First Player player)
 	{
 		if (!ConfigHandler.getNode("worlds").getNode(player.getWorld().getName()).getNode("enabled").getBoolean())
@@ -34,12 +35,13 @@ public class InteractPermListener
 			if (!DataHandler.getPerm("interact", player.getUniqueId(), loc))
 			{
 				event.setCancelled(true);
-				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HI));
+				if (loc.getBlockType() != BlockTypes.STANDING_SIGN && loc.getBlockType() != BlockTypes.WALL_SIGN)
+					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_INTERACT));
 			}
 		});
 	}
 
-	@Listener(order=Order.FIRST)
+	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onInteract(InteractEntityEvent event, @First Player player)
 	{
 		if (!ConfigHandler.getNode("worlds").getNode(player.getWorld().getName()).getNode("enabled").getBoolean())
@@ -64,14 +66,14 @@ public class InteractPermListener
 			if (!DataHandler.getPerm("build", player.getUniqueId(), event.getTargetEntity().getLocation()))
 			{
 				event.setCancelled(true);
-				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+				player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
 			}
 			return;
 		}
 		if (!DataHandler.getPerm("interact", player.getUniqueId(), event.getTargetEntity().getLocation()))
 		{
 			event.setCancelled(true);
-			player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HI));
+			player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_INTERACT));
 		}
 	}
 }

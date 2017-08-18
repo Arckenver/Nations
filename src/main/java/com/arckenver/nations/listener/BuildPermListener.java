@@ -21,7 +21,7 @@ import org.spongepowered.api.world.World;
 public class BuildPermListener
 {
 
-	@Listener(order=Order.FIRST)
+	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onPlayerPlacesBlock(ChangeBlockEvent.Place event, @First Player player)
 	{
 
@@ -40,14 +40,14 @@ public class BuildPermListener
 				{
 					trans.setValid(false);
 					try {
-						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
 					} catch (Exception e) {}
 				}
 			}
 		}));
 	}
 
-	@Listener(order=Order.FIRST)
+	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onPlayerBreaksBlock(ChangeBlockEvent.Break event, @First Player player)
 	{
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
@@ -63,7 +63,7 @@ public class BuildPermListener
 				if (!DataHandler.getPerm("build", player.getUniqueId(), loc)) {
 					trans.setValid(false);
 					try {
-						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.HH));
+						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
 					} catch (Exception e) {
 					}
 				}
@@ -88,7 +88,7 @@ public class BuildPermListener
 		}
 	}
 
-	@Listener(order=Order.FIRST)
+	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onEntitySpawn(SpawnEntityEvent event, @First Player player, @First EntitySpawnCause entitySpawnCause)
 	{
 		if (!ConfigHandler.getNode("worlds").getNode(event.getEntities().get(0).getWorld().getName()).getNode("enabled").getBoolean())

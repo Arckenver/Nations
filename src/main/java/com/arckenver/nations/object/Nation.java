@@ -29,6 +29,7 @@ public class Nation
 	
 	private UUID uuid;
 	private String name;
+	private String tag;
 	private boolean isAdmin;
 	private Hashtable<String, Location<World>> spawns;
 	private Region region;
@@ -54,6 +55,7 @@ public class Nation
 	{
 		this.uuid = uuid;
 		this.name = name;
+		this.tag = null;
 		this.isAdmin = isAdmin;
 		this.spawns = new Hashtable<String, Location<World>>();
 		this.region = new Region();
@@ -107,6 +109,23 @@ public class Nation
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	
+	public boolean hasTag()
+	{
+		return tag != null;
+	}
+
+	public String getTag()
+	{
+		if (tag == null)
+			return getName();
+		return tag;
+	}
+	
+	public void setTag(String tag)
+	{
+		this.tag = tag;
 	}
 
 	public boolean isAdmin()

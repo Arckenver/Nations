@@ -32,10 +32,10 @@ public class TaxesCollectRunnable implements Runnable
 		}
 		if (NationsPlugin.getEcoService() == null)
 		{
-			NationsPlugin.getLogger().error(LanguageHandler.DC);
+			NationsPlugin.getLogger().error(LanguageHandler.ERROR_NOECO);
 			return;
 		}
-		MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.CL));
+		MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.INFO_UPKEEPANNOUNCE));
 		ArrayList<UUID> nationsToRemove = new ArrayList<UUID>();
 		for (Nation nation : DataHandler.getNations().values())
 		{
@@ -70,7 +70,7 @@ public class TaxesCollectRunnable implements Runnable
 				{
 					citizensToRemove.add(uuid);
 					Sponge.getServer().getPlayer(uuid).ifPresent(p ->
-					p.sendMessage(Text.of(TextColors.RED, LanguageHandler.HQ)));
+					p.sendMessage(Text.of(TextColors.RED, LanguageHandler.INFO_KICKUPKEEP)));
 				}
 				else if (result.getResult() != ResultType.SUCCESS)
 				{
@@ -97,7 +97,7 @@ public class TaxesCollectRunnable implements Runnable
 		{
 			String name = DataHandler.getNation(uuid).getName();
 			DataHandler.removeNation(uuid);
-			MessageChannel.TO_ALL.send(Text.of(TextColors.RED, LanguageHandler.CM.replaceAll("\\{NATION\\}", name)));
+			MessageChannel.TO_ALL.send(Text.of(TextColors.RED, LanguageHandler.INFO_NATIONFAILUPKEEP.replaceAll("\\{NATION\\}", name)));
 		}
 	}
 }

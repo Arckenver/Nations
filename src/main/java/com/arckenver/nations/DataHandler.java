@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.concurrent.TimeUnit;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.spongepowered.api.Sponge;
@@ -36,6 +36,7 @@ import com.arckenver.nations.serializer.NationDeserializer;
 import com.arckenver.nations.serializer.NationSerializer;
 import com.flowpowered.math.vector.Vector2i;
 import com.flowpowered.math.vector.Vector3d;
+import com.flowpowered.math.vector.Vector3i;
 import com.google.common.math.IntMath;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -130,6 +131,18 @@ public class DataHandler
 		for (Nation nation : nations.values())
 		{
 			if (nation.getRealName().equalsIgnoreCase(name))
+			{
+				return nation;
+			}
+		}
+		return null;
+	}
+
+	public static Nation getNationByTag(String tag)
+	{
+		for (Nation nation : nations.values())
+		{
+			if (nation.getTag().equalsIgnoreCase(tag))
 			{
 				return nation;
 			}
@@ -314,14 +327,22 @@ public class DataHandler
 	{
 		if (!ConfigHandler.getNode("others", "enableNationRanks").getBoolean())
 		{
-			return LanguageHandler.IS;
+			return "";
 		}
 		Nation nation = getNationOfPlayer(uuid);
-		if (nation == null || !nation.isPresident(uuid))
+		if (nation == null)
 		{
-			return LanguageHandler.IS;
+			return LanguageHandler.FORMAT_HERMIT;
 		}
-		return ConfigHandler.getNationRank(nation.getNumCitizens()).getNode("presidentTitle").getString();
+		if (nation.isPresident(uuid))
+		{
+			return ConfigHandler.getNationRank(nation.getNumCitizens()).getNode("presidentTitle").getString();
+		}
+		if (nation.isMinister(uuid))
+		{
+			return LanguageHandler.FORMAT_MINISTER;
+		}
+		return LanguageHandler.FORMAT_CITIZEN;
 	}
 
 	public static boolean canClaim(Location<World> loc, boolean ignoreMinDistance)
@@ -485,7 +506,17 @@ public class DataHandler
 
 	public static Point getFirstPoint(UUID uuid)
 	{
-		return firstPoints.get(uuid);
+		if (ConfigHandler.getNode("others", "enableGoldenAxe").getBoolean(true))
+		{
+			return firstPoints.get(uuid);
+		}
+		Optional<Player> player = Sponge.getServer().getPlayer(uuid);
+		if (!player.isPresent())
+		{
+			return null;
+		}
+		Vector3i chunk = player.get().getLocation().getChunkPosition();
+		return new Point(player.get().getWorld(), chunk.getX() * 16, chunk.getZ() * 16);
 	}
 
 	public static void setFirstPoint(UUID uuid, Point point)
@@ -500,7 +531,17 @@ public class DataHandler
 
 	public static Point getSecondPoint(UUID uuid)
 	{
-		return secondPoints.get(uuid);
+		if (ConfigHandler.getNode("others", "enableGoldenAxe").getBoolean(true))
+		{
+			return secondPoints.get(uuid);
+		}
+		Optional<Player> player = Sponge.getServer().getPlayer(uuid);
+		if (!player.isPresent())
+		{
+			return null;
+		}
+		Vector3i chunk = player.get().getLocation().getChunkPosition();
+		return new Point(player.get().getWorld(), chunk.getX() * 16 + 15, chunk.getZ() * 16 + 15);
 	}
 
 	public static void setSecondPoint(UUID uuid, Point point)

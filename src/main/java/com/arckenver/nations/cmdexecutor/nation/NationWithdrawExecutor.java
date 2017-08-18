@@ -7,7 +7,9 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.economy.account.Account;
 import org.spongepowered.api.service.economy.account.UniqueAccount;
@@ -25,6 +27,15 @@ import com.arckenver.nations.object.Nation;
 
 public class NationWithdrawExecutor implements CommandExecutor
 {
+	public static void create(CommandSpec.Builder cmd) {
+		cmd.child(CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nation.withdraw")
+				.arguments(GenericArguments.optional(GenericArguments.doubleNum(Text.of("amount"))))
+				.executor(new NationWithdrawExecutor())
+				.build(), "withdraw", "take");
+	}
+
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
 		if (src instanceof Player)
@@ -39,46 +50,46 @@ public class NationWithdrawExecutor implements CommandExecutor
 			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
 			if (nation == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NONATION));
 				return CommandResult.success();
 			}
 			if (!nation.isStaff(player.getUniqueId()))
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CK));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_NATIONSTAFF));
 				return CommandResult.success();
 			}
 			
 			if (NationsPlugin.getEcoService() == null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DC));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOECO));
 				return CommandResult.success();
 			}
 			Optional<UniqueAccount> optAccount = NationsPlugin.getEcoService().getOrCreateAccount(player.getUniqueId());
 			if (!optAccount.isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DO));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECONOACCOUNT));
 				return CommandResult.success();
 			}
 			Optional<Account> optNationAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
 			if (!optNationAccount.isPresent())
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DD));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECONONATION));
 				return CommandResult.success();
 			}
 			BigDecimal amount = BigDecimal.valueOf(ctx.<Double>getOne("amount").get());
 			TransactionResult result = optNationAccount.get().transfer(optAccount.get(), NationsPlugin.getEcoService().getDefaultCurrency(), amount, NationsPlugin.getCause());
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DI));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOENOUGHMONEYNATION));
 				return CommandResult.success();
 			}
 			else if (result.getResult() != ResultType.SUCCESS)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.DN));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ECOTRANSACTION));
 				return CommandResult.success();
 			}
 			
-			String[] s1 = LanguageHandler.DL.split("\\{AMOUNT\\}");
+			String[] s1 = LanguageHandler.SUCCESS_WITHDRAW.split("\\{AMOUNT\\}");
 			Builder builder = Text.builder();
 			if (s1[0].indexOf("\\{BALANCE\\}") >= 0)
 			{
@@ -99,7 +110,7 @@ public class NationWithdrawExecutor implements CommandExecutor
 		}
 		else
 		{
-			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CA));
+			src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_NOPLAYER));
 		}
 		return CommandResult.success();
 	}

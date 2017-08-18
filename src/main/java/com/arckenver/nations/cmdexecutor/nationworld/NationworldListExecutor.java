@@ -8,6 +8,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Text.Builder;
 import org.spongepowered.api.text.format.TextColors;
@@ -18,12 +19,20 @@ import com.arckenver.nations.Utils;
 
 public class NationworldListExecutor implements CommandExecutor
 {
-	@Override
+	public static void create(CommandSpec.Builder cmd) {
+		cmd.child(CommandSpec.builder()
+				.description(Text.of(""))
+				.permission("nations.command.nationworld.list")
+				.arguments()
+				.executor(new NationworldListExecutor())
+				.build(), "list");
+	}
+
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
 		Builder builder = Text.builder();
 		Iterator<World> iter = Sponge.getServer().getWorlds().iterator();
-		builder.append(Text.of(TextColors.GOLD, "--------{ ", TextColors.YELLOW, LanguageHandler.JC, TextColors.GOLD, " }--------\n"));
+		builder.append(Text.of(TextColors.GOLD, "--------{ ", TextColors.YELLOW, LanguageHandler.HEADER_WORLDLIST, TextColors.GOLD, " }--------\n"));
 		while (iter.hasNext())
 		{
 			World world = iter.next();

@@ -70,7 +70,7 @@ public class Zone
 	public String getName()
 	{
       if (name == null)
-			return LanguageHandler.HX;
+			return LanguageHandler.DEFAULT_ZONENAME;
 		return name.replace("_", " ");
 	}
 	

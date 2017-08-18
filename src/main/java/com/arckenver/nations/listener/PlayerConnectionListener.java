@@ -20,6 +20,8 @@ public class PlayerConnectionListener
 			if (nation != null)
 				nation.getMessageChannel().addMember(player);
 			player.setMessageChannel(MessageChannel.TO_ALL);
+			if (player.hasPermission("nations.admin.spychat"))
+				DataHandler.getSpyChannel().addMember(player);
 		}
 	}
 

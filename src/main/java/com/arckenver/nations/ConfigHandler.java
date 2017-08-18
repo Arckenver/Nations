@@ -48,11 +48,11 @@ public class ConfigHandler
 		}
 		catch (IOException e)
 		{
-			NationsPlugin.getLogger().error(LanguageHandler.CY);
+			NationsPlugin.getLogger().error(LanguageHandler.ERROR_CONFIGFILE);
 			e.printStackTrace();
 			if (src != null)
 			{
-				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.CY));
+				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_CONFIGFILE));
 			}
 		}
 		
@@ -70,11 +70,29 @@ public class ConfigHandler
 		Utils.ensurePositiveNumber(config.getNode("others", "maxExtra"), 5000);
 		Utils.ensurePositiveNumber(config.getNode("others", "minNationNameLength"), 3);
 		Utils.ensurePositiveNumber(config.getNode("others", "maxNationNameLength"), 13);
+		Utils.ensurePositiveNumber(config.getNode("others", "minNationTagLength"), 3);
+		Utils.ensurePositiveNumber(config.getNode("others", "maxNationTagLength"), 5);
 		Utils.ensurePositiveNumber(config.getNode("others", "minZoneNameLength"), 3);
 		Utils.ensurePositiveNumber(config.getNode("others", "maxZoneNameLength"), 13);
 		Utils.ensureBoolean(config.getNode("others", "enableNationRanks"), true);
 		Utils.ensureBoolean(config.getNode("others", "enableNationTag"), true);
-		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");	
+		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");
+		Utils.ensureBoolean(config.getNode("others", "enableGoldenAxe"), true);
+		Utils.ensureString(config.getNode("others", "publicChatFormat"), " &r[&3{NATION}&r] &5{TITLE} &r");
+		Utils.ensureString(config.getNode("others", "nationChatFormat"), " &r{&eNC&r} ");
+		Utils.ensureString(config.getNode("others", "nationSpyChatTag"), " &r[&cSPY&r]");
+		
+		
+		Utils.ensureString(config.getNode("toast", "wild"), "&2{WILD} &7- {FORMATPVP}");
+		Utils.ensureString(config.getNode("toast", "nation"), "&3{NATION}{FORMATPRESIDENT} &7- {FORMATPVP}");
+		Utils.ensureString(config.getNode("toast", "zone"), "&3{NATION}{FORMATPRESIDENT} &7~ {FORMATZONENAME}{FORMATZONEOWNER}{FORMATZONEPRICE}{FORMATPVP}");
+		
+		Utils.ensureString(config.getNode("toast", "formatPresident"), "&7 - &e{TITLE} {NAME}");
+		Utils.ensureString(config.getNode("toast", "formatZoneName"), "&a{ARG} &7-");
+		Utils.ensureString(config.getNode("toast", "formatZoneOwner"), "&e{ARG} &7-");
+		Utils.ensureString(config.getNode("toast", "formatZonePrice"), "&e[{ARG}] &7-");
+		Utils.ensureString(config.getNode("toast", "formatPvp"), "&4({ARG})");
+		Utils.ensureString(config.getNode("toast", "formatNoPvp"), "&2({ARG})");
 		
 
 		Utils.ensureBoolean(config.getNode("nations", "canEditTaxes"), true);
@@ -172,7 +190,7 @@ public class ConfigHandler
 		save();
 		if (src != null)
 		{
-			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.CZ));
+			src.sendMessage(Text.of(TextColors.GREEN, LanguageHandler.INFO_CONFIGRELOADED));
 		}
 	}
 
