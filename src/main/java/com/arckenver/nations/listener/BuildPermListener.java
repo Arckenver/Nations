@@ -24,18 +24,17 @@ public class BuildPermListener
 	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onPlayerPlacesBlock(ChangeBlockEvent.Place event, @First Player player)
 	{
-
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
 		}
+		
 		String graveItem = ConfigHandler.getNode("others", "gravestoneBlock").getString("gravestone:gravestone");
 		event
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			World world=trans.getFinal().getLocation().get().getExtent();
-			if (ConfigHandler.getNode("worlds").getNode(world.getName()).getNode("enabled").getBoolean()&&!trans.getFinal().getState().getType().getId().equals(graveItem)) {
+			if (ConfigHandler.getNode("worlds").getNode(trans.getFinal().getLocation().get().getExtent().getName()).getNode("enabled").getBoolean()&&!trans.getFinal().getState().getType().getId().equals(graveItem)) {
 				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
 				{
 					trans.setValid(false);
