@@ -9,6 +9,7 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
 
 import com.arckenver.nations.ConfigHandler;
+import com.arckenver.nations.LanguageHandler;
 
 public class NationadminReloadExecutor implements CommandExecutor
 {
@@ -23,6 +24,7 @@ public class NationadminReloadExecutor implements CommandExecutor
 
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
+		LanguageHandler.load();
 		ConfigHandler.load(src);
 		return CommandResult.success();
 	}
