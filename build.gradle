@@ -1,24 +1,11 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-
-targetCompatibility = "1.8"
-sourceCompatibility = "1.8"
-version = '6.0.0-2.7'
-jar {
-    manifest {
-        attributes 'Implementation-Title': 'Nations',
-                   'Implementation-Version': version
-    }
+plugins {
+    id 'org.spongepowered.plugin' version '0.8.1'
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        name = 'sponge'
-        url = 'http://repo.spongepowered.org/maven'
-    }
-}
+group = 'com.carrot'
+version = '6.1.0-1.10'
+description = 'A towny-like worldguard-like zone managment plugin'
 
 dependencies {
-	compile 'org.spongepowered:spongeapi:6.0.0-20170429.164526-80'
+    compile 'org.spongepowered:spongeapi:6.1.0-20170814.171949-4'
 }
