@@ -56,7 +56,7 @@ public class NationCmds {
 	{
 		path = path.concat(".");
 		try {
-			JarFile jarFile = new JarFile(NationsPlugin.class.getProtectionDomain().getCodeSource().getLocation().toString().split("!")[0].split(":")[2]);
+			JarFile jarFile = new JarFile(NationsPlugin.class.getProtectionDomain().getCodeSource().getLocation().toString().split("!")[0].replaceFirst("jar:file:", ""));
 			Enumeration<JarEntry> entries = jarFile.entries();
 			while (entries.hasMoreElements())
 			{
