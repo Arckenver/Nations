@@ -142,6 +142,6 @@ public class NationsPlugin
 
 	public static Cause getCause()
 	{
-		return Cause.source(NationsPlugin.getInstance()).build();
+		return Sponge.getCauseStackManager().getCurrentCause();
 	}
 }

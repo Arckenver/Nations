@@ -7,5 +7,6 @@ version = '2.8-S7.0-MC1.12.1'
 description = 'A towny-like worldguard-like zone managment plugin'
 
 dependencies {
-    compile 'org.spongepowered:spongeapi:7.0.0-20170814.193824-33'
+    compile 'org.spongepowered:spongeapi:7.0.0-20170916.165320-38'
+    compile 'com.google.code.gson:gson:2.8.1'
 }
