@@ -241,14 +241,10 @@ public class ConfigHandler
 	public static boolean isWhitelisted(String type, String id) {
 		if (id.equals("minecraft:air"))
 			return true;
-		System.out.println("isWhitelisted " + type + " for " + id);
 		if (!config.getNode("whitelist", type).hasListChildren())
 			return false;
-		System.out.println("whitelist has childs " + type + " for " + id);
 		for (CommentedConfigurationNode item : config.getNode("whitelist", type).getChildrenList()) {
-			System.out.println("item? " + item.getString());
 			if (id.startsWith(item.getString())) {
-				System.out.println("ALLOWED");
 				return true;
 			}
 		}
