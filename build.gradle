@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.carrot'
-version = '2.8-S6.1-MC1.11.2'
+version = '2.9-S6.1-MC1.11.2'
 description = 'A towny-like worldguard-like zone managment plugin'
 
 dependencies {
