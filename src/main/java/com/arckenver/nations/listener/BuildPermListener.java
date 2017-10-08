@@ -34,17 +34,19 @@ public class BuildPermListener
 			return;
 		}
 		for (Location<World> loc : event.getLocations()) {
-			if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
-			{
-				event.setCancelled(true);
-				try {
-					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
-				} catch (Exception e) {}
-				return;
+			if (!ConfigHandler.isWhitelisted("break", loc.getBlock().getId())) {
+				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
+				{
+					event.setCancelled(true);
+					try {
+						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
+					} catch (Exception e) {}
+					return;
+				}
 			}
 		}
 	}
-	
+
 	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onPlayerPlacesBlock(ChangeBlockEvent.Place event, @First Player player)
 	{
@@ -56,12 +58,11 @@ public class BuildPermListener
 		{
 			return;
 		}
-		String graveItem = ConfigHandler.getNode("others", "gravestoneBlock").getString("gravestone:gravestone");
 		event
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			if (!trans.getFinal().getState().getType().getId().equals(graveItem)) {
+			if (!ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())) {
 				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
 				{
 					trans.setValid(false);
@@ -88,12 +89,14 @@ public class BuildPermListener
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
-			{
-				trans.setValid(false);
-				try {
-					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
-				} catch (Exception e) {}
+			if (!ConfigHandler.isWhitelisted("break", trans.getFinal().getState().getType().getId())) {
+				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
+				{
+					trans.setValid(false);
+					try {
+						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
+					} catch (Exception e) {}
+				}
 			}
 		}));
 	}

@@ -76,7 +76,6 @@ public class ConfigHandler
 		Utils.ensurePositiveNumber(config.getNode("others", "maxZoneNameLength"), 13);
 		Utils.ensureBoolean(config.getNode("others", "enableNationRanks"), true);
 		Utils.ensureBoolean(config.getNode("others", "enableNationTag"), true);
-		Utils.ensureString(config.getNode("others", "gravestoneBlock"), "gravestone:gravestone");
 		Utils.ensureBoolean(config.getNode("others", "enableGoldenAxe"), true);
 		Utils.ensureString(config.getNode("others", "publicChatFormat"), " &r[&3{NATION}&r] &5{TITLE} &r");
 		Utils.ensureString(config.getNode("others", "nationChatFormat"), " &r{&eNC&r} ");
@@ -117,6 +116,22 @@ public class ConfigHandler
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT), true);
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_BUILD), true);
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_INTERACT), true);
+		
+		if (!config.getNode("whitelist", "build").hasListChildren() || config.getNode("whitelist", "build").getChildrenList().isEmpty())
+		{
+			Utils.ensureString(config.getNode("whitelist", "build").getAppendedNode(), "gravestone:gravestone");
+			Utils.ensureString(config.getNode("whitelist", "build").getAppendedNode(), "modname:blockname");
+		}
+		
+		if (!config.getNode("whitelist", "break").hasListChildren() || config.getNode("whitelist", "break").getChildrenList().isEmpty())
+		{
+			Utils.ensureString(config.getNode("whitelist", "break").getAppendedNode(), "modname:blockname");
+		}
+		
+		if (!config.getNode("whitelist", "use").hasListChildren() || config.getNode("whitelist", "use").getChildrenList().isEmpty())
+		{
+			Utils.ensureString(config.getNode("whitelist", "use").getAppendedNode(), "modname:blockname");
+		}
 		
 		if (config.getNode("others", "enableNationRanks").getBoolean())
 		{
@@ -221,6 +236,23 @@ public class ConfigHandler
 						Integer.compare(a.getNode("numCitizens").getInt(), b.getNode("numCitizens").getInt()))
 				.get();
 		return rank;
+	}
+	
+	public static boolean isWhitelisted(String type, String id) {
+		if (id.equals("minecraft:air"))
+			return true;
+		System.out.println("isWhitelisted " + type + " for " + id);
+		if (!config.getNode("whitelist", type).hasListChildren())
+			return false;
+		System.out.println("whitelist has childs " + type + " for " + id);
+		for (CommentedConfigurationNode item : config.getNode("whitelist", type).getChildrenList()) {
+			System.out.println("item? " + item.getString());
+			if (id.startsWith(item.getString())) {
+				System.out.println("ALLOWED");
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public static class Utils
