@@ -12,6 +12,8 @@ import org.spongepowered.api.event.entity.SpawnEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
@@ -20,6 +22,29 @@ import com.arckenver.nations.LanguageHandler;
 public class BuildPermListener
 {
 
+	@Listener(order=Order.FIRST, beforeModifications = true)
+	public void onPlayerChangeBlock(ChangeBlockEvent.Pre event, @First Player player)
+	{
+		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
+		{
+			return;
+		}
+		if (player.hasPermission("nations.admin.bypass.perm.build"))
+		{
+			return;
+		}
+		for (Location<World> loc : event.getLocations()) {
+			if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
+			{
+				event.setCancelled(true);
+				try {
+					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
+				} catch (Exception e) {}
+				return;
+			}
+		}
+	}
+	
 	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onPlayerPlacesBlock(ChangeBlockEvent.Place event, @First Player player)
 	{
