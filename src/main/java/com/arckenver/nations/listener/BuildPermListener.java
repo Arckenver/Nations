@@ -34,15 +34,14 @@ public class BuildPermListener
 			return;
 		}
 		for (Location<World> loc : event.getLocations()) {
-			if (!ConfigHandler.isWhitelisted("break", loc.getBlock().getId())) {
-				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
-				{
-					event.setCancelled(true);
-					try {
-						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
-					} catch (Exception e) {}
-					return;
-				}
+			if (!ConfigHandler.isWhitelisted("break", loc.getBlock().getId())
+					&& !DataHandler.getPerm("build", player.getUniqueId(), loc))
+			{
+				event.setCancelled(true);
+				try {
+					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
+				} catch (Exception e) {}
+				return;
 			}
 		}
 	}
@@ -62,14 +61,13 @@ public class BuildPermListener
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			if (!ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())) {
-				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
-				{
-					trans.setValid(false);
-					try {
-						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
-					} catch (Exception e) {}
-				}
+			if (!ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())
+					&& !DataHandler.getPerm("build", player.getUniqueId(), loc))
+			{
+				trans.setValid(false);
+				try {
+					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
+				} catch (Exception e) {}
 			}
 		}));
 	}
@@ -89,14 +87,13 @@ public class BuildPermListener
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			if (!ConfigHandler.isWhitelisted("break", trans.getFinal().getState().getType().getId())) {
-				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
-				{
-					trans.setValid(false);
-					try {
-						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
-					} catch (Exception e) {}
-				}
+			if (!ConfigHandler.isWhitelisted("break", trans.getFinal().getState().getType().getId())
+					&& !DataHandler.getPerm("build", player.getUniqueId(), loc))
+			{
+				trans.setValid(false);
+				try {
+					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
+				} catch (Exception e) {}
 			}
 		}));
 	}
