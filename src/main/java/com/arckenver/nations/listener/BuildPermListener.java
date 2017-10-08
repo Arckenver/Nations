@@ -18,7 +18,6 @@ import org.spongepowered.api.world.World;
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
-import org.spongepowered.api.world.World;
 
 public class BuildPermListener
 {
@@ -26,17 +25,14 @@ public class BuildPermListener
 	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onPlayerChangeBlock(ChangeBlockEvent.Pre event, @First Player player)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
-		{
-			return;
-		}
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
 		}
 		for (Location<World> loc : event.getLocations()) {
 			if (!ConfigHandler.isWhitelisted("break", loc.getBlock().getId())) {
-				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
+				if(ConfigHandler.getNode("worlds").getNode(loc.getExtent().getName()).getNode("enabled").getBoolean()
+						&& !DataHandler.getPerm("build", player.getUniqueId(), loc))
 				{
 					event.setCancelled(true);
 					try {
@@ -60,14 +56,13 @@ public class BuildPermListener
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
 			if (ConfigHandler.getNode("worlds").getNode(trans.getFinal().getLocation().get().getExtent().getName()).getNode("enabled").getBoolean()
-				&& !ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())) {
-				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
-				{
-					trans.setValid(false);
-					try {
-						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
-					} catch (Exception e) {}
-				}
+					&& !ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())
+					&& !DataHandler.getPerm("build", player.getUniqueId(), loc))
+			{
+				trans.setValid(false);
+				try {
+					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
+				} catch (Exception e) {}
 			}
 		}));
 	}
@@ -83,16 +78,14 @@ public class BuildPermListener
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			World world=trans.getFinal().getLocation().get().getExtent();
-			if (!ConfigHandler.isWhitelisted("break", trans.getFinal().getState().getType().getId())) {
-				if(ConfigHandler.getNode("worlds").getNode(world.getName()).getNode("enabled").getBoolean()
+			if (!ConfigHandler.isWhitelisted("break", trans.getFinal().getState().getType().getId())
+					&& ConfigHandler.getNode("worlds").getNode(trans.getFinal().getLocation().get().getExtent().getName()).getNode("enabled").getBoolean()
 					&& !DataHandler.getPerm("build", player.getUniqueId(), loc))
-				{
-					trans.setValid(false);
-					try {
-						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
-					} catch (Exception e) {}
-				}
+			{
+				trans.setValid(false);
+				try {
+					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
+				} catch (Exception e) {}
 			}
 		}));
 	}
