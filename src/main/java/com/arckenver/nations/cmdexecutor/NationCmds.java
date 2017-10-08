@@ -2,6 +2,7 @@ package com.arckenver.nations.cmdexecutor;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -56,12 +57,12 @@ public class NationCmds {
 	{
 		path = path.concat(".");
 		try {
-			JarFile jarFile = new JarFile(NationsPlugin.class.getProtectionDomain().getCodeSource().getLocation().toString().split("!")[0].replaceFirst("jar:file:", ""));
+			JarFile jarFile = new JarFile(URLDecoder.decode(NationsPlugin.class.getProtectionDomain().getCodeSource().getLocation().toString().split("!")[0].replaceFirst("jar:file:", ""), "UTF-8"));
 			Enumeration<JarEntry> entries = jarFile.entries();
 			while (entries.hasMoreElements())
 			{
 				JarEntry entry = entries.nextElement();
-				if (entry.getName().startsWith(path.replace(".", "/")) && entry.getName().endsWith(".class") && !entry.getName().contains("$")) {
+				if (entry.getName().replace("/", ".").replace("\\", ".").startsWith(path) && entry.getName().endsWith(".class") && !entry.getName().contains("$")) {
 					String className = path.concat(entry.getName().substring(path.length()).replace(".class", ""));
 					try {
 						Class<?> cl = Class.forName(className);

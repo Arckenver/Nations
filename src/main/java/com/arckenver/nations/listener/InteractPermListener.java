@@ -1,6 +1,9 @@
 package com.arckenver.nations.listener;
 
+import java.util.Optional;
+
 import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.hanging.ItemFrame;
 import org.spongepowered.api.entity.living.ArmorStand;
@@ -11,6 +14,8 @@ import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.entity.InteractEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
@@ -31,6 +36,9 @@ public class InteractPermListener
 		{
 			return;
 		}
+		Optional<ItemStack> optItem = player.getItemInHand(HandTypes.MAIN_HAND);
+		if (optItem.isPresent() && (ConfigHandler.isWhitelisted("use", optItem.get().getItem().getId()) || optItem.get().getItem().equals(ItemTypes.GOLDEN_AXE) && ConfigHandler.getNode("others", "enableGoldenAxe").getBoolean(true)))
+			return;
 		event.getTargetBlock().getLocation().ifPresent(loc -> {
 			if (!DataHandler.getPerm("interact", player.getUniqueId(), loc))
 			{

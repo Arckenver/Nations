@@ -11,6 +11,8 @@ import org.spongepowered.api.event.entity.SpawnEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
@@ -21,19 +23,42 @@ public class BuildPermListener
 {
 
 	@Listener(order=Order.FIRST, beforeModifications = true)
+	public void onPlayerChangeBlock(ChangeBlockEvent.Pre event, @First Player player)
+	{
+		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
+		{
+			return;
+		}
+		if (player.hasPermission("nations.admin.bypass.perm.build"))
+		{
+			return;
+		}
+		for (Location<World> loc : event.getLocations()) {
+			if (!ConfigHandler.isWhitelisted("break", loc.getBlock().getId())) {
+				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
+				{
+					event.setCancelled(true);
+					try {
+						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
+					} catch (Exception e) {}
+					return;
+				}
+			}
+		}
+	}
+
+	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onPlayerPlacesBlock(ChangeBlockEvent.Place event, @First Player player)
 	{
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
 		}
-		
-		String graveItem = ConfigHandler.getNode("others", "gravestoneBlock").getString("gravestone:gravestone");
 		event
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			if (ConfigHandler.getNode("worlds").getNode(trans.getFinal().getLocation().get().getExtent().getName()).getNode("enabled").getBoolean()&&!trans.getFinal().getState().getType().getId().equals(graveItem)) {
+			if (ConfigHandler.getNode("worlds").getNode(trans.getFinal().getLocation().get().getExtent().getName()).getNode("enabled").getBoolean() && !ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())) {
 				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
 				{
 					trans.setValid(false);
@@ -57,13 +82,13 @@ public class BuildPermListener
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
 			World world=trans.getFinal().getLocation().get().getExtent();
-			if (ConfigHandler.getNode("worlds").getNode(world.getName()).getNode("enabled").getBoolean()) {
-				if (!DataHandler.getPerm("build", player.getUniqueId(), loc)) {
+			if (ConfigHandler.getNode("worlds").getNode(world.getName()).getNode("enabled").getBoolean() && !ConfigHandler.isWhitelisted("break", trans.getFinal().getState().getType().getId())) {
+				if(!DataHandler.getPerm("build", player.getUniqueId(), loc))
+				{
 					trans.setValid(false);
 					try {
 						player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
-					} catch (Exception e) {
-					}
+					} catch (Exception e) {}
 				}
 			}
 		}));
