@@ -33,6 +33,9 @@ public class BuildPermListener
 		{
 			return;
 		}
+		if (DataHandler.isFakePlayer(player)) {
+			return;
+		}
 		for (Location<World> loc : event.getLocations()) {
 			if (!ConfigHandler.isWhitelisted("break", loc.getBlock().getId())
 					&& !DataHandler.getPerm("build", player.getUniqueId(), loc))
