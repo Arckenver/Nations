@@ -133,6 +133,11 @@ public class ConfigHandler
 			Utils.ensureString(config.getNode("whitelist", "use").getAppendedNode(), "modname:blockname");
 		}
 
+		if (!config.getNode("whitelist", "spawn").hasListChildren() || config.getNode("whitelist", "spawn").getChildrenList().isEmpty())
+		{
+			Utils.ensureString(config.getNode("whitelist", "spawn").getAppendedNode(), "modname:entity");
+		}
+		
 		if (config.getNode("others", "enableNationRanks").getBoolean())
 		{
 			if (!config.getNode("nationRanks").hasListChildren() || config.getNode("nationRanks").getChildrenList().isEmpty())
