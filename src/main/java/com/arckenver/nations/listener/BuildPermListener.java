@@ -29,6 +29,9 @@ public class BuildPermListener
 		{
 			return;
 		}
+		if (DataHandler.isFakePlayer(player)) {
+			return;
+		}
 		for (Location<World> loc : event.getLocations()) {
 			if (!ConfigHandler.isWhitelisted("break", loc.getBlock().getId())) {
 				if(ConfigHandler.getNode("worlds").getNode(loc.getExtent().getName()).getNode("enabled").getBoolean()
@@ -121,7 +124,8 @@ public class BuildPermListener
 		if (entitySpawnCause.getType() == SpawnTypes.PLACEMENT)
 		{
 			try {
-				if (!DataHandler.getPerm("build", player.getUniqueId(), event.getEntities().get(0).getLocation()))
+				if (!ConfigHandler.isWhitelisted("spawn", event.getEntities().get(0).getType().getId())
+						&& !DataHandler.getPerm("build", player.getUniqueId(), event.getEntities().get(0).getLocation()))
 					event.setCancelled(true);
 			} catch (IndexOutOfBoundsException e) {}
 		}
