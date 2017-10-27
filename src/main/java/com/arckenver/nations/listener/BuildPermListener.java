@@ -111,10 +111,6 @@ public class BuildPermListener
 	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onEntitySpawn(SpawnEntityEvent event, @First Player player)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getEntities().get(0).getWorld().getName()).getNode("enabled").getBoolean())
-		{
-			return;
-		}
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
@@ -122,6 +118,8 @@ public class BuildPermListener
 		if (event.getCause().contains(SpawnTypes.PLACEMENT))
 		{
 			try {
+				if (!ConfigHandler.getNode("worlds").getNode(event.getEntities().get(0).getWorld().getName()).getNode("enabled").getBoolean())
+					return;
 				if (!ConfigHandler.isWhitelisted("spawn", event.getEntities().get(0).getType().getId())
 						&& !DataHandler.getPerm("build", player.getUniqueId(), event.getEntities().get(0).getLocation()))
 					event.setCancelled(true);
