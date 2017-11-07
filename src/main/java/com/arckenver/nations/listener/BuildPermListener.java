@@ -25,10 +25,6 @@ public class BuildPermListener
 	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onPlayerPlacesBlock(ChangeBlockEvent.Modify event, @First Player player)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
-		{
-			return;
-		}
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
@@ -37,7 +33,8 @@ public class BuildPermListener
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			if (!ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())
+			if (ConfigHandler.getNode("worlds").getNode(trans.getFinal().getLocation().get().getExtent().getName()).getNode("enabled").getBoolean()
+					&& !ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())
 					&& !DataHandler.getPerm("build", player.getUniqueId(), loc))
 			{
 				trans.setValid(false);
