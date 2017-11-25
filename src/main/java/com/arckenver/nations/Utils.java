@@ -3,15 +3,16 @@ package com.arckenver.nations;
 import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.event.Event;
+import org.spongepowered.api.event.cause.NamedCause;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.economy.account.Account;
 import org.spongepowered.api.service.economy.account.UniqueAccount;
@@ -21,11 +22,8 @@ import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
 
 import com.arckenver.nations.object.Nation;
-import com.arckenver.nations.object.Rect;
 import com.arckenver.nations.object.Zone;
 
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -35,49 +33,31 @@ public class Utils
 	public static final int CLICKER_NONE = 0;
 	public static final int CLICKER_DEFAULT = 1;
 	public static final int CLICKER_ADMIN = 2;
+	
+	// players
 
-	// serialization
-
-	public static String locToString(Location<World> loc)
-	{
-		return loc.getExtent().getName() + "|" + loc.getX() + "|" + loc.getY() + "|" + loc.getZ();
-	}
-
-	public static Location<World> locFromString(String str)
-	{
-		String[] splited = str.split(Pattern.quote("|"));
-		if (splited.length != 4)
-		{
-			NationsPlugin.getLogger().warn("Invalid location format for string " + str);
-			return null;
+	private static final String[] FAKE_PLAYERS = {
+			"00000000-0000-0000-0000-000000000000",
+			"0d0c4ca0-4ff1-11e4-916c-0800200c9a66",
+			"41c82c87-7afb-4024-ba57-13d2c99cae77"};
+	
+	public static boolean isFakePlayer(Player player) {
+		String uuid = player.getUniqueId().toString();
+		for (int i = 0; i < FAKE_PLAYERS.length; ++i) {
+			if (uuid.equals(FAKE_PLAYERS[i]))
+				return true;
 		}
-		try
-		{
-			World world = Sponge.getServer().getWorld(splited[0]).get();
-			return world.getLocation(Double.parseDouble(splited[1]), Double.parseDouble(splited[2]), Double.parseDouble(splited[3]));
-		}
-		catch (NoSuchElementException e)
-		{
-			NationsPlugin.getLogger().warn("Invalid location format for string " + str);
-		}
-		catch (NumberFormatException e)
-		{
-			NationsPlugin.getLogger().warn("Invalid location format for string " + str);
-		}
-		return null;
+		return false;
 	}
-
-	public static String rectToString(Rect rect)
-	{
-		return rect.getMinX() + ";" + rect.getMaxX() + ";" + rect.getMinY() + ";" + rect.getMaxY();
+	
+	public static boolean isFakePlayer(Event event) {
+		return event.getCause().containsNamed(NamedCause.FAKE_PLAYER);
 	}
-
-	public static Rect rectFromString(String str)
-	{
-		String[] splited = str.split(";");
-		return new Rect(null, Integer.parseInt(splited[0]), Integer.parseInt(splited[1]), Integer.parseInt(splited[2]), Integer.parseInt(splited[3]));
+	
+	public static User getUser(Event event) {
+		return event.getCause().first(User.class).orElse(null);
 	}
-
+	
 	// formatting
 
 	public static Text formatNationDescription(Nation nation, int clicker)
