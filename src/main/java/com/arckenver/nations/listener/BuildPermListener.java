@@ -6,9 +6,6 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
-import org.spongepowered.api.event.cause.entity.spawn.EntitySpawnCause;
-import org.spongepowered.api.event.cause.entity.spawn.SpawnTypes;
-import org.spongepowered.api.event.entity.SpawnEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -18,17 +15,14 @@ import org.spongepowered.api.world.World;
 import com.arckenver.nations.ConfigHandler;
 import com.arckenver.nations.DataHandler;
 import com.arckenver.nations.LanguageHandler;
+import com.arckenver.nations.Utils;
 
 public class BuildPermListener
 {
 
 	@Listener(order=Order.FIRST, beforeModifications = true)
-	public void onPlayerPlacesBlock(ChangeBlockEvent.Modify event, @First Player player)
+	public void onPlayerModifyBlock(ChangeBlockEvent.Modify event, @First Player player)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
-		{
-			return;
-		}
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
@@ -37,7 +31,8 @@ public class BuildPermListener
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			if (!ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())
+			if (ConfigHandler.getNode("worlds").getNode(trans.getFinal().getLocation().get().getExtent().getName()).getNode("enabled").getBoolean()
+					&& !ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())
 					&& !DataHandler.getPerm("build", player.getUniqueId(), loc))
 			{
 				trans.setValid(false);
@@ -47,23 +42,20 @@ public class BuildPermListener
 			}
 		}));
 	}
-	
+
 	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onPlayerChangeBlock(ChangeBlockEvent.Pre event, @First Player player)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
-		{
-			return;
-		}
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
 		}
-		if (DataHandler.isFakePlayer(player)) {
+		if (Utils.isFakePlayer(event)) {
 			return;
 		}
 		for (Location<World> loc : event.getLocations()) {
-			if (!ConfigHandler.isWhitelisted("break", loc.getBlock().getId())
+			if (ConfigHandler.getNode("worlds").getNode(loc.getExtent().getName()).getNode("enabled").getBoolean()
+					&& !ConfigHandler.isWhitelisted("break", loc.getBlock().getId())
 					&& !DataHandler.getPerm("build", player.getUniqueId(), loc))
 			{
 				event.setCancelled(true);
@@ -78,10 +70,6 @@ public class BuildPermListener
 	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onPlayerPlacesBlock(ChangeBlockEvent.Place event, @First Player player)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
-		{
-			return;
-		}
 		if (player.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
@@ -90,7 +78,8 @@ public class BuildPermListener
 		.getTransactions()
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
-			if (!ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())
+			if (ConfigHandler.getNode("worlds").getNode(trans.getFinal().getLocation().get().getExtent().getName()).getNode("enabled").getBoolean()
+					&& !ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())
 					&& !DataHandler.getPerm("build", player.getUniqueId(), loc))
 			{
 				trans.setValid(false);
@@ -102,13 +91,11 @@ public class BuildPermListener
 	}
 
 	@Listener(order=Order.FIRST, beforeModifications = true)
-	public void onPlayerBreaksBlock(ChangeBlockEvent.Break event, @First Player player)
+	public void onPlayerBreaksBlock(ChangeBlockEvent.Break event)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
-		{
-			return;
-		}
-		if (player.hasPermission("nations.admin.bypass.perm.build"))
+		User user = Utils.getUser(event);
+
+		if (user != null && user.hasPermission("nations.admin.bypass.perm.build"))
 		{
 			return;
 		}
@@ -117,12 +104,17 @@ public class BuildPermListener
 		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
 			if (!ConfigHandler.isWhitelisted("break", trans.getFinal().getState().getType().getId())
-					&& !DataHandler.getPerm("build", player.getUniqueId(), loc))
+					&& ConfigHandler.getNode("worlds").getNode(trans.getFinal().getLocation().get().getExtent().getName()).getNode("enabled").getBoolean())
 			{
-				trans.setValid(false);
-				try {
-					player.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
-				} catch (Exception e) {}
+				if (user == null || !DataHandler.getPerm("build", user.getUniqueId(), loc))
+				{
+					trans.setValid(false);
+					if (user != null && user instanceof Player) {
+						try {
+							((Player) user).sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
+						} catch (Exception e) {}
+					}
+				}
 			}
 		}));
 	}
@@ -144,24 +136,22 @@ public class BuildPermListener
 		}
 	}
 
-	@Listener(order=Order.FIRST, beforeModifications = true)
-	public void onEntitySpawn(SpawnEntityEvent event, @First Player player, @First EntitySpawnCause entitySpawnCause)
-	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
-		{
-			return;
-		}
-		if (player.hasPermission("nations.admin.bypass.perm.build"))
-		{
-			return;
-		}
-		if (entitySpawnCause.getType() == SpawnTypes.PLACEMENT)
-		{
-			try {
-				if (!ConfigHandler.isWhitelisted("spawn", event.getEntities().get(0).getType().getId())
-						&& !DataHandler.getPerm("build", player.getUniqueId(), event.getEntities().get(0).getLocation()))
-					event.setCancelled(true);
-			} catch (IndexOutOfBoundsException e) {}
-		}
-	}
+	//	@Listener(order=Order.FIRST, beforeModifications = true)
+	//	public void onEntitySpawn(SpawnEntityEvent event, @First Player player)
+	//	{
+	//		if (player.hasPermission("nations.admin.bypass.perm.build"))
+	//		{
+	//			return;
+	//		}
+	//		if (event.getCause().contains(SpawnTypes.PLACEMENT))
+	//		{
+	//			try {
+	//				if (!ConfigHandler.getNode("worlds").getNode(event.getEntities().get(0).getWorld().getName()).getNode("enabled").getBoolean())
+	//					return;
+	//				if (!ConfigHandler.isWhitelisted("spawn", event.getEntities().get(0).getType().getId())
+	//						&& !DataHandler.getPerm("build", player.getUniqueId(), event.getEntities().get(0).getLocation()))
+	//					event.setCancelled(true);
+	//			} catch (IndexOutOfBoundsException e) {}
+	//		}
+	//	}
 }
