@@ -70,10 +70,10 @@ public class NationsPlugin
 		LanguageHandler.load();
 		ConfigHandler.load();
 		DataHandler.load();
-		
+
 		Sponge.getServiceManager()
-				.getRegistration(EconomyService.class)
-				.ifPresent(prov -> economyService = prov.getProvider());
+		.getRegistration(EconomyService.class)
+		.ifPresent(prov -> economyService = prov.getProvider());
 
 
 		NationCmds.create(this);
@@ -97,12 +97,12 @@ public class NationsPlugin
 		long initalDelay = Duration.between(zonedNow, zonedNext).getSeconds();
 
 		Sponge.getScheduler()
-				.createTaskBuilder()
-				.execute(new TaxesCollectRunnable())
-				.delay(initalDelay, TimeUnit.SECONDS)
-				.interval(1, TimeUnit.DAYS)
-				.async()
-				.submit(this);
+		.createTaskBuilder()
+		.execute(new TaxesCollectRunnable())
+		.delay(initalDelay, TimeUnit.SECONDS)
+		.interval(1, TimeUnit.DAYS)
+		.async()
+		.submit(this);
 
 		logger.info("Plugin ready");
 	}
@@ -143,5 +143,6 @@ public class NationsPlugin
 	public static Cause getCause()
 	{
 		return Sponge.getCauseStackManager().getCurrentCause();
+
 	}
 }
