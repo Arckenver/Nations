@@ -31,7 +31,6 @@ public class BuildPermListener
 		}
 		event
 		.getTransactions()
-		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
 			if (ConfigHandler.getNode("worlds").getNode(trans.getFinal().getLocation().get().getExtent().getName()).getNode("enabled").getBoolean()
 					&& !ConfigHandler.isWhitelisted("build", trans.getFinal().getState().getType().getId())
@@ -103,15 +102,14 @@ public class BuildPermListener
 		}
 		event
 		.getTransactions()
-		.stream()
 		.forEach(trans -> trans.getOriginal().getLocation().ifPresent(loc -> {
 			if (!ConfigHandler.isWhitelisted("break", trans.getFinal().getState().getType().getId())
 					&& ConfigHandler.getNode("worlds").getNode(trans.getFinal().getLocation().get().getExtent().getName()).getNode("enabled").getBoolean())
 			{
-				if (user == null || !DataHandler.getPerm("build", user.getUniqueId(), loc))
+				if (user != null && !DataHandler.getPerm("build", user.getUniqueId(), loc))
 				{
 					trans.setValid(false);
-					if (user != null && user instanceof Player) {
+					if (user instanceof Player) {
 						try {
 							((Player) user).sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_PERM_BUILD));
 						} catch (Exception e) {}
