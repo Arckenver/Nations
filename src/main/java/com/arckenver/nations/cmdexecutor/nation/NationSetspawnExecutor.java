@@ -63,6 +63,7 @@ public class NationSetspawnExecutor implements CommandExecutor
 						.replaceAll("\\{MAX\\}", String.valueOf(nation.getMaxSpawns()))));
 				return CommandResult.success();
 			}
+
 			if (!spawnName.matches("[\\p{Alnum}\\p{IsIdeographic}\\p{IsLetter}]{1,30}"))
 			{
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_ALPHASPAWN

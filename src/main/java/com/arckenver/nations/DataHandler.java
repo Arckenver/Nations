@@ -70,7 +70,7 @@ public class DataHandler
 	public static void load()
 	{
 		nationsDir.mkdirs();
-		nations = new Hashtable<UUID, Nation>();
+		nations = new Hashtable<>();
 		for (File f : nationsDir.listFiles())
 		{
 			if (f.isFile() && f.getName().matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.json"))
@@ -89,13 +89,13 @@ public class DataHandler
 			}
 		}
 		calculateWorldChunks();
-		lastNationWalkedOn = new HashMap<UUID, Nation>();
-		lastZoneWalkedOn = new HashMap<UUID, Zone>();
-		firstPoints = new Hashtable<UUID, Point>();
-		secondPoints = new Hashtable<UUID, Point>();
-		markJobs = new Hashtable<UUID, UUID>();
-		inviteRequests = new ArrayList<Request>();
-		joinRequests = new ArrayList<Request>();
+		lastNationWalkedOn = new HashMap<>();
+		lastZoneWalkedOn = new HashMap<>();
+		firstPoints = new Hashtable<>();
+		secondPoints = new Hashtable<>();
+		markJobs = new Hashtable<>();
+		inviteRequests = new ArrayList<>();
+		joinRequests = new ArrayList<>();
 		spyChannel = new NationMessageChannel();
 	}
 

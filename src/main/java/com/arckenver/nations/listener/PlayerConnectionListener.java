@@ -13,30 +13,26 @@ public class PlayerConnectionListener
 	@Listener
 	public void onPlayerJoin(ClientConnectionEvent.Join event)
 	{
-		if (event.getTargetEntity() instanceof Player)
-		{
-			Player player = event.getTargetEntity();
-			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
-			if (nation != null)
-				nation.getMessageChannel().addMember(player);
-			player.setMessageChannel(MessageChannel.TO_ALL);
-			if (player.hasPermission("nations.admin.spychat"))
-				DataHandler.getSpyChannel().addMember(player);
-		}
+		event.getTargetEntity();
+		Player player = event.getTargetEntity();
+		Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
+		if (nation != null)
+			nation.getMessageChannel().addMember(player);
+		player.setMessageChannel(MessageChannel.TO_ALL);
+		if (player.hasPermission("nations.admin.spychat"))
+			DataHandler.getSpyChannel().addMember(player);
 	}
 
 	@Listener
 	public void onPlayerLeave(ClientConnectionEvent.Disconnect event)
 	{
-		if (event.getTargetEntity() instanceof Player)
-		{
-			Player player = (Player) event.getTargetEntity();
-			DataHandler.removeFirstPoint(player.getUniqueId());
-			DataHandler.removeSecondPoint(player.getUniqueId());
-			Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
-			if (nation != null)
-				nation.getMessageChannel().removeMember(player);
-			DataHandler.getSpyChannel().removeMember(player);
-		}
+		event.getTargetEntity();
+		Player player = event.getTargetEntity();
+		DataHandler.removeFirstPoint(player.getUniqueId());
+		DataHandler.removeSecondPoint(player.getUniqueId());
+		Nation nation = DataHandler.getNationOfPlayer(player.getUniqueId());
+		if (nation != null)
+			nation.getMessageChannel().removeMember(player);
+		DataHandler.getSpyChannel().removeMember(player);
 	}
 }
