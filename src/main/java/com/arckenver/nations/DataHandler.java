@@ -13,6 +13,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import com.arckenver.nations.channel.AdminSpyMessageChannel;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.effect.particle.ParticleEffect;
@@ -55,7 +56,7 @@ public class DataHandler
 	private static Hashtable<UUID, UUID> markJobs;
 	private static ArrayList<Request> inviteRequests;
 	private static ArrayList<Request> joinRequests;
-	private static NationMessageChannel spyChannel;
+	private static AdminSpyMessageChannel spyChannel;
 
 	public static void init(File rootDir)
 	{
@@ -96,7 +97,7 @@ public class DataHandler
 		markJobs = new Hashtable<>();
 		inviteRequests = new ArrayList<>();
 		joinRequests = new ArrayList<>();
-		spyChannel = new NationMessageChannel();
+		spyChannel = new AdminSpyMessageChannel();
 	}
 
 	public static void save()
@@ -402,7 +403,7 @@ public class DataHandler
 		{
 			if (!worldChunks.containsKey(r.getWorld()))
 			{
-				worldChunks.put(r.getWorld(), new Hashtable<Vector2i, ArrayList<Nation>>());
+				worldChunks.put(r.getWorld(), new Hashtable<>());
 			}
 			Hashtable<Vector2i, ArrayList<Nation>> chunks = worldChunks.get(r.getWorld());
 			for (int i = IntMath.divide(r.getMinX(), 16, RoundingMode.FLOOR); i < IntMath.divide(r.getMaxX(), 16, RoundingMode.FLOOR) + 1; i++)
@@ -412,7 +413,7 @@ public class DataHandler
 					Vector2i vect = new Vector2i(i, j);
 					if (!chunks.containsKey(vect))
 					{
-						chunks.put(vect, new ArrayList<Nation>());
+						chunks.put(vect, new ArrayList<>());
 					}
 					if (!chunks.get(vect).contains(nation))
 					{
