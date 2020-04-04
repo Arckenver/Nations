@@ -26,12 +26,12 @@ public class ConfigHandler
 		configFile = new File(rootDir, "config.conf");
 		configManager = HoconConfigurationLoader.builder().setPath(configFile.toPath()).build();
 	}
-	
+
 	public static void load()
 	{
 		load(null);
 	}
-	
+
 	public static void load(CommandSource src)
 	{
 		// load file
@@ -55,7 +55,7 @@ public class ConfigHandler
 				src.sendMessage(Text.of(TextColors.RED, LanguageHandler.ERROR_CONFIGFILE));
 			}
 		}
-		
+
 		// check integrity
 		Utils.ensurePositiveNumber(config.getNode("prices", "nationCreationPrice"), 2500);
 		Utils.ensurePositiveNumber(config.getNode("prices", "upkeepPerCitizen"), 100);
@@ -63,7 +63,7 @@ public class ConfigHandler
 		Utils.ensurePositiveNumber(config.getNode("prices", "extraPrice"), 0.5);
 		Utils.ensurePositiveNumber(config.getNode("prices", "blockClaimPrice"), 0.3);
 		Utils.ensurePositiveNumber(config.getNode("prices", "outpostCreationPrice"), 1000);
-		
+
 		Utils.ensurePositiveNumber(config.getNode("others", "blocksPerCitizen"), 1000);
 		Utils.ensurePositiveNumber(config.getNode("others", "maxNationSpawns"), 3);
 		Utils.ensurePositiveNumber(config.getNode("others", "minNationDistance"), 500);
@@ -80,54 +80,54 @@ public class ConfigHandler
 		Utils.ensureString(config.getNode("others", "publicChatFormat"), " &r[&3{NATION}&r] &5{TITLE} &r");
 		Utils.ensureString(config.getNode("others", "nationChatFormat"), " &r{&eNC&r} ");
 		Utils.ensureString(config.getNode("others", "nationSpyChatTag"), " &r[&cSPY&r]");
-		
-		
+
+
 		Utils.ensureString(config.getNode("toast", "wild"), "&2{WILD} &7- {FORMATPVP}");
 		Utils.ensureString(config.getNode("toast", "nation"), "&3{NATION}{FORMATPRESIDENT} &7- {FORMATPVP}");
 		Utils.ensureString(config.getNode("toast", "zone"), "&3{NATION}{FORMATPRESIDENT} &7~ {FORMATZONENAME}{FORMATZONEOWNER}{FORMATZONEPRICE}{FORMATPVP}");
-		
+
 		Utils.ensureString(config.getNode("toast", "formatPresident"), "&7 - &e{TITLE} {NAME}");
 		Utils.ensureString(config.getNode("toast", "formatZoneName"), "&a{ARG} &7-");
 		Utils.ensureString(config.getNode("toast", "formatZoneOwner"), "&e{ARG} &7-");
 		Utils.ensureString(config.getNode("toast", "formatZonePrice"), "&e[{ARG}] &7-");
 		Utils.ensureString(config.getNode("toast", "formatPvp"), "&4({ARG})");
 		Utils.ensureString(config.getNode("toast", "formatNoPvp"), "&2({ARG})");
-		
+
 
 		Utils.ensureBoolean(config.getNode("nations", "canEditTaxes"), true);
 		Utils.ensurePositiveNumber(config.getNode("nations", "defaultTaxes"), 50);
 		Utils.ensurePositiveNumber(config.getNode("nations", "maxTaxes"), 100);
-		
+
 		Utils.ensureBoolean(config.getNode("nations", "flags", "pvp"), false);
 		Utils.ensureBoolean(config.getNode("nations", "flags", "mobs"), false);
 		Utils.ensureBoolean(config.getNode("nations", "flags", "fire"), false);
 		Utils.ensureBoolean(config.getNode("nations", "flags", "explosions"), false);
 		Utils.ensureBoolean(config.getNode("nations", "flags", "open"), false);
 		Utils.ensureBoolean(config.getNode("nations", "flags", "public"), false);
-		
+
 		Utils.ensureBoolean(config.getNode("nations", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD), false);
 		Utils.ensureBoolean(config.getNode("nations", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT), false);
 		Utils.ensureBoolean(config.getNode("nations", "perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD), false);
 		Utils.ensureBoolean(config.getNode("nations", "perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT), true);
-		
+
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_BUILD), false);
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_OUTSIDER).getNode(Nation.PERM_INTERACT), false);
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_BUILD), false);
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_CITIZEN).getNode(Nation.PERM_INTERACT), true);
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_BUILD), true);
 		Utils.ensureBoolean(config.getNode("zones", "perms").getNode(Nation.TYPE_COOWNER).getNode(Nation.PERM_INTERACT), true);
-		
+
 		if (!config.getNode("whitelist", "build").hasListChildren() || config.getNode("whitelist", "build").getChildrenList().isEmpty())
 		{
 			Utils.ensureString(config.getNode("whitelist", "build").getAppendedNode(), "gravestone:gravestone");
 			Utils.ensureString(config.getNode("whitelist", "build").getAppendedNode(), "modname:blockname");
 		}
-		
+
 		if (!config.getNode("whitelist", "break").hasListChildren() || config.getNode("whitelist", "break").getChildrenList().isEmpty())
 		{
 			Utils.ensureString(config.getNode("whitelist", "break").getAppendedNode(), "modname:blockname");
 		}
-		
+
 		if (!config.getNode("whitelist", "use").hasListChildren() || config.getNode("whitelist", "use").getChildrenList().isEmpty())
 		{
 			Utils.ensureString(config.getNode("whitelist", "use").getAppendedNode(), "modname:blockname");
@@ -185,17 +185,17 @@ public class ConfigHandler
 				rank.getNode("presidentTitle").setValue("Leader");
 			}
 		}
-		
+
 		for (World world : Sponge.getServer().getWorlds())
 		{
 			CommentedConfigurationNode node = config.getNode("worlds").getNode(world.getName());
-			
+
 			Utils.ensureBoolean(node.getNode("enabled"), true);
 			if (node.getNode("enabled").getBoolean())
 			{
 				Utils.ensureBoolean(node.getNode("perms").getNode(Nation.PERM_BUILD), true);
 				Utils.ensureBoolean(node.getNode("perms").getNode(Nation.PERM_INTERACT), true);
-				
+
 				Utils.ensureBoolean(node.getNode("flags", "pvp"), true);
 				Utils.ensureBoolean(node.getNode("flags", "mobs"), true);
 				Utils.ensureBoolean(node.getNode("flags", "fire"), true);
@@ -230,7 +230,7 @@ public class ConfigHandler
 	{
 		return config.getNode((Object[]) path);
 	}
-	
+
 	public static CommentedConfigurationNode getNationRank(int numCitizens)
 	{
 		CommentedConfigurationNode rank = config.getNode("nationRanks")
@@ -238,24 +238,23 @@ public class ConfigHandler
 				.stream()
 				.filter(node -> node.getNode("numCitizens").getInt() <= numCitizens)
 				.max((CommentedConfigurationNode a, CommentedConfigurationNode b) ->
-						Integer.compare(a.getNode("numCitizens").getInt(), b.getNode("numCitizens").getInt()))
+				Integer.compare(a.getNode("numCitizens").getInt(), b.getNode("numCitizens").getInt()))
 				.get();
 		return rank;
 	}
-	
+
 	public static boolean isWhitelisted(String type, String id) {
 		if (id.equals("minecraft:air"))
 			return true;
 		if (!config.getNode("whitelist", type).hasListChildren())
 			return false;
 		for (CommentedConfigurationNode item : config.getNode("whitelist", type).getChildrenList()) {
-			if (id.startsWith(item.getString())) {
+			if (id.startsWith(item.getString()))
 				return true;
-			}
 		}
 		return false;
 	}
-	
+
 	public static class Utils
 	{
 		public static void ensureString(CommentedConfigurationNode node, String def)
@@ -273,7 +272,7 @@ public class ConfigHandler
 				node.setValue(def);
 			}
 		}
-		
+
 		public static void ensureBoolean(CommentedConfigurationNode node, boolean def)
 		{
 			if (!(node.getValue() instanceof Boolean))

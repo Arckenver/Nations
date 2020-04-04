@@ -3,9 +3,10 @@ plugins {
 }
 
 group = 'com.carrot'
-version = '2.10-S5.1-MC1.10.2'
+version = '2.11-S7.0-MC1.12.1'
 description = 'A towny-like worldguard-like zone managment plugin'
 
 dependencies {
-    compile 'org.spongepowered:spongeapi:5.1.0'
+    compile 'org.spongepowered:spongeapi:7.0.0-20171101.163142-49'
+    compile 'com.google.code.gson:gson:2.8.1'
 }

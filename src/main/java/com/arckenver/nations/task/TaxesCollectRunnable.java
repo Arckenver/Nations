@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.service.economy.account.Account;
 import org.spongepowered.api.service.economy.account.UniqueAccount;
 import org.spongepowered.api.service.economy.transaction.ResultType;
@@ -35,14 +37,21 @@ public class TaxesCollectRunnable implements Runnable
 			NationsPlugin.getLogger().error(LanguageHandler.ERROR_NOECO);
 			return;
 		}
+
+		EventContext context = EventContext.builder()
+				.build();
+
+		Cause cause = Cause.builder()
+				.append(Sponge.getServer().getConsole())
+				.append(NationsPlugin.getInstance())
+				.build(context);
+
 		MessageChannel.TO_ALL.send(Text.of(TextColors.AQUA, LanguageHandler.INFO_UPKEEPANNOUNCE));
 		ArrayList<UUID> nationsToRemove = new ArrayList<UUID>();
 		for (Nation nation : DataHandler.getNations().values())
 		{
 			if (nation.isAdmin())
-			{
 				continue;
-			}
 			Optional<Account> optAccount = NationsPlugin.getEcoService().getOrCreateAccount("nation-" + nation.getUUID().toString());
 			if (!optAccount.isPresent())
 			{
@@ -62,10 +71,12 @@ public class TaxesCollectRunnable implements Runnable
 				{
 					continue;
 				}
-				if (nation.isStaff(uuid))
+				if (nation.isStaff(uuid)) {
 					continue;
+				}
 				Optional<UniqueAccount> optCitizenAccount = NationsPlugin.getEcoService().getOrCreateAccount(uuid);
-				TransactionResult result = optCitizenAccount.get().transfer(optAccount.get(), NationsPlugin.getEcoService().getDefaultCurrency(), taxes, NationsPlugin.getCause());
+
+				TransactionResult result = optCitizenAccount.get().transfer(optAccount.get(), NationsPlugin.getEcoService().getDefaultCurrency(), taxes, cause);
 				if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 				{
 					citizensToRemove.add(uuid);
@@ -74,22 +85,25 @@ public class TaxesCollectRunnable implements Runnable
 				}
 				else if (result.getResult() != ResultType.SUCCESS)
 				{
+					MessageChannel.TO_CONSOLE.send(Text.of("Something bad happened: ", result.getResult()));
 					NationsPlugin.getLogger().error("Error while taking taxes from player " + uuid.toString() + " for nation " + nation.getName());
 				}
 			}
 			for (UUID uuid : citizensToRemove)
 			{
+				MessageChannel.TO_CONSOLE.send(Text.of("Removing player for nation (no funds): ", uuid));
 				nation.removeCitizen(uuid);
 			}
 			// nation upkeep
 			BigDecimal upkeep = BigDecimal.valueOf(nation.getUpkeep());
-			TransactionResult result = optAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), upkeep, NationsPlugin.getCause());
+			TransactionResult result = optAccount.get().withdraw(NationsPlugin.getEcoService().getDefaultCurrency(), upkeep, cause);
 			if (result.getResult() == ResultType.ACCOUNT_NO_FUNDS)
 			{
 				nationsToRemove.add(nation.getUUID());
 			}
 			else if (result.getResult() != ResultType.SUCCESS)
 			{
+				MessageChannel.TO_CONSOLE.send(Text.of("Error occured: ", result.getResult()));
 				NationsPlugin.getLogger().error("Error while taking upkeep from nation " + nation.getName());
 			}
 		}

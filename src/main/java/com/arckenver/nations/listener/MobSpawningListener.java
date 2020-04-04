@@ -14,10 +14,6 @@ public class MobSpawningListener
 	@Listener
 	public void onEntitySpawn(SpawnEntityEvent event)
 	{
-		if (!ConfigHandler.getNode("worlds").getNode(event.getTargetWorld().getName()).getNode("enabled").getBoolean())
-		{
-			return;
-		}
-		event.filterEntities(e -> !(e instanceof Monster) || DataHandler.getFlag("mobs", e.getLocation()));
+		event.filterEntities(e -> !(e instanceof Monster) || !ConfigHandler.getNode("worlds").getNode(e.getLocation().getExtent().getName()).getNode("enabled").getBoolean() || DataHandler.getFlag("mobs", e.getLocation()));
 	}
 }

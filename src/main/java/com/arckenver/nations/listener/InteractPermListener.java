@@ -37,7 +37,7 @@ public class InteractPermListener
 			return;
 		}
 		Optional<ItemStack> optItem = player.getItemInHand(HandTypes.MAIN_HAND);
-		if (optItem.isPresent() && (ConfigHandler.isWhitelisted("use", optItem.get().getItem().getId()) || optItem.get().getItem().equals(ItemTypes.GOLDEN_AXE) && ConfigHandler.getNode("others", "enableGoldenAxe").getBoolean(true)))
+		if (optItem.isPresent() && (ConfigHandler.isWhitelisted("use", optItem.get().getType().getId()) || optItem.get().getType().equals(ItemTypes.GOLDEN_AXE) && ConfigHandler.getNode("others", "enableGoldenAxe").getBoolean(true)))
 			return;
 		event.getTargetBlock().getLocation().ifPresent(loc -> {
 			if (!DataHandler.getPerm("interact", player.getUniqueId(), loc))

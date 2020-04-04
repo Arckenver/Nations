@@ -9,10 +9,14 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.apache.commons.lang3.StringUtils;
+import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Event;
-import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.EventContext;
+import org.spongepowered.api.event.cause.EventContextKeys;
+import org.spongepowered.api.event.world.ExplosionEvent;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.economy.account.Account;
 import org.spongepowered.api.service.economy.account.UniqueAccount;
@@ -51,11 +55,35 @@ public class Utils
 	}
 	
 	public static boolean isFakePlayer(Event event) {
-		return event.getCause().containsNamed(NamedCause.FAKE_PLAYER);
+		return event.getContext().containsKey(EventContextKeys.FAKE_PLAYER);
 	}
 	
 	public static User getUser(Event event) {
-		return event.getCause().first(User.class).orElse(null);
+		final Cause cause = event.getCause();
+        final EventContext context = event.getContext();
+        User user = null;
+        if (cause != null) {
+            user = cause.first(User.class).orElse(null);
+        }
+
+        if (user == null) {
+            user = context.get(EventContextKeys.NOTIFIER)
+                    .orElse(context.get(EventContextKeys.OWNER)
+                            .orElse(context.get(EventContextKeys.CREATOR)
+                                    .orElse(null)));
+        }
+
+        if (user == null) {
+            if (event instanceof ExplosionEvent) {
+                // Check igniter
+                final Living living = context.get(EventContextKeys.IGNITER).orElse(null);
+                if (living != null && living instanceof User) {
+                    user = (User) living;
+                }
+            }
+        }
+
+        return user;
 	}
 	
 	// formatting
