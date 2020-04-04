@@ -13,10 +13,10 @@ public class AdminSpyMessageChannel extends NationMessageChannel {
         if(sender == null){
             super.send(null, message);
         }else{
-            Nation senderNation = DataHandler.getNation(((Player) sender).getUniqueId());
+            Nation senderNation = DataHandler.getNationOfPlayer(((Player) sender).getUniqueId());
 
             for(MessageReceiver receiver : getMembers()){
-                final Nation receiverNation = DataHandler.getNation(((Player) receiver).getUniqueId());
+                final Nation receiverNation = DataHandler.getNationOfPlayer(((Player) receiver).getUniqueId());
                 if(receiverNation == senderNation) continue;
                 receiver.sendMessage(message);
             }
