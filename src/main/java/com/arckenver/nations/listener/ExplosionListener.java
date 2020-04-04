@@ -32,10 +32,10 @@ public class ExplosionListener
 	@Listener(order=Order.FIRST, beforeModifications = true)
 	public void onExplosion(ExplosionEvent.Post event)
 	{
-		if (event.getTransactions().size() > 100)
-		{
-            event.setCancelled(true);
-		}
+//		if (event.getTransactions().size() > 100)
+//		{
+//            event.setCancelled(true);
+//		}
 		for (Transaction<BlockSnapshot> transaction : event.getTransactions()) {
             BlockSnapshot blockSnapshot = transaction.getOriginal();
             if (blockSnapshot.getLocation().isPresent() &&
