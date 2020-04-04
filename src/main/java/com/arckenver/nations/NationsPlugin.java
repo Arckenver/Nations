@@ -145,4 +145,9 @@ public class NationsPlugin
 		return Sponge.getCauseStackManager().getCurrentCause();
 
 	}
+
+	public File getDefaultConfigDir() {
+		return defaultConfigDir;
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.arckenver.nations.cmdexecutor.nationadmin;
 
+import com.arckenver.nations.NationsPlugin;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -24,6 +25,7 @@ public class NationadminReloadExecutor implements CommandExecutor
 
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException
 	{
+		LanguageHandler.init(NationsPlugin.getInstance().getDefaultConfigDir());
 		LanguageHandler.load();
 		ConfigHandler.load(src);
 		return CommandResult.success();
