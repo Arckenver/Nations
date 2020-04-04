@@ -2,6 +2,7 @@ package com.arckenver.nations;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Comparator;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
@@ -237,15 +238,12 @@ public class ConfigHandler
 				.getChildrenList()
 				.stream()
 				.filter(node -> node.getNode("numCitizens").getInt() <= numCitizens)
-				.max((CommentedConfigurationNode a, CommentedConfigurationNode b) ->
-				Integer.compare(a.getNode("numCitizens").getInt(), b.getNode("numCitizens").getInt()))
+				.max(Comparator.comparingInt((CommentedConfigurationNode a) -> a.getNode("numCitizens").getInt()))
 				.get();
 		return rank;
 	}
 
 	public static boolean isWhitelisted(String type, String id) {
-		if (id.equals("minecraft:air"))
-			return true;
 		if (!config.getNode("whitelist", type).hasListChildren())
 			return false;
 		for (CommentedConfigurationNode item : config.getNode("whitelist", type).getChildrenList()) {
