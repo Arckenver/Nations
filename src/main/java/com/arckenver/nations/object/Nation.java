@@ -57,12 +57,12 @@ public class Nation
 		this.name = name;
 		this.tag = null;
 		this.isAdmin = isAdmin;
-		this.spawns = new Hashtable<String, Location<World>>();
+		this.spawns = new Hashtable<>();
 		this.region = new Region();
 		this.president = null;
-		this.ministers = new ArrayList<UUID>();
-		this.citizens = new ArrayList<UUID>();
-		this.flags = new Hashtable<String, Boolean>();
+		this.ministers = new ArrayList<>();
+		this.citizens = new ArrayList<>();
+		this.flags = new Hashtable<>();
 		for (Entry<Object, ? extends CommentedConfigurationNode> e : ConfigHandler.getNode("nations", "flags").getChildrenMap().entrySet())
 		{
 			flags.put(e.getKey().toString(), e.getValue().getBoolean());
@@ -80,7 +80,7 @@ public class Nation
 				put(PERM_INTERACT, ConfigHandler.getNode("nations", "perms").getNode(TYPE_CITIZEN).getNode(PERM_INTERACT).getBoolean());
 			}});
 		}};
-		this.zones = new Hashtable<UUID, Zone>();
+		this.zones = new Hashtable<>();
 		this.extras = 0;
 		this.extraspawns = 0;
 		this.taxes = ConfigHandler.getNode("nations", "defaultTaxes").getDouble();
@@ -275,8 +275,7 @@ public class Nation
 	{
 		citizens.add(uuid);
 		Optional<Player> player = Sponge.getServer().getPlayer(uuid);
-		if (player.isPresent())
-			channel.addMember(player.get());
+		player.ifPresent(player1 -> channel.addMember(player1));
 	}
 
 	public boolean isCitizen(UUID uuid)
