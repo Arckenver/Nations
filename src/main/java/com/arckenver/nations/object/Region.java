@@ -91,7 +91,9 @@ public class Region
 
 	public boolean isInside(Location<World> loc)
 	{
+		if(loc == null) return false;
 		Rect extr = extrema.get(loc.getExtent().getUniqueId());
+		if(extr == null) return false;
 		Vector2i p = new Vector2i(loc.getBlockX(), loc.getBlockZ());
 		if (p.getX() < extr.getMinX() || p.getX() > extr.getMaxX() || p.getY() < extr.getMinY() || p.getY() > extr.getMaxY())
 		{
