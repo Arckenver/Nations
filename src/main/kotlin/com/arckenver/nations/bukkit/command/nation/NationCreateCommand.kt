@@ -5,6 +5,7 @@ import com.arckenver.nations.bukkit.command.Command
 import com.arckenver.nations.bukkit.command.CommandArgument
 import com.arckenver.nations.bukkit.command.CommandContext
 import com.arckenver.nations.bukkit.command.CommandException
+import com.arckenver.nations.bukkit.manager.ClaimCheck
 import com.arckenver.nations.bukkit.manager.ConfirmationManager
 import com.arckenver.nations.bukkit.manager.EconomyManager
 import com.arckenver.nations.bukkit.manager.NationManager
@@ -77,8 +78,16 @@ object NationCreateCommand : Command("create") {
             if (selection.value.area > nation.claimsLimit()) {
                 throw CommandException.t("nations.nation_max_claims_reached")
             }
-            if (!TerritoryManager.canClaimNation(selection, nation)) {
-                throw CommandException.t("nations.cannot_claim_nation")
+            
+            val claimCheck = TerritoryManager.canClaimNation(selection, nation)
+            if (claimCheck is ClaimCheck.CannotClaim) when (claimCheck.reason) {
+                is ClaimCheck.Reason.TooCloseToTerritory -> {
+                    throw CommandException.t("nations.cannot_claim_too_close", claimCheck.reason.territory)
+                }
+
+                is ClaimCheck.Reason.NotWithinTerritory -> {
+                    throw CommandException.t("nations.cannot_claim_not_within", claimCheck.reason.territory)
+                }
             }
 
             EconomyManager.withdraw(player.uniqueId, totalPrice)

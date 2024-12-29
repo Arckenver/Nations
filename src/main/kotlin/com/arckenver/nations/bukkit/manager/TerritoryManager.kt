@@ -11,17 +11,27 @@ import com.arckenver.nations.bukkit.`object`.Territory
 import com.arckenver.nations.bukkit.`object`.Worldly
 import com.arckenver.nations.bukkit.`object`.Zone
 import com.arckenver.nations.bukkit.serialization.Json
+import java.io.InputStream
+import java.io.OutputStream
+import java.util.UUID
+import java.util.function.Predicate
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
-import java.io.InputStream
-import java.io.OutputStream
-import java.util.*
-import java.util.function.Predicate
 
 private fun createIndex(): Index<Territory> = QuadTreeIndex()
+
+sealed class ClaimCheck {
+    object CanClaim : ClaimCheck()
+    data class CannotClaim(val reason: Reason) : ClaimCheck()
+
+    sealed class Reason {
+        data class TooCloseToTerritory(val territory: Territory) : Reason()
+        data class NotWithinTerritory(val territory: Territory) : Reason()
+    }
+}
 
 object TerritoryManager : PersistentManager("territories.json", defaultFileContent = "{}") {
     private val worlds = mutableMapOf<UUID, Index<Territory>>()
@@ -101,22 +111,77 @@ object TerritoryManager : PersistentManager("territories.json", defaultFileConte
             }
             ?: 0
 
-    fun canClaimReserve(rect: Worldly<Rectangle>, reserve: Reserve) =
-        territoriesIntersecting(rect).all {
-            it.kind == Territory.Kind.RESERVE && it.id == reserve.id
-        }
-
-    fun canClaimNation(rect: Worldly<Rectangle>, nation: Nation) =
-        territoriesWithinDistance(rect, ConfigManager.nationClaimMinDistance.get()).all {
-            (it.kind == Territory.Kind.NATION && it.id == nation.id) || it.kind == Territory.Kind.ZONE
-        }
-
-    fun canClaimZone(rect: Worldly<Rectangle>, zone: Zone) =
-        isContained(rect, Territory(Territory.Kind.NATION, zone.nationId)) &&
-                territoriesIntersecting(rect).all {
-                    (it.kind == Territory.Kind.NATION && it.id == zone.nationId) ||
-                            (it.kind == Territory.Kind.ZONE && it.id == zone.id)
+    fun canClaimReserve(rect: Worldly<Rectangle>, reserve: Reserve): ClaimCheck {
+        for (territory in territoriesIntersecting(rect)) {
+            when (territory.kind) {
+                Territory.Kind.RESERVE -> {
+                    if (territory.id == reserve.id) {
+                        continue
+                    }
+                    return ClaimCheck.CannotClaim(ClaimCheck.Reason.TooCloseToTerritory(territory))
                 }
+
+                Territory.Kind.ZONE -> {
+                    continue
+                }
+
+                Territory.Kind.NATION -> {
+                    return ClaimCheck.CannotClaim(ClaimCheck.Reason.TooCloseToTerritory(territory))
+                }
+            }
+        }
+        return ClaimCheck.CanClaim
+    }
+
+    fun canClaimNation(rect: Worldly<Rectangle>, nation: Nation): ClaimCheck {
+        for (territory in territoriesWithinDistance(rect, ConfigManager.nationClaimMinDistance.get())) {
+            when (territory.kind) {
+                Territory.Kind.RESERVE -> {
+                    return ClaimCheck.CannotClaim(ClaimCheck.Reason.TooCloseToTerritory(territory))
+                }
+
+                Territory.Kind.NATION -> {
+                    if (territory.id == nation.id) {
+                        continue
+                    }
+                    return ClaimCheck.CannotClaim(ClaimCheck.Reason.TooCloseToTerritory(territory))
+                }
+
+                Territory.Kind.ZONE -> {
+                    continue
+                }
+            }
+        }
+        return ClaimCheck.CanClaim
+    }
+
+    fun canClaimZone(rect: Worldly<Rectangle>, zone: Zone): ClaimCheck {
+        val nationTerritory = Territory(Territory.Kind.NATION, zone.nationId)
+        if (!isContained(rect, nationTerritory)) {
+            return ClaimCheck.CannotClaim(
+                ClaimCheck.Reason.NotWithinTerritory(nationTerritory)
+            )
+        }
+        for (territory in territoriesIntersecting(rect)) {
+            when (territory.kind) {
+                Territory.Kind.RESERVE -> {
+                    continue
+                }
+
+                Territory.Kind.NATION -> {
+                    continue
+                }
+
+                Territory.Kind.ZONE -> {
+                    if (territory.id == zone.id) {
+                        continue
+                    }
+                    return ClaimCheck.CannotClaim(ClaimCheck.Reason.TooCloseToTerritory(territory))
+                }
+            }
+        }
+        return ClaimCheck.CanClaim
+    }
 
     private fun queryWorldIndex(
         worldId: UUID,

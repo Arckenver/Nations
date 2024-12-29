@@ -5,6 +5,7 @@ import com.arckenver.nations.bukkit.command.Command
 import com.arckenver.nations.bukkit.command.CommandArgument
 import com.arckenver.nations.bukkit.command.CommandContext
 import com.arckenver.nations.bukkit.command.CommandException
+import com.arckenver.nations.bukkit.manager.ClaimCheck
 import com.arckenver.nations.bukkit.manager.ReserveManager
 import com.arckenver.nations.bukkit.manager.TerritoryManager
 import com.arckenver.nations.bukkit.`object`.Territory
@@ -33,8 +34,15 @@ object NationadminReserveClaimCommand : Command("claim") {
 
         val reserve = ReserveManager.getOrCreateReserve(reserveName)
 
-        if (!TerritoryManager.canClaimReserve(selection, reserve)) {
-            throw CommandException.t("nations.cannot_claim_reserve")
+        val claimCheck = TerritoryManager.canClaimReserve(selection, reserve)
+        if (claimCheck is ClaimCheck.CannotClaim) when (claimCheck.reason) {
+            is ClaimCheck.Reason.TooCloseToTerritory -> {
+                throw CommandException.t("nations.cannot_claim_too_close", claimCheck.reason.territory)
+            }
+
+            is ClaimCheck.Reason.NotWithinTerritory -> {
+                throw CommandException.t("nations.cannot_claim_not_within", claimCheck.reason.territory)
+            }
         }
 
         TerritoryManager.addTerritory(selection, Territory(reserve))

@@ -5,6 +5,7 @@ import com.arckenver.nations.bukkit.command.Command
 import com.arckenver.nations.bukkit.command.CommandArgument
 import com.arckenver.nations.bukkit.command.CommandContext
 import com.arckenver.nations.bukkit.command.CommandException
+import com.arckenver.nations.bukkit.manager.ClaimCheck
 import com.arckenver.nations.bukkit.manager.TerritoryManager
 import com.arckenver.nations.bukkit.manager.ZoneManager
 import com.arckenver.nations.bukkit.`object`.Territory
@@ -31,8 +32,15 @@ object ZoneCreateCommand : Command("create") {
 
         val zone = Zone(nation.id, name)
 
-        if (!TerritoryManager.canClaimZone(selection, zone)) {
-            throw CommandException.t("nations.cannot_claim_zone")
+        val claimCheck = TerritoryManager.canClaimZone(selection, zone)
+        if (claimCheck is ClaimCheck.CannotClaim) when (claimCheck.reason) {
+            is ClaimCheck.Reason.TooCloseToTerritory -> {
+                throw CommandException.t("nations.cannot_claim_too_close", claimCheck.reason.territory)
+            }
+
+            is ClaimCheck.Reason.NotWithinTerritory -> {
+                throw CommandException.t("nations.cannot_claim_not_within", claimCheck.reason.territory)
+            }
         }
 
         ZoneManager.createZone(zone)

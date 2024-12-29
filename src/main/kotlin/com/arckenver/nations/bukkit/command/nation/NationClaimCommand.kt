@@ -5,6 +5,7 @@ import com.arckenver.nations.bukkit.command.Command
 import com.arckenver.nations.bukkit.command.CommandContext
 import com.arckenver.nations.bukkit.command.CommandException
 import com.arckenver.nations.bukkit.geometry.Rectangle
+import com.arckenver.nations.bukkit.manager.ClaimCheck
 import com.arckenver.nations.bukkit.manager.ConfirmationManager
 import com.arckenver.nations.bukkit.manager.EconomyManager
 import com.arckenver.nations.bukkit.manager.NationManager
@@ -38,7 +39,7 @@ object NationClaimCommand : Command("claim") {
                     estimated.claimsPrice,
                     Text(estimated.newClaims)
                 ).yellow()
-                
+
                 if (estimated.extraClaimsPrice > Balance.ZERO) {
                     +"\n"
                     +Text.t(
@@ -101,8 +102,15 @@ object NationClaimCommand : Command("claim") {
         }
         val claimPrice = EconomyManager.nationPricePerClaim * newClaims
 
-        if (!TerritoryManager.canClaimNation(selection, nation)) {
-            throw CommandException.t("nations.cannot_claim_nation")
+        val claimCheck = TerritoryManager.canClaimNation(selection, nation)
+        if (claimCheck is ClaimCheck.CannotClaim) when (claimCheck.reason) {
+            is ClaimCheck.Reason.TooCloseToTerritory -> {
+                throw CommandException.t("nations.cannot_claim_too_close", claimCheck.reason.territory)
+            }
+
+            is ClaimCheck.Reason.NotWithinTerritory -> {
+                throw CommandException.t("nations.cannot_claim_not_within", claimCheck.reason.territory)
+            }
         }
 
         val totalNewClaims = TerritoryManager.areaOf(Territory(nation)) + newClaims
