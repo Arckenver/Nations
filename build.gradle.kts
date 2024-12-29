@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.arckenver"
-version = "3.0-SNAPSHOT"
+version = "3.1-SNAPSHOT"
 
 paperweight.reobfArtifactConfiguration = ReobfArtifactConfiguration.MOJANG_PRODUCTION
 
