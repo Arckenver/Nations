@@ -64,10 +64,11 @@ object ConfirmationManager : TaskTimerAsyncManager(100, 100) {
 
     override fun runTask() {
         val now = Instant.now()
-        for (confirmation in pendingConfirmations.values) {
-            if (confirmation.time.plusSeconds(CONFIRMATION_EXPIRATION_SECONDS).isBefore(now)) {
-                pendingConfirmations.remove(confirmation.id)
-            }
-        }
+
+        val expiredConfirmationIds = pendingConfirmations.values
+            .filter { it.time.plusSeconds(CONFIRMATION_EXPIRATION_SECONDS).isBefore(now) }
+            .map { it.id }
+
+        pendingConfirmations.keys.removeAll(expiredConfirmationIds)
     }
 }
