@@ -1,8 +1,9 @@
 package com.arckenver.nations.bukkit.geometry
 
-import kotlinx.serialization.Serializable
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.pow
+import kotlinx.serialization.Serializable
 
 @Serializable
 data class Rectangle(val x1: Int, val z1: Int, val x2: Int, val z2: Int) {
@@ -55,9 +56,9 @@ data class Rectangle(val x1: Int, val z1: Int, val x2: Int, val z2: Int) {
             0.0
 
         return if (dx != 0.0 && dz != 0.0)
-            dx * dx + dz * dz
+            dx.pow(2) + dz.pow(2)
         else
-            max(dx, dz)
+            max(dx, dz).pow(2)
     }
 
     fun cutBy(r: Rectangle): Array<Rectangle> {
