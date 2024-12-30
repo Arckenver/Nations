@@ -69,16 +69,16 @@ data class Rectangle(val x1: Int, val z1: Int, val x2: Int, val z2: Int) {
         val result = mutableListOf<Rectangle>()
 
         if (x1 < r.x1) {
-            result.add(Rectangle(x1, z1, r.x1, z2));
+            result.add(Rectangle(x1, z1, r.x1, z2))
         }
         if (x2 > r.x2) {
-            result.add(Rectangle(r.x2, z1, x2, z2));
+            result.add(Rectangle(r.x2, z1, x2, z2))
         }
         if (z1 < r.z1) {
-            result.add(Rectangle(max(x1, r.x1), z1, min(x2, r.x2), r.z1));
+            result.add(Rectangle(max(x1, r.x1), z1, min(x2, r.x2), r.z1))
         }
         if (z2 > r.z2) {
-            result.add(Rectangle(max(x1, r.x1), r.z2, min(x2, r.x2), z2));
+            result.add(Rectangle(max(x1, r.x1), r.z2, min(x2, r.x2), z2))
         }
 
         return result.toTypedArray()
